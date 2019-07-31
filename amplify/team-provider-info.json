@@ -1,0 +1,21 @@
+{
+    "fyrozine": {
+        "awscloudformation": {
+            "AuthRoleName": "fyro-app-fyrozine-20190727092857-authRole",
+            "UnauthRoleArn": "arn:aws:iam::659695750984:role/fyro-app-fyrozine-20190727092857-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::659695750984:role/fyro-app-fyrozine-20190727092857-authRole",
+            "Region": "eu-central-1",
+            "DeploymentBucketName": "fyro-app-fyrozine-20190727092857-deployment",
+            "UnauthRoleName": "fyro-app-fyrozine-20190727092857-unauthRole",
+            "StackName": "fyro-app-fyrozine-20190727092857",
+            "StackId": "arn:aws:cloudformation:eu-central-1:659695750984:stack/fyro-app-fyrozine-20190727092857/94628810-b048-11e9-b3f9-06a005f7522e"
+        },
+        "categories": {
+            "auth": {
+                "fyroapp58897d25": {
+                    "hostedUIProviderCreds": "[{\"ProviderName\":\"Facebook\",\"client_id\":\"3027821273925007\",\"client_secret\":\"477d01da5134a986defaff12a00cff76\"},{\"ProviderName\":\"Google\",\"client_id\":\"758367829981-ma1i5k070mer57q4f373f60q95h6a0hg.apps.googleusercontent.com\",\"client_secret\":\"a7dzedJaoz6D8_R6ptcLRVHB\"}]"
+                }
+            }
+        }
+    }
+}

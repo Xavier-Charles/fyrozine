@@ -1,0 +1,10 @@
+{
+    "AppSyncApiName": "fyrozineApi",
+    "DynamoDBBillingMode": "PAY_PER_REQUEST",
+    "AuthCognitoUserPoolId": {
+        "Fn::GetAtt": [
+            "authfyroapp58897d25",
+            "Outputs.UserPoolId"
+        ]
+    }
+}

@@ -1,0 +1,23 @@
+{
+	"auth": {
+		"fyroapp58897d25": {
+			"service": "Cognito",
+			"providerPlugin": "awscloudformation"
+		}
+	},
+	"api": {
+		"fyrozineApi": {
+			"service": "AppSync",
+			"providerPlugin": "awscloudformation",
+			"output": {
+				"securityType": "AMAZON_COGNITO_USER_POOLS"
+			}
+		}
+	},
+	"storage": {
+		"fyrobucket": {
+			"service": "S3",
+			"providerPlugin": "awscloudformation"
+		}
+	}
+}
