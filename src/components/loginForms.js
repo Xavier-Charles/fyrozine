@@ -1,6 +1,8 @@
 import React, { useState, useReducer, useEffect } from 'react';
 
-import { Auth, Storage, API, graphqlOperation } from 'aws-amplify';
+// import { Auth, Storage, API, graphqlOperation } from 'aws-amplify';
+import { Auth } from 'aws-amplify';
+
 import styled from 'styled-components';
 import img from '../img/fyrozine_login_mobile.jpg';
 const initialFormState = {

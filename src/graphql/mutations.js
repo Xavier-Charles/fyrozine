@@ -44,24 +44,9 @@ export const createUser = `mutation CreateUser($input: CreateUserInput!) {
     Name
     avatar
     createdDate
-    Saved {
-      id
-      caption
-      tags
-      img
-      loveCount
-      postedBy
-      createdDate
-    }
-    liked {
-      id
-      caption
-      tags
-      img
-      loveCount
-      postedBy
-      createdDate
-    }
+    likedCategories
+    saved
+    liked
   }
 }
 `;
@@ -72,24 +57,9 @@ export const updateUser = `mutation UpdateUser($input: UpdateUserInput!) {
     Name
     avatar
     createdDate
-    Saved {
-      id
-      caption
-      tags
-      img
-      loveCount
-      postedBy
-      createdDate
-    }
-    liked {
-      id
-      caption
-      tags
-      img
-      loveCount
-      postedBy
-      createdDate
-    }
+    likedCategories
+    saved
+    liked
   }
 }
 `;
@@ -100,24 +70,9 @@ export const deleteUser = `mutation DeleteUser($input: DeleteUserInput!) {
     Name
     avatar
     createdDate
-    Saved {
-      id
-      caption
-      tags
-      img
-      loveCount
-      postedBy
-      createdDate
-    }
-    liked {
-      id
-      caption
-      tags
-      img
-      loveCount
-      postedBy
-      createdDate
-    }
+    likedCategories
+    saved
+    liked
   }
 }
 `;

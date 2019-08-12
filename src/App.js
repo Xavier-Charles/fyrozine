@@ -1,14 +1,19 @@
 import React, { Component } from 'react';
 
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
-import { Auth } from 'aws-amplify';
 import styled from 'styled-components';
 
-// import newPosts from './components/newPosts';
-// import AddPost from './AddPosts';
+// import { Storage, API, graphqlOperation, Auth } from 'aws-amplify';
+import { API, graphqlOperation, Auth } from 'aws-amplify';
+
+import { getUser } from './graphql/queries';
+
+import NewPosts from './components/newPosts';
+import AddPost from './components/AddPosts';
 import Nav from './components/Nav';
 import Images from './components/images';
-import TestPost from './components/testPost';
+// import TestPost from './components/testPost';
+import Products from './components/products';
 import Users from './components/users';
 import LoginForms from './components/loginForms';
 import UnderConst from './components/underConst';
@@ -33,18 +38,28 @@ class App extends Component {
 		super(props);
 		this.state = {
 			authed: false,
-			isAuthing: true
+			isAuthing: true,
+			userId: '',
+			authedUser: null
 		};
 		this.changeAuth = this.changeAuth.bind(this);
 	}
+
 	async componentDidMount() {
 		try {
-			await Auth.currentSession();
+			// await Auth.currentSession();
+			const user = await Auth.currentAuthenticatedUser();
+			// console.log(user.attributes.sub);
 			this.changeAuth(true);
+			this.setState({ userId: user.attributes.sub });
+
+			const zuser = await API.graphql(graphqlOperation(getUser, { id: this.state.userId }));
+			this.setState({ authedUser: zuser.data.getUser });
+			console.log(zuser.data.getUser);
 		} catch (e) {
-			if (e !== 'No current user') {
-				console.log(e);
-			}
+			// if (e !== 'No current user') {
+			console.log(e);
+			// }
 		}
 		this.setState({ isAuthing: false });
 	}
@@ -55,10 +70,9 @@ class App extends Component {
 	render() {
 		const childProps = {
 			authed: this.state.authed,
+			authedUser: this.state.authedUser,
 			changeAuth: this.changeAuth,
 			changeFed: this.changeFed
-			// changeIsLoading: this.changeIsLoading,
-			// isLoading: this.state.isLoading
 		};
 		return (
 			!this.state.isAuthing && (
@@ -72,15 +86,32 @@ class App extends Component {
 								<Switch>
 									<AppliedRoute path="/signup" exact component={LoginForms} props={childProps} />
 									<Route path="/test" component={Test} />
-									{/* <Route path="/post" component={newPosts} /> */}
-									<Route path="/images" component={TestPost} />
+									<Route
+										exact
+										path="/products"
+										render={() => (this.state.authed ? <Products /> : <Redirect to="/signup" />)}
+									/>
+									<Route
+										path="/post"
+										render={() =>
+											this.state.authed ? (
+												<NewPosts {...childProps} />
+											) : (
+												<Redirect to="/signup" />
+											)}
+									/>
+									{/* <Route path="/images" component={TestPost} /> */}
 									{/* <Route path="/signup" render={() => <LoginForms authed={this.changeAuth} />} /> */}
 									<Route
 										exact
 										path="/"
-										render={() => (this.state.authed ? <TestPost /> : <Redirect to="/signup" />)}
+										render={() => (this.state.authed ? <UnderConst /> : <Redirect to="/signup" />)}
 									/>
-									{/* <Route path="/addpost" component={AddPost} /> */}
+									<Route
+										path="/addpost"
+										render={() =>
+											this.state.authed ? <AddPost {...childProps} /> : <Redirect to="/signup" />}
+									/>
 									<Route
 										path="/images"
 										render={() => (this.state.authed ? <Images /> : <Redirect to="/signup" />)}

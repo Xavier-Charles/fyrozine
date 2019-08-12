@@ -1,232 +1,126 @@
-import React from 'react';
-import { graphql } from 'react-apollo';
-import uuidV4 from 'uuid/v4';
+import React, { useEffect, useState } from 'react';
+import { Storage, API, graphqlOperation, Auth } from 'aws-amplify';
+import uuid from 'uuid/v4';
 
-import CreatePost from './mutations/createPost';
-import ListPosts from './queries/listPosts';
+import { createPost as CreatePost } from '../graphql/mutations';
+// import { listPosts as ListPosts } from '../graphql/queries';
+// import config from '../aws-exports';
 
-class AddPost extends React.Component {
-	state = {
-		caption: '',
-		instruction: ''
-	};
-	onChange = (key, value) => {
-		this.setState({ [key]: value });
-	};
-	addPost = () => {
-		const { name, captions, instructions } = this.state;
-		this.props.onAdd({
-			captions,
-			instructions,
-			name
-		});
-		this.setState({
-			caption: '',
-			instruction: ''
-		});
-	};
-	render() {
-		return (
-			<div {...css(styles.container)}>
-				<h2>Create Post</h2>
+import styled from 'styled-components';
 
-				<div>
-					<p>Post captions:</p>
-					{this.state.captions.map((caption, i) => <p key={i}>{caption}</p>)}
-				</div>
-				<input
-					value={this.state.caption}
-					onChange={(evt) => this.onChange('caption', evt.target.value)}
-					placeholder="caption"
-					{...css(styles.input)}
-				/>
+// const { aws_user_files_s3_bucket_region: region, aws_user_files_s3_bucket: bucket } = config;
 
-				<div>
-					<p>Post Instructions:</p>
-					{this.state.instructions.map((instruction, i) => <p key={i}>{`${i + 1}. ${instruction}`}</p>)}
-				</div>
-				<input
-					value={this.state.instruction}
-					onChange={(evt) => this.onChange('instruction', evt.target.value)}
-					placeholder="Instruction"
-					{...css(styles.input)}
-				/>
-				{/* <button onClick={this.addInstruction} {...css(styles.button)}>Add Instruction</button> */}
+function App() {
+	const [ File, updateFile ] = useState(null);
+	const [ PostCaption, updatePostCaption ] = useState('');
+	// const [ postImg, updatePostImg ] = useState('');
+	const [ PostTags, updatePostTags ] = useState('');
+	//todo loading state to disable input when creating post
+	// const [ Posts, updatePosts ] = useState([]);
+	useEffect(() => {}, []);
 
-				<div {...css(styles.submitButton)} onClick={this.addPost}>
-					<p>Add Post</p>
-				</div>
-			</div>
-		);
+	// Query the API and save them to the state
+	// async function listPosts() {
+	// 	const p = await API.graphql(graphqlOperation(ListPosts));
+	// 	updatePosts(p.data.listPosts.items);
+	// }
+
+	// function handleChange(event) {
+	// 	const { target: { value, files } } = event;
+	// 	const fileForUpload = files[0];
+	// 	updateFile(fileForUpload || value);
+	// }
+	function handleFile(event) {
+		const { target: { value, files } } = event;
+		const fileForUpload = files[0];
+		updateFile(fileForUpload || value);
+		console.log(fileForUpload);
 	}
+	// todo function updateTags() for better tagging
+
+	// upload the image to S3 and then save it in the GraphQL API
+	async function createPost() {
+		if (File) {
+			const user = await Auth.currentAuthenticatedUser(); //? Can we do this  or better
+			const { name: fileName, type: mimeType } = File;
+			const key = `postImages/${uuid()}${fileName}`;
+			let date = new Date();
+
+			const inputData = {
+				img: key,
+				postedBy: user.attributes.sub,
+				tags: PostTags,
+				caption: PostCaption,
+				loveCount: 0,
+				createdDate: date.toISOString()
+			};
+
+			try {
+				await Storage.put(key, File, {
+					level: 'protected',
+					contentType: mimeType,
+					progressCallback(progress) {
+						console.log(`Uploading... ${Math.floor(progress.loaded * 100 / progress.total)}%`);
+						//todo create upload bar for better uploading
+					}
+				});
+				await API.graphql(graphqlOperation(CreatePost, { input: inputData }));
+				console.log('Success');
+			} catch (err) {
+				console.log('error: ', err);
+			}
+		} else {
+			//TODO print call a validation method...
+		}
+	}
+
+	return (
+		<Styler>
+			<div className="container">
+				<input type="file" onChange={handleFile} className="fileInput" />
+				{/* <input placeholder="Image Name" value={ProductName} onChange={(e) => updateProductName(e.target.value)} /> */}
+				<div>
+					<label>Caption</label>
+					<input
+						placeholder="caption"
+						value={PostCaption}
+						onChange={(e) => updatePostCaption(e.target.value)}
+					/>
+				</div>
+				<div>
+					<label>Post Tags</label>
+					<textarea
+						placeholder="Tags eg. moccasin, high heels,..."
+						value={PostTags}
+						onChange={(e) => updatePostTags(e.target.value)}
+					/>
+				</div>
+				<button className="button" onClick={createPost}>
+					Create Post
+				</button>
+			</div>
+		</Styler>
+	);
 }
 
-export default graphql(CreatePost, {
-	props: (props) => ({
-		onAdd: (post) =>
-			props.mutate({
-				variables: post,
-				optimisticResponse: {
-					__typename: 'Mutation',
-					createPost: { ...post, __typename: 'Post' }
-				},
-				update: (proxy, { data: { createPost } }) => {
-					const data = proxy.readQuery({ query: ListPosts });
-					data.listPosts.items.push(createPost);
-					proxy.writeQuery({ query: ListPosts, data });
-				}
-			})
-	})
-})(AddPost);
+const Styler = styled.div`
+	.container {
+		width: 400px;
+		margin: 90px auto;
+	}
+	.fileInput {
+		margin: 10px 0px;
+	}
+	.image {
+		width: 400px;
+	}
+	.button {
+		width: 200px;
+		background-color: #ddd;
+		cursor: pointer;
+		height: 30px;
+		margin: 0px 0px 8px;
+	}
+`;
 
-// import CreateRecipe from './mutations/CreateRecipe'
-// import ListRecipes from './queries/ListRecipes'
-
-// class AddRecipe extends React.Component {
-//     state = {
-//         name: '',
-//         ingredient: '',
-//         ingredients: [],
-//         instruction: '',
-//         instructions: [],
-//     }
-//     onChange = (key, value) => {
-//         this.setState({ [key]: value })
-//     }
-//     addInstruction = () => {
-//         if (this.state.instruction === '') return
-//         const instructions = this.state.instructions
-//         instructions.push(this.state.instruction)
-//         this.setState({
-//             instructions,
-//             instruction: ''
-//         })
-//     }
-//     addIngredient = () => {
-//         if (this.state.ingredient === '') return
-//         const ingredients = this.state.ingredients
-//         ingredients.push(this.state.ingredient)
-//         this.setState({
-//             ingredients,
-//             ingredient: ''
-//         })
-//     }
-//     addRecipe = () => {
-//         const { name, ingredients, instructions } = this.state
-//         this.props.onAdd({
-//             ingredients,
-//             instructions,
-//             name
-//         })
-//         this.setState({
-//             name: '',
-//             ingredient: '',
-//             ingredients: [],
-//             instruction: '',
-//             instructions: [],
-//         })
-//     }
-//     render() {
-//         return (
-//             <div {...css(styles.container)}>
-//                 <h2>Create Recipe</h2>
-//                 <input
-//                     value={this.state.name}
-//                     onChange={evt => this.onChange('name', evt.target.value)}
-//                     placeholder='Recipe name'
-//                     {...css(styles.input)}
-//                 />
-//                 <div>
-//                     <p>Recipe Ingredients:</p>
-//                     {
-//                         this.state.ingredients.map((ingredient, i) => <p key={i}>{ingredient}</p>)
-//                     }
-//                 </div>
-//                 <input
-//                     value={this.state.ingredient}
-//                     onChange={evt => this.onChange('ingredient', evt.target.value)}
-//                     placeholder='Ingredient'
-//                     {...css(styles.input)}
-//                 />
-//                 <button onClick={this.addIngredient} {...css(styles.button)}>Add Ingredient</button>
-
-//                 <div>
-//                     <p>Recipe Instructions:</p>
-//                     {
-//                         this.state.instructions.map((instruction, i) => <p key={i}>{`${i + 1}. ${instruction}`}</p>)
-//                     }
-//                 </div>
-//                 <input
-//                     value={this.state.instruction}
-//                     onChange={evt => this.onChange('instruction', evt.target.value)}
-//                     placeholder='Instruction'
-//                     {...css(styles.input)}
-//                 />
-//                 <button onClick={this.addInstruction} {...css(styles.button)}>Add Instruction</button>
-
-//                 <div {...css(styles.submitButton)} onClick={this.addRecipe}>
-//                     <p>Add Recipe</p>
-//                 </div>
-//             </div>
-//         )
-//     }
-// }
-
-// export default graphql(CreateRecipe, {
-//     props: props => ({
-//         onAdd: recipe => props.mutate({
-//             variables: recipe,
-//             optimisticResponse: {
-//                 __typename: 'Mutation',
-//                 createRecipe: { ...recipe, __typename: 'Recipe' }
-//             },
-//             update: (proxy, { data: { createRecipe } }) => {
-//                 const data = proxy.readQuery({ query: ListRecipes });
-//                 data.listRecipes.items.push(createRecipe);
-//                 proxy.writeQuery({ query: ListRecipes, data });
-//             }
-//         })
-//     })
-// })(AddRecipe)
-
-// const styles = {
-// 	button: {
-// 		border: 'none',
-// 		background: 'rgba(0, 0, 0, .1)',
-// 		width: 250,
-// 		height: 50,
-// 		cursor: 'pointer',
-// 		margin: '15px 0px'
-// 	},
-// 	container: {
-// 		display: 'flex',
-// 		flexDirection: 'column',
-// 		paddingLeft: 100,
-// 		paddingRight: 100,
-// 		textAlign: 'left'
-// 	},
-// 	input: {
-// 		outline: 'none',
-// 		border: 'none',
-// 		borderBottom: '2px solid #00dd3b',
-// 		height: '44px',
-// 		fontSize: '18px'
-// 	},
-// 	textarea: {
-// 		border: '1px solid #ddd',
-// 		outline: 'none',
-// 		fontSize: '18px'
-// 	},
-// 	submitButton: {
-// 		backgroundColor: '#00dd3b',
-// 		padding: '8px 30px',
-// 		display: 'flex',
-// 		justifyContent: 'center',
-// 		alignItems: 'center',
-// 		opacity: 0.85,
-// 		cursor: 'pointer',
-// 		':hover': {
-// 			opacity: 1
-// 		}
-// 	}
-// };
+export default App;

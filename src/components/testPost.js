@@ -19,7 +19,7 @@ function App() {
 	const [ PostTags, updatePostTags ] = useState('');
 	const [ Posts, updatePosts ] = useState([]);
 	useEffect(() => {
-		listPosts();
+		// listPosts();
 	}, []);
 
 	// Query the API and save them to the state
@@ -42,10 +42,7 @@ function App() {
 
 	async function fetchImage(key) {
 		try {
-			const imageData = await Storage.get(
-				'postImages/4969df6b-9725-4038-99e1-bfbfee3b2c53tevriss_FYRO_style_1.jpg',
-				{ level: 'protected' }
-			);
+			const imageData = await Storage.get(key, { level: 'protected' });
 			return updatePostImg(imageData);
 		} catch (err) {
 			console.log('error: ', err);
@@ -57,11 +54,11 @@ function App() {
 			const user = await Auth.currentAuthenticatedUser();
 			const { name: fileName, type: mimeType } = File;
 			const key = `postImages/${uuid()}${fileName}`;
-			const url = `https://${bucket}.s3.${region}.amazonaws.com/public/${key}`;
+			// const url = `https://${bucket}.s3.${region}.amazonaws.com/public/${key}`;
 			let date = new Date();
 
 			const inputData = {
-				img: url,
+				img: key,
 				postedBy: user.attributes.sub,
 				tags: PostTags,
 				caption: PostCaption,
@@ -77,21 +74,12 @@ function App() {
 						console.log(`Uploading... ${Math.floor(progress.loaded * 100 / progress.total)}%`);
 					}
 				});
-				// .then(result => console.log(result))
-				// .catch(err => console.log(err));
-				// await Storage.put(key, File, {
-				// 	level: 'protected',
-				// 	contentType: mimeType,
-				// 	progressCallback(progress) {
-				// 		console.log(`Uploading... ${Math.floor(progress.loaded * 100 / progress.total)}%`);
-				// 	}
-				// });
 				await API.graphql(graphqlOperation(CreatePost, { input: inputData }));
 				console.log('Success');
 			} catch (err) {
 				console.log('error: ', err);
 			}
-			listPosts();
+			// listPosts();
 		} else {
 			// print call a validation method...
 		}
@@ -160,13 +148,3 @@ const Styler = styled.div`
 
 // export default withAuthenticator(App);
 export default App;
-
-// Schema
-// type Post @model{
-//     id: ID!
-//     caption: String!
-//     tags: [String!]
-//     img: S3Object!
-//     loveCount: Int
-//     postedBy: User
-// }

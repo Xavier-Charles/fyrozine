@@ -44,24 +44,9 @@ export const onCreateUser = `subscription OnCreateUser {
     Name
     avatar
     createdDate
-    Saved {
-      id
-      caption
-      tags
-      img
-      loveCount
-      postedBy
-      createdDate
-    }
-    liked {
-      id
-      caption
-      tags
-      img
-      loveCount
-      postedBy
-      createdDate
-    }
+    likedCategories
+    saved
+    liked
   }
 }
 `;
@@ -72,24 +57,9 @@ export const onUpdateUser = `subscription OnUpdateUser {
     Name
     avatar
     createdDate
-    Saved {
-      id
-      caption
-      tags
-      img
-      loveCount
-      postedBy
-      createdDate
-    }
-    liked {
-      id
-      caption
-      tags
-      img
-      loveCount
-      postedBy
-      createdDate
-    }
+    likedCategories
+    saved
+    liked
   }
 }
 `;
@@ -100,24 +70,9 @@ export const onDeleteUser = `subscription OnDeleteUser {
     Name
     avatar
     createdDate
-    Saved {
-      id
-      caption
-      tags
-      img
-      loveCount
-      postedBy
-      createdDate
-    }
-    liked {
-      id
-      caption
-      tags
-      img
-      loveCount
-      postedBy
-      createdDate
-    }
+    likedCategories
+    saved
+    liked
   }
 }
 `;

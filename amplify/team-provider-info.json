@@ -13,7 +13,7 @@
         "categories": {
             "auth": {
                 "fyroapp58897d25": {
-                    "hostedUIProviderCreds": "[{\"ProviderName\":\"Facebook\",\"client_id\":\"3027821273925007\",\"client_secret\":\"477d01da5134a986defaff12a00cff76\"},{\"ProviderName\":\"Google\",\"client_id\":\"758367829981-ma1i5k070mer57q4f373f60q95h6a0hg.apps.googleusercontent.com\",\"client_secret\":\"a7dzedJaoz6D8_R6ptcLRVHB\"}]"
+                    "hostedUIProviderCreds": "[{\"ProviderName\":\"Facebook\",\"client_id\":\"3027821273925007\",\"client_secret\":\"e6d0096168ae1b0b62d7f5f0cec1e50c\"},{\"ProviderName\":\"Google\",\"client_id\":\"513060582582-o4mat1nj86tl23akfuc8mcde9emd7l8s.apps.googleusercontent.com\",\"client_secret\":\"Am66vdIqjBHxkWcwhjnljErv\"}]"
                 }
             }
         }

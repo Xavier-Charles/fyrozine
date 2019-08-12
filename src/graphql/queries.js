@@ -39,24 +39,9 @@ export const getUser = `query GetUser($id: ID!) {
     Name
     avatar
     createdDate
-    Saved {
-      id
-      caption
-      tags
-      img
-      loveCount
-      postedBy
-      createdDate
-    }
-    liked {
-      id
-      caption
-      tags
-      img
-      loveCount
-      postedBy
-      createdDate
-    }
+    likedCategories
+    saved
+    liked
   }
 }
 `;
@@ -72,24 +57,9 @@ export const listUsers = `query ListUsers(
       Name
       avatar
       createdDate
-      Saved {
-        id
-        caption
-        tags
-        img
-        loveCount
-        postedBy
-        createdDate
-      }
-      liked {
-        id
-        caption
-        tags
-        img
-        loveCount
-        postedBy
-        createdDate
-      }
+      likedCategories
+      saved
+      liked
     }
     nextToken
   }

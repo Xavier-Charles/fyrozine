@@ -1,28 +1,29 @@
-type Post @model{
-  id: ID!
-  caption: String!
-  tags: [String!]
-  img: String!
-  loveCount: Int!
-  postedBy: String!
-  createdDate: String!
+type Post @model {
+	id: ID!
+	caption: String!
+	tags: [String!]
+	img: String!
+	loveCount: Int!
+	postedBy: String!
+	createdDate: String!
 }
 
 type User @model {
-  id: ID!
-  username: String!
-  Name: String
-  avatar: String
-  createdDate: String!
-  Saved: [Post!]
-  liked: [Post!]
+	id: ID!
+	username: String!
+	Name: String
+	avatar: String
+	createdDate: String!
+	likedCategories: [String]
+	saved: [String]
+	liked: [String]
 }
 
 type Product @model {
-  id: ID!
-  image: String!
-  owner: String!
-  tags: String!
-  Price: Int
-  createdDate: String!
+	id: ID!
+	image: String!
+	owner: String!
+	tags: String!
+	Price: Int
+	createdDate: String!
 }
