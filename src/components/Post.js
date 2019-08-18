@@ -5,7 +5,6 @@ import '../lib/fontAw';
 import { Storage, API, graphqlOperation } from 'aws-amplify';
 
 import { updateUser, updatePost } from '../graphql/mutations';
-// import './posts.css';
 
 const PostStyle = styled.div`
 	border-radius: 3px;
@@ -24,15 +23,16 @@ const PostStyle = styled.div`
 	.Post-user-avatar {
 		width: 30px;
 		height: 30px;
+		border-radius: 50%;
 	}
-	.Post-user-avatar img {
-		/* background-color: #efefef; */
+	/* .Post-user-avatar img {
+		/* background-color: #efefef; 
 		width: 100%;
 		height: 100%;
 		border-radius: 50%;
-	}
+	} */
 	.Post-user-nickname {
-		margin-left: 12px;
+		margin: 0px 12px;
 		font-family: 'Julius Sans One', sans-serif;
 		font-weight: bold;
 	}
@@ -46,8 +46,10 @@ const PostStyle = styled.div`
 		width: 100%;
 	}
 	.Post-caption {
-		padding: 16px 16px;
+		display: flex;
+		padding: 2px 11px;
 		font-size: 13px;
+		align-items: flex-end;
 	}
 	.Post-caption strong {
 		font-family: 'PT Sans', sans-serif;
@@ -58,12 +60,46 @@ const PostStyle = styled.div`
 		visibility: hidden;
 		opacity: 0;
 	}
+	.Post-details {
+		position: relative;
+		/* padding: 20px; */
+		/* width: 100%; */
+		height: 40px;
+		/* bottom: -320px; */
+		/* left: 0; */
+		box-sizing: border-box;
+		transition: 0.5s;
+		overflow: hidden;
+		/* z-index: 2; */
+	}
+	.Post-card:hover .Post-details {
+		height: 91px;
+	}
+	.Post-details hr {
+		border: 0;
+		width: 95%;
+		color: #efefef;
+		height: 1px;
+		background: linear-gradient(to left, #efefef, #a5a4a4e6, #efefef);
+	}
+
+	/* .Post-details h2 {
+		color: #fff;
+		margin: 0;
+		padding: 0;
+		font-size: 20px;
+	}
+
+	.Post-details h2 span {
+		font-size: 14px;
+		color: #ff9800;
+	} */
 	.btn {
 		display: inline-block;
 		background-color: inherit;
 		border: none;
 		color: white;
-		margin: 0px 16px;
+		margin: 0px 10px;
 		padding: 6px 4px;
 		font-size: 16px;
 		cursor: pointer;
@@ -71,9 +107,60 @@ const PostStyle = styled.div`
 			display: inline-block;
 			color: saddlebrown;
 			text-decoration: none;
-
 		}
 	}
+
+	.btn-shine:after {
+		background: #38ef7d;
+		content: "";
+		height: 155px;
+		left: -75px;
+		opacity: .4;
+		position: absolute;
+		top: -50px;
+		transform: rotate(35deg);
+		transition: all 550ms cubic-bezier(0.19, 1, 0.22, 1);
+		width: 50px;
+		z-index: -10;
+	}
+	.btn-shine:hover:after {
+		left: 120%;
+		transition: all 550ms cubic-bezier(0.19, 1, 0.22, 1);
+	}
+	.btn-shine {
+		position: absolute;
+		margin: 0;
+		padding: 5px 12px;
+		height: 41px;
+		width: 140px;
+		bottom: 51px;
+		right: 0px;
+		outline: none;
+		text-decoration: none;
+		align-items: center;
+		cursor: pointer;
+		text-transform: uppercase;
+		background-color: #ffffff;
+		border: 1px solid rgba(197, 196, 196, 0.94);
+		border-top: 0px solid transparent;
+		border-radius: 2px;
+
+		font-family: inherit;
+		z-index: 0;
+		overflow: hidden;
+		transition: all 0.3s cubic-bezier(0.02, 0.01, 0.47, 1);
+		-webkit-tap-highlight-color: transparent;
+	}
+	.btn-shine span {
+		color: #164ca7;
+		font-size: 15px;
+		font-weight: 500;
+		letter-spacing: 0.7px;
+		z-index: 20;
+	}
+	/* .btn-shine:hover {
+		animation: rotate 0.7s ease-in-out both;
+	} */
 `;
 
 class Post extends Component {
@@ -83,6 +170,7 @@ class Post extends Component {
 			loading: true,
 			imageData: null,
 			liked: false,
+			loveColor: '#c5c4c4f0',
 			saved: false
 		};
 		this.fetchImage = this.fetchImage.bind(this);
@@ -121,6 +209,7 @@ class Post extends Component {
 				if (this.state.liked) {
 					try {
 						this.props.postData.loveCount--;
+						this.setState({ loveColor: '#c5c4c4f0' });
 						// this.props.postData.lovedBy = this.props.postData.lovedBy.filter((o) => o !== user);
 						if (user.liked == null) {
 							throw 'Wierd but you never liked this...from post component';
@@ -137,6 +226,8 @@ class Post extends Component {
 				} else {
 					try {
 						this.props.postData.loveCount++;
+						// '#ec0031f0' is a shade of pink close to red
+						this.setState({ loveColor: '#ec0031f0' });
 						// this.props.postData.lovedBy.push(user);
 						if (user.liked == null) {
 							user.liked = [ this.props.postData.id ];
@@ -193,68 +284,81 @@ class Post extends Component {
 
 		return (
 			<PostStyle>
-				<header>
-					<div className="Post-user">
-						<div className="Post-user-avatar">
-							<img src={avatar} alt={nickname} />
-						</div>
-						<div className="Post-user-nickname">
-							<span>{nickname}</span>
-						</div>
-					</div>
-				</header>
-				<div className="Post-image">
-					<div className="Post-image-bg">
-						{/* <img alt={caption} src={this.state.imageData} /> */}
-						{/* <Image
+				<header />
+				<div className="Post-card">
+					<div className="Post-image">
+						<div className="Post-image-bg">
+							{/* <img alt={caption} src={this.state.imageData} /> */}
+							{/* <Image
 								source={source}
 								resizeMode={'contain'}
 								onLoad={this._onLoad} /> */}
-						{this.state.loading ? (
-							<div
-								style={{
-									backgroundColor: placeholderColor // get placeholder color some how soon
-								}}
-							/>
-						) : (
-							<img onContextMenu={(e) => e.preventDefault()} alt={caption} src={this.state.imageData} />
-						)}
+							{this.state.loading ? (
+								<div
+									style={{
+										backgroundColor: placeholderColor // get placeholder color some how soon
+									}}
+								/>
+							) : (
+								<img
+									onContextMenu={(e) => e.preventDefault()}
+									alt={caption}
+									src={this.state.imageData}
+								/>
+							)}
+						</div>
 					</div>
-				</div>
-				<div>
-					{/* set Up from */}
-					{/* https://scotch.io/tutorials/using-font-awesome-5-with-react */}
-					<div className="btn" onClick={() => this.handleClick('LIKE')}>
-						<FontAwesomeIcon
-							icon={[ 'fas', 'heart' ]}
-							size="1x"
-							transform="grow-5 down-5"
-							style={{ color: 'red', paddingRight: '5px' }}
-						/>
-						<div>{loveCount} Love It!</div>
+					<div className="Post-details">
+						<div>
+							{/* //* set Up from
+						//* https://scotch.io/tutorials/using-font-awesome-5-with-react */}
+							<div className="btn" onClick={() => this.handleClick('LIKE')}>
+								<FontAwesomeIcon
+									icon={[ 'fas', 'heart' ]}
+									size="1x"
+									transform="grow-5 down-5"
+									style={{ color: this.state.loveColor, paddingRight: '5px' }}
+								/>
+								{/* <div>{loveCount}</div> */}
+							</div>
+							<div className="btn" onClick={() => this.handleClick('SAVE')}>
+								<FontAwesomeIcon
+									icon={[ 'fas', 'bookmark' ]}
+									transform="grow-5 down-5"
+									size="1x"
+									style={{ color: '#c5c4c4f0', paddingRight: '5px' }}
+								/>
+								<div />
+							</div>
+							<div className="btn" onClick={() => console.log('Awesome')}>
+								<FontAwesomeIcon
+									icon={[ 'fas', 'share-alt' ]}
+									// transform={{ rotate: 0 }}
+									transform="grow-5 left-0 down-5"
+									size="1x"
+									style={{ color: '#c5c4c4f0', paddingRight: '5px' }}
+								/>
+								<div />
+							</div>
+							<button className=" btn-shine">
+								<span>Let's See</span>
+							</button>
+						</div>
+						<hr />
+						{/* <div className="Post-user">
+					<div className="Post-user-avatar">
+						<img src={avatar} alt={nickname} />
 					</div>
-					<div className="btn" onClick={() => this.handleClick('SAVE')}>
-						<FontAwesomeIcon
-							icon={[ 'fas', 'bookmark' ]}
-							transform="grow-5 down-5"
-							size="1x"
-							style={{ color: 'blue', paddingRight: '5px' }}
-						/>
-						<div>Save It!</div>
+					<div className="Post-user-nickname">
+						<span>{nickname}</span>
 					</div>
-					<div className="btn" onClick={() => console.log('Awesome')}>
-						<FontAwesomeIcon
-							icon={[ 'fas', 'share' ]}
-							// transform={{ rotate: 0 }}
-							transform="grow-5 left-0 down-5"
-							size="1x"
-							style={{ color: 'green', paddingRight: '5px' }}
-						/>
-						<div>Share it!</div>
+				</div> */}
+						<div className="Post-caption">
+							<img className="Post-user-avatar" src={avatar} alt={nickname} />
+							<span className="Post-user-nickname">{nickname} NICKNAME</span>
+							{caption}
+						</div>
 					</div>
-				</div>
-				<div className="Post-caption">
-					<strong>{nickname}</strong> {caption}
 				</div>
 			</PostStyle>
 		);

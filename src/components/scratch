@@ -1,0 +1,69 @@
+<PostStyle>
+				<header>
+					<div className="Post-user">
+						<div className="Post-user-avatar">
+							<img src={avatar} alt={nickname} />
+						</div>
+						<div className="Post-user-nickname">
+							<span>{nickname}</span>
+						</div>
+					</div>
+				</header>
+				<div className="Post-image">
+					<div className="Post-image-bg">
+						{/* <img alt={caption} src={this.state.imageData} /> */}
+						{/* <Image
+								source={source}
+								resizeMode={'contain'}
+								onLoad={this._onLoad} /> */}
+						{this.state.loading ? (
+							<div
+								style={{
+									backgroundColor: placeholderColor // get placeholder color some how soon
+								}}
+							/>
+						) : (
+							<img onContextMenu={(e) => e.preventDefault()} alt={caption} src={this.state.imageData} />
+						)}
+					</div>
+				</div>
+				<div>
+					{/* set Up from */}
+					{/* https://scotch.io/tutorials/using-font-awesome-5-with-react */}
+					<div className="btn" onClick={() => this.handleClick('LIKE')}>
+						<FontAwesomeIcon
+							icon={[ 'fas', 'heart' ]}
+							size="1x"
+							transform="grow-5 down-5"
+							style={{ color: 'red', paddingRight: '5px' }}
+						/>
+						<div>{loveCount} Love It!</div>
+					</div>
+					<div className="btn" onClick={() => this.handleClick('SAVE')}>
+						<FontAwesomeIcon
+							icon={[ 'fas', 'bookmark' ]}
+							transform="grow-5 down-5"
+							size="1x"
+							style={{ color: 'blue', paddingRight: '5px' }}
+						/>
+						<div>Save It!</div>
+					</div>
+					<div className="btn" onClick={() => console.log('Awesome')}>
+						<FontAwesomeIcon
+							icon={[ 'fas', 'share' ]}
+							// transform={{ rotate: 0 }}
+							transform="grow-5 left-0 down-5"
+							size="1x"
+							style={{ color: 'green', paddingRight: '5px' }}
+						/>
+						<div>Share it!</div>
+					</div>
+				</div>
+				<div className="Post-caption">
+					<strong>{nickname}</strong> {caption}
+				</div>
+			</PostStyle>
+
+a
+
+

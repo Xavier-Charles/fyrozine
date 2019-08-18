@@ -74,56 +74,59 @@ class App extends Component {
 			changeAuth: this.changeAuth,
 			changeFed: this.changeFed
 		};
+		const signUpContainer = () => (
+			<div className="LoginContainer">
+				{/* <Route exact path="/" render={() => <Redirect to="/signup" />} /> */}
+				<AppliedRoute path="/signup" exact component={Test} props={childProps} />
+			</div>
+		);
+		const DefaultContainer = () => (
+			<div>
+				{/* <Header toggleAlert={this.toggleAlert} /> */}
+				<div className="AppContainer">
+					<Nav {...childProps} />
+
+					<Route path="/test" component={Test} />
+					<Route path="/p" component={Products} />
+					<Route
+						exact
+						path="/products"
+						render={() => (this.state.authed ? <Products /> : <Redirect to="/signup" />)}
+					/>
+					<Route
+						path="/post"
+						render={() => (this.state.authed ? <NewPosts {...childProps} /> : <Redirect to="/signup" />)}
+					/>
+					<Route exact path="/" component={NewPosts} />
+					{/* <Route path="/signup" render={() => <LoginForms authed={this.changeAuth} />} /> */}
+					{/* <Route
+						exact
+						path="/"
+						render={() => (this.state.authed ? <UnderConst /> : <Redirect to="/signup" />)}
+					/> */}
+					<Route
+						path="/addpost"
+						render={() => (this.state.authed ? <AddPost {...childProps} /> : <Redirect to="/signup" />)}
+					/>
+					<Route path="/images" render={() => (this.state.authed ? <Images /> : <Redirect to="/signup" />)} />
+					<Route
+						path="/users"
+						render={(props) => (this.state.authed ? <Users /> : <Redirect to="/signup" />)}
+					/>
+					{/* Finally, catch all unmatched routes */}
+					{/* <Route component={UnderConst} /> */}
+				</div>
+			</div>
+		);
 		return (
 			!this.state.isAuthing && (
 				<Styler>
 					<div className="App">
 						<Router>
-							<div>
-								{/* <button onClick={this.checkstate}>checkauth</button> */}
-								{/* addconditional routing for nav on sign up */}
-								<Nav {...childProps} />
-								<Switch>
-									<AppliedRoute path="/signup" exact component={LoginForms} props={childProps} />
-									<Route path="/test" component={Test} />
-									<Route
-										exact
-										path="/products"
-										render={() => (this.state.authed ? <Products /> : <Redirect to="/signup" />)}
-									/>
-									<Route
-										path="/post"
-										render={() =>
-											this.state.authed ? (
-												<NewPosts {...childProps} />
-											) : (
-												<Redirect to="/signup" />
-											)}
-									/>
-									{/* <Route path="/images" component={TestPost} /> */}
-									{/* <Route path="/signup" render={() => <LoginForms authed={this.changeAuth} />} /> */}
-									<Route
-										exact
-										path="/"
-										render={() => (this.state.authed ? <UnderConst /> : <Redirect to="/signup" />)}
-									/>
-									<Route
-										path="/addpost"
-										render={() =>
-											this.state.authed ? <AddPost {...childProps} /> : <Redirect to="/signup" />}
-									/>
-									<Route
-										path="/images"
-										render={() => (this.state.authed ? <Images /> : <Redirect to="/signup" />)}
-									/>
-									<Route
-										path="/users"
-										render={(props) => (this.state.authed ? <Users /> : <Redirect to="/signup" />)}
-									/>
-									{/* Finally, catch all unmatched routes */}
-									<Route component={UnderConst} />
-								</Switch>
-							</div>
+							<Switch>
+								<Route exact path="/signup" component={signUpContainer} />
+								<Route component={DefaultContainer} />
+							</Switch>
 						</Router>
 					</div>
 				</Styler>
@@ -143,6 +146,15 @@ const Styler = styled.div`
 	}
 	body {
 		background: red;
+	}
+	.AppContainer {
+		position: relative;
+		overflow: hidden;
+		background: #ffffff;
+		height: 100vh;
+	}
+	.LoginContainer {
+		background: #ffffff;
 	}
 `;
 
