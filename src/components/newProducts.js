@@ -1,73 +1,68 @@
 import React, { useEffect, useState } from 'react';
-//// import { Storage, API, graphqlOperation, Auth } from 'aws-amplify';
-import { API, graphqlOperation } from 'aws-amplify';
-
-// import { listPosts as ListPosts } from '../graphql/queries';
-// import Post from './Post';
 import styled from 'styled-components';
-
-//? replace soon
-import data from '../lib/pData.json';
-//// import config from '../aws-exports';
-
-//// const { aws_user_files_s3_bucket_region: region, aws_user_files_s3_bucket: bucket } = config;
 
 function ProductLister(props) {
 	const [ Posts, updatePosts ] = useState([]);
-	// const [ postImg, updatePostImg ] = useState([]);
+	const [ iter, updateIter ] = useState(1);
 	useEffect(() => {
-		listPosts();
+		console.log(props.data);
+		listPosts(props.data['group_0']);
 	}, []);
 
 	// Query the API and save them to the state
+	const handleScroll = (e) => {
+		let et = e.target;
+		let scrolled = et.scrollLeft / (et.scrollWidth - et.clientWidth);
+		if (scrolled > 0.5 && iter < 5) {
+			listPosts(props.data[`group_${iter}`]);
+			updateIter(iter + 1);
+		}
+	};
 
-	async function listPosts() {
+	async function listPosts(data) {
 		try {
-			// const p = await API.graphql(graphqlOperation(ListPosts));
-			// updatePosts(p.data.listPosts.items);
-			// console.log(Data.keys());
-			// updatePosts(Object.entries(props.data['group_0']));
 			let P = [];
-			Object.values(props.data['group_0']).map((item, id) => {
-				Object.values(item).map((val, id) => {
-					P.push(val);
+			// console.log(props.data);
+			data &&
+				Object.values(data).map((item, id) => {
+					Object.values(item).map((val, id) => {
+						P.push(val);
+					});
 				});
+			updatePosts((prevState) => {
+				return [ ...prevState, ...P ];
 			});
-			updatePosts(P);
 		} catch (err) {
 			console.log(err);
 		}
 	}
-	// async function fetchImage(key) {
-	// 	try {
-	// 		const imageData = await Storage.get(key, { level: 'protected' });
-	// 		return imageData;
-	// 	} catch (err) {
-	// 		console.log('error: ', err);
-	// 	}
-	// }
-
 	const postList = (loading, error, posts) => {
-		console.log('gotten');
+		// console.log('gotten');
 
 		if (loading) return <p>Loading Posts...</p>;
 		if (error) return <p>Error Fetching Posts...</p>;
+		function trackLink(link) {
+			if (link)
+				return (
+					'https://c.jumia.io/?a=173260&c=11&p=r&E=kkYNyk2M4sk%3D&ckmrdr=' +
+					link.replace(/\//g, '%2F').replace(':', '%3A') +
+					'&utm_campaign=173260&utm_term=fyro&s1=fyro'
+				);
+		}
 
 		return (
 			<Styler>
-				<div className="Products" style={{ marginTop: 150 + 'px' }}>
+				<div className="Products">
 					{/* {console.log(Posts)} */}
-					<div className="item">
+					<div className="item" onScroll={handleScroll}>
 						{Posts.map((val, id) => {
 							return (
-								<a href={val.link} key={id}>
+								<a href={trackLink(val.link)} key={id}>
 									<div className="card">
 										<img src={val.img} alt="..." />
 										<p>
-											<span>&#8358;</span>
-											{val.price}
-											{'  '}
-											<span style={{ color: '#f68b1e' }}>on Jumia</span>
+											<span>&#8358;</span> {val.price}
+											<span style={{ color: '#f68b1e' }}>{'  '}on Jumia</span>
 										</p>
 									</div>
 								</a>
@@ -79,28 +74,16 @@ function ProductLister(props) {
 		);
 	};
 
-	return (
-		// <Styler>
-		<div>{postList()}</div>
-		// </Styler>
-	);
+	return <div>{postList()}</div>;
 }
 
 const Styler = styled.div`
-	/* @import url("https://fonts.googleapis.com/css?family=Roboto:400,400i,700"); */
+	width: 66.7%;
+
 	a {
 		text-decoration: none;
 		color: black;
 	}
-	/* body {
-		font-family: Montserrat, sans-serif;
-		background: rgba(255, 153, 255, 0) f;
-		margin: 0;
-		height: 100vh;
-		display: grid;
-		place-items: center;
-		color: #505050;
-	} */
 	.item {
 		display: flex;
 		align-items: center;

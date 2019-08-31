@@ -10,6 +10,11 @@ export const onCreatePost = `subscription OnCreatePost {
     loveCount
     postedBy
     createdDate
+    hairNeck
+    torsoWaist
+    thighAnkle
+    ankleToe
+    acessories
   }
 }
 `;
@@ -22,6 +27,11 @@ export const onUpdatePost = `subscription OnUpdatePost {
     loveCount
     postedBy
     createdDate
+    hairNeck
+    torsoWaist
+    thighAnkle
+    ankleToe
+    acessories
   }
 }
 `;
@@ -34,6 +44,11 @@ export const onDeletePost = `subscription OnDeletePost {
     loveCount
     postedBy
     createdDate
+    hairNeck
+    torsoWaist
+    thighAnkle
+    ankleToe
+    acessories
   }
 }
 `;

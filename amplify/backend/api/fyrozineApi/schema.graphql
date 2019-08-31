@@ -6,7 +6,11 @@ type Post @model {
 	loveCount: Int!
 	postedBy: String!
 	createdDate: String!
-	apparelGroup: ApparelGroup
+	hairNeck: [String]
+	torsoWaist: [String]
+	thighAnkle: [String]
+	ankleToe: [String]
+	acessories: [String]
 }
 
 type User @model {
@@ -27,11 +31,4 @@ type Product @model {
 	tags: String!
 	Price: Int
 	createdDate: String!
-}
-
-type ApparelGroup {
-	hairNeck: [String]
-	torsoWaist: [String]
-	thighAnkle: [String]
-	ankleToe: [String]
 }

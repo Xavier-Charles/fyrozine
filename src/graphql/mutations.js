@@ -10,6 +10,11 @@ export const createPost = `mutation CreatePost($input: CreatePostInput!) {
     loveCount
     postedBy
     createdDate
+    hairNeck
+    torsoWaist
+    thighAnkle
+    ankleToe
+    acessories
   }
 }
 `;
@@ -22,6 +27,11 @@ export const updatePost = `mutation UpdatePost($input: UpdatePostInput!) {
     loveCount
     postedBy
     createdDate
+    hairNeck
+    torsoWaist
+    thighAnkle
+    ankleToe
+    acessories
   }
 }
 `;
@@ -34,6 +44,11 @@ export const deletePost = `mutation DeletePost($input: DeletePostInput!) {
     loveCount
     postedBy
     createdDate
+    hairNeck
+    torsoWaist
+    thighAnkle
+    ankleToe
+    acessories
   }
 }
 `;

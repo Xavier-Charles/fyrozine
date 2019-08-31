@@ -4,7 +4,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import '../lib/fontAw';
 import { Storage, API, graphqlOperation } from 'aws-amplify';
 
+import { getPost as GetPost } from '../graphql/queries';
 import { updateUser, updatePost } from '../graphql/mutations';
+import scrape from '../scraper/scraper';
+import ProductLister from './newProducts';
+import Skeleton from '../scaffoldComponents/Pskeleton';
+import PostSkton from '../scaffoldComponents/Postsk';
 
 const PostStyle = styled.div`
 	border-radius: 3px;
@@ -13,7 +18,6 @@ const PostStyle = styled.div`
 	margin-bottom: 2px;
 	margin-left: 1%;
 	margin-right: 1%;
-	/* align-items: center; */
 
 	.Post-user {
 		display: flex;
@@ -25,25 +29,28 @@ const PostStyle = styled.div`
 		height: 30px;
 		border-radius: 50%;
 	}
-	/* .Post-user-avatar img {
-		/* background-color: #efefef; 
-		width: 100%;
-		height: 100%;
-		border-radius: 50%;
-	} */
 	.Post-user-nickname {
 		margin: 0px 12px;
 		font-family: 'Julius Sans One', sans-serif;
-		font-weight: bold;
+		font-weight: 600;
+	}
+	.Post-image {
+		overflow-x: hidden;
 	}
 	.Post-image-bg {
 		background-color: #efefef;
-		width: 100%;
-		min-height: 150px;
+		width: 150%;
+		min-height: 250px;
+		.imagesk {
+			width: 100%;
+			min-height: 250px;
+			background-image: linear-gradient(90deg, #efefef 0px, rgba(225, 225, 225, 0.8) 40px, #efefef 80px);
+			animation: shine-avatar 1s infinite ease-out;
+		}
 	}
 	.Post-image img {
 		display: block;
-		width: 100%;
+		width: 66.6667%;
 	}
 	.Post-caption {
 		display: flex;
@@ -51,10 +58,7 @@ const PostStyle = styled.div`
 		font-size: 13px;
 		align-items: flex-end;
 	}
-	.Post-caption strong {
-		font-family: 'PT Sans', sans-serif;
-		font-weight: bold;
-	}
+
 	.vjs-fade-out {
 		display: none;
 		visibility: hidden;
@@ -62,15 +66,10 @@ const PostStyle = styled.div`
 	}
 	.Post-details {
 		position: relative;
-		/* padding: 20px; */
-		/* width: 100%; */
 		height: 40px;
-		/* bottom: -320px; */
-		/* left: 0; */
 		box-sizing: border-box;
 		transition: 0.5s;
 		overflow: hidden;
-		/* z-index: 2; */
 	}
 	.Post-card:hover .Post-details {
 		height: 91px;
@@ -82,18 +81,6 @@ const PostStyle = styled.div`
 		height: 1px;
 		background: linear-gradient(to left, #efefef, #a5a4a4e6, #efefef);
 	}
-
-	/* .Post-details h2 {
-		color: #fff;
-		margin: 0;
-		padding: 0;
-		font-size: 20px;
-	}
-
-	.Post-details h2 span {
-		font-size: 14px;
-		color: #ff9800;
-	} */
 	.btn {
 		display: inline-block;
 		background-color: inherit;
@@ -107,6 +94,16 @@ const PostStyle = styled.div`
 			display: inline-block;
 			color: saddlebrown;
 			text-decoration: none;
+		}
+
+		label.l {
+			margin-top: 6px;
+			margin-left: 6px;
+			color: black;
+			position: absolute;
+			cursor: pointer;
+			font-family: 'Julius Sans One', sans-serif;
+			font-weight: 600;
 		}
 	}
 
@@ -158,9 +155,19 @@ const PostStyle = styled.div`
 		letter-spacing: 0.7px;
 		z-index: 20;
 	}
-	/* .btn-shine:hover {
-		animation: rotate 0.7s ease-in-out both;
-	} */
+	.hideImg img {
+		transform: translate(-102%, 0px);
+		transition: transform 1s cubic-bezier(0.77, 0.2, 0.05, 1.0);
+	}
+	@keyframes shine-avatar {
+		0% {
+			background-position: -32px;
+		}
+		40%,
+		100% {
+			background-position: 208px;
+		}
+	}
 `;
 
 class Post extends Component {
@@ -171,30 +178,38 @@ class Post extends Component {
 			imageData: null,
 			liked: false,
 			loveColor: '#c5c4c4f0',
-			saved: false
+			saved: false,
+			pD: false,
+			productdata: {},
+			postData: {}
 		};
 		this.fetchImage = this.fetchImage.bind(this);
 	}
 	componentDidMount() {
-		// console.log(this.props.postData);
-		this.fetchImage(this.props.postData.img);
-		// console.log(this.props.cprops.authedUser);
-		// if (this.props.postData.lovedBy.find((o) => o === this.props.cprops.authedUser)) {
-		// 	this.setState({ liked: true });
-		// 	console.log('liked');
-		// }
-
-		// console.log(this.props)
+		// console.log('mounted');
+		if (this.props.Pid) {
+			// this.props.getData(this.props.Pid).then((res) => {
+			// 	this.setState({ postData: res.data.getPost });
+			// 	this.fetchImage(this.state.postData.img);
+			// 	this.props.cprops.authedUser.saved.includes(this.state.postData.id) && this.setState({ saved: true });
+			// });
+		} else {
+			// console.log(this.state.postData);
+			this.setState({ postData: this.props.postData });
+			this.fetchImage(this.props.postData.img);
+			this.props.cprops.authedUser.saved.includes(this.props.postData.id) && this.setState({ saved: true });
+			// console.log(this.props.cprops.authedUser.saved.includes(this.props.postData.id));
+		}
+		// console.log(datar
+	}
+	componentWillUnmount() {
+		console.log('unmounted');
 	}
 	async fetchImage(key) {
 		try {
 			const imageData = await Storage.get(key, { level: 'protected' });
-			// return this.setState(() => ({ imageData: imageData }));
-			// this.setState();
 			this.setState({
-				loading: false
-			});
-			this.setState({
+				loading: false,
 				imageData: imageData
 			});
 		} catch (err) {
@@ -203,40 +218,37 @@ class Post extends Component {
 	}
 	async handleClick(type) {
 		const user = this.props.cprops.authedUser;
-		// console.log(user);
 		switch (type) {
 			case 'LIKE':
 				if (this.state.liked) {
 					try {
-						this.props.postData.loveCount--;
+						this.state.postData.loveCount--;
 						this.setState({ loveColor: '#c5c4c4f0' });
-						// this.props.postData.lovedBy = this.props.postData.lovedBy.filter((o) => o !== user);
 						if (user.liked == null) {
 							throw 'Wierd but you never liked this...from post component';
 						} else {
-							user.liked = user.liked.filter((p) => p !== this.props.postData.id);
+							user.liked = user.liked.filter((p) => p !== this.state.postData.id);
 						}
 						this.setState({ liked: false });
 
 						await API.graphql(graphqlOperation(updateUser, { input: user }));
-						await API.graphql(graphqlOperation(updatePost, { input: this.props.postData }));
+						await API.graphql(graphqlOperation(updatePost, { input: this.state.postData }));
 					} catch (err) {
 						console.log(err);
 					}
 				} else {
 					try {
-						this.props.postData.loveCount++;
-						// '#ec0031f0' is a shade of pink close to red
+						this.state.postData.loveCount++;
+						//* '#ec0031f0' is a shade of pink close to red
 						this.setState({ loveColor: '#ec0031f0' });
-						// this.props.postData.lovedBy.push(user);
 						if (user.liked == null) {
-							user.liked = [ this.props.postData.id ];
+							user.liked = [ this.state.postData.id ];
 						} else {
-							user.liked.push(this.props.postData.id);
+							user.liked.push(this.state.postData.id);
 						}
 						this.setState({ liked: true });
 
-						await API.graphql(graphqlOperation(updatePost, { input: this.props.postData }));
+						await API.graphql(graphqlOperation(updatePost, { input: this.state.postData }));
 						await API.graphql(graphqlOperation(updateUser, { input: user }));
 					} catch (err) {
 						console.log(err);
@@ -244,26 +256,22 @@ class Post extends Component {
 				}
 				break;
 			case 'SAVE':
-				// console.log(this.props.postData);
 				if (this.state.saved) {
 					try {
-						// this.props.postData.lovedBy = this.props.postData.lovedBy.filter((o) => o !== user);
 						this.setState({ saved: false });
-
-						await API.graphql(graphqlOperation(updatePost, { input: this.props.postData }));
+						user.saved = user.saved.filter((p) => p !== this.state.postData.id);
+						await API.graphql(graphqlOperation(updateUser, { input: user }));
 					} catch (err) {
 						console.log(err);
 					}
 				} else {
 					try {
-						// this.props.postData.lovedBy.push(user);
 						if (user.saved == null) {
-							user.saved = [ this.props.postData.id ];
+							user.saved = [ this.state.postData.id ];
 						} else {
-							user.saved.push(this.props.postData.id);
+							user.saved.push(this.state.postData.id);
 						}
 						this.setState({ saved: true });
-
 						await API.graphql(graphqlOperation(updateUser, { input: user }));
 					} catch (err) {
 						console.log(err);
@@ -274,94 +282,106 @@ class Post extends Component {
 				console.log({ error: 'error', msg: 'No type Specified' });
 		}
 	}
+	async getProducts(group) {
+		let links = {
+			hairNeck: this.state.postData.hairNeck,
+			torsoWaist: this.state.postData.torsoWaist,
+			thighAnkle: this.state.postData.thighAnkle,
+			ankleToe: this.state.postData.ankleToe,
+			acessories: this.state.postData.acessories
+		};
+		console.log('Loading...');
+		this.setState({
+			pD: true
+		});
+		let pd = await scrape(links);
+		this.setState({
+			productdata: pd,
+			pD: false
+		});
+		console.log('done');
+	}
+	// showProducts(kind) {
+	// 	if (kind === 'sk') return <Skeleton />;
+	// 	if (kind === 'skb') {
+	// 		console.log('skb');
+	// 		return <ProductLister data={this.state.productdata} />;
+	// 	}
+	// }
+	async getData(postId) {
+		try {
+			const postData = await API.graphql(graphqlOperation(GetPost, { id: postId }));
+			this.setState({ postData: postData.data.getPost });
+			this.fetchImage(postData.data.getPost.img);
+			this.props.cprops.authedUser.saved.includes(postData.data.getPost.id) && this.setState({ saved: true });
+			// console.log(this.state.postData);
+		} catch (err) {
+			console.log(err);
+		}
+	}
 	render() {
 		//? destructuring needed here
 		const nickname = this.props.nickname;
 		const avatar = this.props.avatar;
-		const loveCount = this.props.postData.loveCount;
-		const caption = this.props.postData.caption;
-		const placeholderColor = '#efefef';
-
-		return (
-			<PostStyle>
-				<header />
-				<div className="Post-card">
-					<div className="Post-image">
-						<div className="Post-image-bg">
-							{/* <img alt={caption} src={this.state.imageData} /> */}
-							{/* <Image
-								source={source}
-								resizeMode={'contain'}
-								onLoad={this._onLoad} /> */}
-							{this.state.loading ? (
-								<div
-									style={{
-										backgroundColor: placeholderColor // get placeholder color some how soon
-									}}
-								/>
-							) : (
-								<img
-									onContextMenu={(e) => e.preventDefault()}
-									alt={caption}
-									src={this.state.imageData}
-								/>
-							)}
+		const caption = this.state.postData.caption;
+		// console.log(this.state.imageData);
+		if (Object.keys(this.state.postData).length === 0) {
+			this.props.Pid && this.getData(this.props.Pid);
+			return <PostSkton />;
+		} else {
+			return (
+				<PostStyle>
+					<header />
+					<div className="Post-card">
+						<div className="Post-image">
+							<div className="Post-image-bg">
+								{this.state.loading ? (
+									<div className="imagesk" />
+								) : (
+									<img
+										onContextMenu={(e) => e.preventDefault()}
+										alt={caption}
+										src={this.state.imageData}
+									/>
+								)}
+								{this.state.pD && <Skeleton />}
+								{Object.keys(this.state.productdata).length !== 0 && (
+									<ProductLister data={this.state.productdata} />
+								)}
+							</div>
 						</div>
-					</div>
-					<div className="Post-details">
-						<div>
-							{/* //* set Up from
+						<div className="Post-details">
+							<div>
+								{/* //* Icons set Up from
 						//* https://scotch.io/tutorials/using-font-awesome-5-with-react */}
-							<div className="btn" onClick={() => this.handleClick('LIKE')}>
-								<FontAwesomeIcon
-									icon={[ 'fas', 'heart' ]}
-									size="1x"
-									transform="grow-5 down-5"
-									style={{ color: this.state.loveColor, paddingRight: '5px' }}
-								/>
-								{/* <div>{loveCount}</div> */}
+								<div className="btn" onClick={() => this.handleClick('SAVE')}>
+									<FontAwesomeIcon
+										icon={[ 'fas', 'bookmark' ]}
+										transform="grow-5 down-5"
+										size="1x"
+										style={{
+											color: `${this.state.saved ? 'rgba(0, 142, 109, 0.84)' : '#c5c4c4f0'}`,
+											paddingRight: '5px'
+										}}
+									/>
+									<div />
+									<label className="l">{`${this.state.saved ? 'Saved' : 'Save'}`}</label>
+								</div>
+								<button className=" btn-shine" onClick={() => this.getProducts('dara')}>
+									<span>Let's See</span>
+								</button>
 							</div>
-							<div className="btn" onClick={() => this.handleClick('SAVE')}>
-								<FontAwesomeIcon
-									icon={[ 'fas', 'bookmark' ]}
-									transform="grow-5 down-5"
-									size="1x"
-									style={{ color: '#c5c4c4f0', paddingRight: '5px' }}
-								/>
-								<div />
+							<hr />
+							<div className="Post-caption">
+								<img className="Post-user-avatar" src={avatar} alt={nickname} />
+								<span className="Post-user-nickname">{nickname} NICKNAME</span>
+								{caption}
 							</div>
-							<div className="btn" onClick={() => console.log('Awesome')}>
-								<FontAwesomeIcon
-									icon={[ 'fas', 'share-alt' ]}
-									// transform={{ rotate: 0 }}
-									transform="grow-5 left-0 down-5"
-									size="1x"
-									style={{ color: '#c5c4c4f0', paddingRight: '5px' }}
-								/>
-								<div />
-							</div>
-							<button className=" btn-shine">
-								<span>Let's See</span>
-							</button>
-						</div>
-						<hr />
-						{/* <div className="Post-user">
-					<div className="Post-user-avatar">
-						<img src={avatar} alt={nickname} />
-					</div>
-					<div className="Post-user-nickname">
-						<span>{nickname}</span>
-					</div>
-				</div> */}
-						<div className="Post-caption">
-							<img className="Post-user-avatar" src={avatar} alt={nickname} />
-							<span className="Post-user-nickname">{nickname} NICKNAME</span>
-							{caption}
 						</div>
 					</div>
-				</div>
-			</PostStyle>
-		);
+				</PostStyle>
+			);
+		}
 	}
 }
 

@@ -10,6 +10,11 @@ export const getPost = `query GetPost($id: ID!) {
     loveCount
     postedBy
     createdDate
+    hairNeck
+    torsoWaist
+    thighAnkle
+    ankleToe
+    acessories
   }
 }
 `;
@@ -27,6 +32,11 @@ export const listPosts = `query ListPosts(
       loveCount
       postedBy
       createdDate
+      hairNeck
+      torsoWaist
+      thighAnkle
+      ankleToe
+      acessories
     }
     nextToken
   }

@@ -14,7 +14,7 @@
 						{/* <img alt={caption} src={this.state.imageData} /> */}
 						{/* <Image
 								source={source}
-								resizeMode={'contain'}
+								resizeMode={"contain"}
 								onLoad={this._onLoad} /> */}
 						{this.state.loading ? (
 							<div
@@ -30,12 +30,12 @@
 				<div>
 					{/* set Up from */}
 					{/* https://scotch.io/tutorials/using-font-awesome-5-with-react */}
-					<div className="btn" onClick={() => this.handleClick('LIKE')}>
+					<div className="btn" onClick={() => this.handleClick("LIKE")}>
 						<FontAwesomeIcon
-							icon={[ 'fas', 'heart' ]}
+							icon={[ "fas", "heart" ]}
 							size="1x"
 							transform="grow-5 down-5"
-							style={{ color: 'red', paddingRight: '5px' }}
+							style={{ color: "red", paddingRight: "5px" }}
 						/>
 						<div>{loveCount} Love It!</div>
 					</div>
@@ -64,6 +64,74 @@
 				</div>
 			</PostStyle>
 
-a
+
+{Posts.map((prData, id) => {
+	// console.log('called again');
+	// console.log(prData);
+	// console.log(id);
+	// return (
+	// 	<a href={prData[1].link} key={id}>
+	// 		<div className="card">
+	// 			<img src={prData[1].img} alt="..." />
+	// 			<p>
+	// 				<span>&#8358;</span> {prData[1].price}{' '}
+	// 				<span style={{ color: '#f68b1e' }}>on Jumia</span>
+	// 			</p>
+	// 			{/* <div className="title">Jumia</div> */}
+	// 			{/* <div className="desc">Remove this llllvjffjjjnnnn cute for shoe</div> */}
+	// 			{/* <div className="actions">
+	// 				<button>
+	// 					<i className="fas fa-heart"> </i>22
+	// 				</button>
+	// 				<button>
+	// 					{' '}
+	// 					<i className="fas fa-star"> </i>5
+	// 				</button>
+	// 			</div> */}
+	// 		</div>
+	// 	</a>
+	// );
+})}
+
+dress links ={
+	fitFlare dress : https://www.jumia.com.ng/womens-fashion/?q=fit%20flare&color_family=Red
+	boatShoe shoe : https://www.jumia.com.ng/womens-fashion/?color_family=White&q=boat+shoe
+	aviator sunglasses : https://www.jumia.com.ng/womens-fashion-accessories/?q=aviator%20sunglasses
+	satchel bag: https://www.jumia.com.ng/womens-fashion/?q=satchel&color_family=Red--Blue
+}
+
+white-Slipon-pump-shoe
+[
+	https://www.jumia.com.ng/fashion-women-flat-shoes-flat-loafers-pointed-toe-boat-shoes-white-35816638.html,
+	https://www.jumia.com.ng/fashion-womens-flats-fashion-female-boat-loafers-shoes-white-35797315.html,
+	https://www.jumia.com.ng/fashion-womens-flats-fashion-boat-bellat-loafers-shoes-white-35797511.html
+]
+
+Red Dress fit-flare
+[
+	https://www.jumia.com.ng/fashion-vintage-sweetheart-neck-fit-and-flare-dress-37585035.html,
+	https://www.jumia.com.ng/fashion-slim-women-sleeveless-hepburn-vintage-fit-flare-with-dress-31598733.html
+]
+
+Sunglasses
+
+[
+	https://www.jumia.com.ng/generic-new-aviator-sunglasses-men-mirror-driving-women-luxury-sunglasses-brown-points-sun-glasses-shades-lunette-femme-glases-18126853.html,
+	https://www.jumia.com.ng/generic-high-quality-round-sunglasses-women-designer-luxury-outdoor-vintage-aviator-sunglasses-female-sun-glasses-for-women-mirror-19492697.html,
+	https://www.jumia.com.ng/generic-yooske-aluminum-men-polarized-sunglasses-classic-pilot-aviation-sunglass-male-vintage-eyewear-for-driving-goggles-sun-glasses-17831178.html,
+]
+
+bag
+
+[
+	https://www.jumia.com.ng/fashion-high-quality-shoulder-female-handbagwomen-leather-satchel-34604451.html,
+	https://www.jumia.com.ng/fashion-women-top-handle-satchel-handbags-shoulder-bag-tote-purse-26708006.html,
+	https://www.jumia.com.ng/generic-fashion-women-lady-leather-tote-handbag-pillow-shoulder-crossbody-satchel-bag-19900383.html
+]
 
 
+
+
+
+{"Records": [{"eventID": "5b6a9c2387a9a18ebed1e958f54cc59a", "eventName": "INSERT", "eventVersion": "1.1", "eventSource": "aws:dynamodb", "awsRegion": "eu-central-1", "dynamodb": {"ApproximateCreationDateTime": 1566590012.0, "Keys": {"id": {"S": "4b3d0437-71cc-42fa-abf4-1273597b15fc"}}, "NewImage": {"img": {"S": "postImages/b004692d-4aee-485a-9b8c-39a3d0758c48melody-jacob-1400395-unsplash.jpg"}, "loveCount": {"N": "0"}, "ankleToe": {"L": [{"S": "https://www.jumia.com.ng/womens-fashion/?color_family=White&q=boat+shoe"}]}, "__typename": {"S": "Post"}, "caption": {"S": "melody_test_3"}, "torsoWaist": {"L": [{"S": " https://www.jumia.com.ng/womens-fashion/?q=fit%20flare&color_family=Red"}]}, "acessories": {"L": []}, "hairNeck": {"L": [{"S": "https://www.jumia.com.ng/womens-fashion-accessories/?q=aviator%20sunglasses"}]}, "tags": {"L": []}, "postedBy": {"S": "846eeccf-98b8-40ed-8786-a895ffbf955b"}, "thighAnkle": {"L": []}, "createdAt": {"S": "2019-08-23T19:53:31.978Z"}, "createdDate": {"S": "2019-08-23T19:53:17.186Z"}, "id": {"S": "4b3d0437-71cc-42fa-abf4-1273597b15fc"}, "updatedAt": {"S": "2019-08-23T19:53:31.978Z"}}, "SequenceNumber": "130450200000000009138208241", "SizeBytes": 637, "StreamViewType": "NEW_AND_OLD_IMAGES"},
+ "eventSourceARN": "arn:aws:dynamodb:eu-central-1:659695750984:table/Post-lagslqdmhnf2pjqlcekdwagjk4-fyrozine/stream/2019-07-27T09:18:38.217"}]}

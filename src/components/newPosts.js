@@ -11,17 +11,25 @@ import Post from './Post';
 // const { aws_user_files_s3_bucket_region: region, aws_user_files_s3_bucket: bucket } = config;
 
 function Poster(props) {
+	console.log('called func');
 	const [ Posts, updatePosts ] = useState([]);
 	// const [ postImg, updatePostImg ] = useState([]);
 	useEffect(() => {
 		listPosts();
+
+		return () => {
+			// window.removeEventListener('mousemove', () => { })
+			console.log('unmounted');
+		};
 	}, []);
 
 	// Query the API and save them to the state
 	async function listPosts() {
+		console.log('rendered');
 		try {
 			const p = await API.graphql(graphqlOperation(ListPosts));
 			updatePosts(p.data.listPosts.items);
+			// executed = false;
 		} catch (err) {
 			console.log(err);
 		}

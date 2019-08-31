@@ -5,6 +5,16 @@ import { Auth } from 'aws-amplify';
 import styled from 'styled-components';
 import logo from '../img/FrozIintel.jpg';
 
+//! remove soonest
+// import scrape from '../scraper/scraper';
+// let dress_links = {
+// 	torsoWaist: [ 'https://www.jumia.com.ng/womens-fashion/?q=fit%20flare&color_family=Red' ],
+// 	ankleToe: [ 'https://www.jumia.com.ng/womens-fashion/?color_family=White&q=boat+shoe' ],
+// 	hairNeck: [ 'https://www.jumia.com.ng/womens-fashion-accessories/?q=aviator%20sunglasses' ],
+// 	acessories: [ 'https://www.jumia.com.ng/womens-fashion/?q=satchel&color_family=Red--Blue' ],
+// 	thighAnkle: []
+// };
+
 var viewH = Math.max(document.documentElement.clientHeight, window.innerHeight || 0) - 5;
 var viewW = viewH / 1.4;
 
@@ -47,22 +57,30 @@ function Nav(props) {
 						<span />
 						<ul id="menu">
 							<li>
-								<a href="#">Home</a>
+								<a href="#">Gentlemen</a>
 							</li>
 							<li>
-								<a href="#">About</a>
+								<a href="#">Ladies</a>
 							</li>
 							<li>
-								<a href="#">Info</a>
+								<a href="#">Kids</a>
 							</li>
 							<li>
-								<a href="#">Contact</a>
+								<Link to="/your/collection">Your Collection</Link>
 							</li>
+							{/* <li>
+								<a href="#">Your Profile</a>
+							</li> */}
 							<li>
 								<a onClick={checkUser}>Check User</a>
 							</li>
 							<li>
 								<a onClick={() => signOut(props)}>Sign Out</a>
+							</li>
+							<li>
+								<marquee>
+									<a href="#">Add to home screen</a>
+								</marquee>
 							</li>
 						</ul>
 					</div>
@@ -224,7 +242,7 @@ const Navbar = styled.nav`
 		color: #1e1e23;
 		opacity: 1;
 		/* font-family: 'work sans', sans serif; */
-		font-size: 1.35em;
+		font-size: 1.25em;
 		font-weight: 400;
 		transition: 200ms;
 	}
