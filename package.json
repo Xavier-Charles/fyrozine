@@ -16,10 +16,12 @@
     "react-apollo": "^2.5.8",
     "react-dom": "^16.8.6",
     "react-scripts": "3.0.1",
+    "source-map-explorer": "^2.0.1",
     "styled-components": "^4.3.2",
     "uuid": "^3.3.2"
   },
   "scripts": {
+    "analyze": "source-map-explorer 'build/static/js/*.js'",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

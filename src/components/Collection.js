@@ -5,7 +5,7 @@ import Post from './Post';
 function Collection(props) {
 	const postList = (loading, error, posts) => {
 		// console.log('gotten');
-		if (props.authedUser.saved.length !== 0) {
+		if (props.authedUser.saved && props.authedUser.saved.length !== 0) {
 			if (loading) return <p>Loading Posts...</p>;
 			if (error) return <p>Error Fetching Posts...</p>;
 
@@ -22,7 +22,8 @@ function Collection(props) {
 
 			return (
 				<div className="Posts" style={{ marginTop: 150 + 'px', textAlign: 'center' }}>
-					<p>No Saved Posts...</p>
+					<p>There's no recent post here for now...</p>
+					<p>Build a collection by saving posts you love</p>
 				</div>
 			);
 		}

@@ -11,7 +11,7 @@ import Post from './Post';
 // const { aws_user_files_s3_bucket_region: region, aws_user_files_s3_bucket: bucket } = config;
 
 function Poster(props) {
-	console.log('called func');
+	// console.log('called func');
 	const [ Posts, updatePosts ] = useState([]);
 	// const [ postImg, updatePostImg ] = useState([]);
 	useEffect(() => {
@@ -25,7 +25,7 @@ function Poster(props) {
 
 	// Query the API and save them to the state
 	async function listPosts() {
-		console.log('rendered');
+		// console.log('rendered');
 		try {
 			const p = await API.graphql(graphqlOperation(ListPosts));
 			updatePosts(p.data.listPosts.items);
@@ -43,7 +43,7 @@ function Poster(props) {
 	// 	}
 	// }
 	const postList = (loading, error, posts) => {
-		console.log('gotten');
+		// console.log('gotten');
 
 		if (loading) return <p>Loading Posts...</p>;
 		if (error) return <p>Error Fetching Posts...</p>;
@@ -60,7 +60,7 @@ function Poster(props) {
 					/>
 				))} */}
 				{Posts.map((postData, id) => {
-					console.log('called again');
+					// console.log('called again');
 					// fetchImage(postData.img)
 					return (
 						<Post

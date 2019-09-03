@@ -71,9 +71,9 @@ function Nav(props) {
 							{/* <li>
 								<a href="#">Your Profile</a>
 							</li> */}
-							<li>
+							{/* <li>
 								<a onClick={checkUser}>Check User</a>
-							</li>
+							</li> */}
 							<li>
 								<a onClick={() => signOut(props)}>Sign Out</a>
 							</li>

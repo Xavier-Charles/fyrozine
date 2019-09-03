@@ -181,7 +181,8 @@ class Post extends Component {
 			saved: false,
 			pD: false,
 			productdata: {},
-			postData: {}
+			postData: {},
+			deleted: false
 		};
 		this.fetchImage = this.fetchImage.bind(this);
 	}
@@ -196,8 +197,11 @@ class Post extends Component {
 		} else {
 			// console.log(this.state.postData);
 			this.setState({ postData: this.props.postData });
-			this.fetchImage(this.props.postData.img);
-			this.props.cprops.authedUser.saved.includes(this.props.postData.id) && this.setState({ saved: true });
+			this.fetchImage(this.props.postData.img, this.props.postData.postedBy);
+			// console.log(this.props);
+			this.props.cprops.authedUser.saved &&
+				this.props.cprops.authedUser.saved.includes(this.props.postData.id) &&
+				this.setState({ saved: true });
 			// console.log(this.props.cprops.authedUser.saved.includes(this.props.postData.id));
 		}
 		// console.log(datar
@@ -205,9 +209,12 @@ class Post extends Component {
 	componentWillUnmount() {
 		console.log('unmounted');
 	}
-	async fetchImage(key) {
+	async fetchImage(key, owner) {
 		try {
-			const imageData = await Storage.get(key, { level: 'protected' });
+			const imageData = await Storage.get(key, {
+				level: 'protected',
+				identityId: owner
+			});
 			this.setState({
 				loading: false,
 				imageData: imageData
@@ -311,6 +318,11 @@ class Post extends Component {
 	async getData(postId) {
 		try {
 			const postData = await API.graphql(graphqlOperation(GetPost, { id: postId }));
+			if (Object.keys(postData).length === 0) {
+				this.props.cprops.authedUser.saved.filter((p) => p !== postId);
+				await API.graphql(graphqlOperation(updateUser, { input: this.props.cprops.authedUser }));
+				this.setState({ deleted: true });
+			}
 			this.setState({ postData: postData.data.getPost });
 			this.fetchImage(postData.data.getPost.img);
 			this.props.cprops.authedUser.saved.includes(postData.data.getPost.id) && this.setState({ saved: true });
@@ -323,12 +335,15 @@ class Post extends Component {
 		//? destructuring needed here
 		const nickname = this.props.nickname;
 		const avatar = this.props.avatar;
-		const caption = this.state.postData.caption;
-		// console.log(this.state.imageData);
-		if (Object.keys(this.state.postData).length === 0) {
+		// console.log(this.state.postData);
+
+		if (this.state.deleted) return <PostSkton />;
+		if (this.state.postData && Object.keys(this.state.postData).length === 0) {
+			//1st foll null 2nd for empty object
 			this.props.Pid && this.getData(this.props.Pid);
 			return <PostSkton />;
 		} else {
+			const caption = this.state.postData.caption;
 			return (
 				<PostStyle>
 					<header />

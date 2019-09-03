@@ -126,14 +126,15 @@ function App() {
 	// upload the image to S3 and then save it in the GraphQL API
 	async function createPost() {
 		if (File) {
-			const user = await Auth.currentAuthenticatedUser(); //? Can we do this better
+			const user = await Auth.currentCredentials(); //? Can we do this better
+			// console.log(user);
 			const { name: fileName, type: mimeType } = File;
 			const key = `postImages/${uuid()}${fileName}`;
 			let date = new Date();
 
 			const inputData = {
 				img: key,
-				postedBy: user.attributes.sub,
+				postedBy: user._identityId,
 				tags: tags,
 				caption: PostCaption,
 				loveCount: 0,
@@ -148,6 +149,7 @@ function App() {
 			};
 
 			try {
+				// console.log(inputData);
 				await Storage.put(key, File, {
 					level: 'protected',
 					contentType: mimeType,
@@ -161,7 +163,7 @@ function App() {
 			} catch (err) {
 				console.log('error: ', err);
 			}
-			console.log(inputData);
+			// console.log(inputData);
 		} else {
 			//TODO print call a validation method...
 		}

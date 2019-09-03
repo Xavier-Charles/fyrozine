@@ -78,7 +78,7 @@ async function signIn({ username, password }, props, updateErrMsg) {
 		// initialFormState.updateMessObj('success-msg', 'sign in success!');
 		props.changeAuth(true);
 		initialFormState.updateLoader(false);
-		props.history.push('/');
+		props.history.push('/'); //! Something's broke here
 	} catch (err) {
 		console.log('error signing up..', err);
 		initialFormState.updateLoader(false);

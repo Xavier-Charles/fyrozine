@@ -29,6 +29,7 @@ class App extends Component {
 			authed: false,
 			isAuthing: true,
 			userId: '',
+			offline: false,
 			authedUser: null
 		};
 		this.changeAuth = this.changeAuth.bind(this);
@@ -37,14 +38,24 @@ class App extends Component {
 	async componentDidMount() {
 		try {
 			const user = await Auth.currentAuthenticatedUser();
+			// const s = await Auth.currentCredentials()
 			this.changeAuth(true);
-			this.setState({ userId: user.attributes.sub });
+			this.setState({ userId: user.attributes.sub, isAuthing: false, authed: true });
 
 			const zuser = await API.graphql(graphqlOperation(getUser, { id: this.state.userId }));
 			this.setState({ authedUser: zuser.data.getUser });
-			// console.log(zuser.data.getUser);
+			// console.log(s);
 		} catch (e) {
 			console.log(e);
+			// if (e === 'not authenticated') {
+			// 	// this.props.history.push('/signup');
+			// 	// console.log(this.props);
+			// }
+			// console.log(navigator.onLine);
+			this.setState({ isAuthing: false });
+			if (!navigator.onLine && !this.state.authedUser) {
+				this.setState({ offline: true });
+			}
 		}
 		// this.setState({ isAuthing: false });
 	}
@@ -59,7 +70,7 @@ class App extends Component {
 			changeAuth: this.changeAuth,
 			changeFed: this.changeFed
 		};
-		const signUpContainer = () => (
+		const SignUpContainer = () => (
 			<div className="LoginContainer">
 				<AppliedRoute path="/signup" exact component={Test} props={childProps} />
 			</div>
@@ -68,40 +79,98 @@ class App extends Component {
 			<div>
 				<div className="AppContainer">
 					<Nav {...childProps} />
-
-					<Route path="/test" component={Test} />
-					<AppliedRoute path="/your/collection" exact component={Collection} props={childProps} />
+					{/* {console.log('called')} */}
+					{/* <Route path="/test" component={Test} /> */}
 					<Route
+						path="/your/collection"
+						exact
+						render={() =>
+							this.state.authed ? (
+								// <AppliedRoute path="/your/collection" exact component={Collection} props={childProps} />
+								<Collection {...childProps} />
+							) : (
+								<Redirect to="/signup" />
+							)}
+					/>
+
+					{/* <Route
 						exact
 						path="/products"
 						render={() => (this.state.authed ? <Products /> : <Redirect to="/signup" />)}
-					/>
+					/> */}
 					<Route
-						path="/post"
+						path="/"
+						exact
 						render={() => (this.state.authed ? <NewPosts {...childProps} /> : <Redirect to="/signup" />)}
 					/>
-					<AppliedRoute path="/" exact component={NewPosts} props={childProps} />
+					{/* <AppliedRoute path="/" exact component={NewPosts} props={childProps} /> */}
 
 					<Route
-						path="/addpost"
+						path="/123456098yfguifladdpost"
 						render={() => (this.state.authed ? <AddPost {...childProps} /> : <Redirect to="/signup" />)}
 					/>
-					<Route path="/images" render={() => (this.state.authed ? <Images /> : <Redirect to="/signup" />)} />
+					{/* <Route path="/images" render={() => (this.state.authed ? <Images /> : <Redirect to="/signup" />)} />
 					<Route
 						path="/users"
 						render={(props) => (this.state.authed ? <Users /> : <Redirect to="/signup" />)}
-					/>
+					/> */}
 				</div>
 			</div>
 		);
+		if (this.state.offline)
+			return (
+				<div>
+					<p> You're offline</p>
+					{console.log(' offline')}
+				</div>
+			); //** offline handler */
+		// if (!this.state.authed) {
+		// 	return (
+		// 		<Router>
+		// 			<Switch>
+		// 				<Redirect to="/signup" />
+		// 			</Switch>
+		// 		</Router>
+		// 	);
+		// }
 		return (
-			this.state.authedUser && (
+			!this.state.isAuthing && (
 				<Styler>
+					{/* {console.log(this.state)} */}
 					<div className="App">
 						<Router>
 							<Switch>
-								<Route exact path="/signup" component={signUpContainer} />
-								<Route component={DefaultContainer} />
+								{/* <Route
+									path="*"
+									exact
+									render={() =>
+										this.state.authed ? (
+											this.state.authedUser && <Route component={DefaultContainer} />
+										) : (
+											<Redirect to="/signup" />
+										)}
+								/> */}
+								<Route path="/signup" component={SignUpContainer} />
+								<Route
+									path="/"
+									exact
+									render={() =>
+										this.state.authed ? (
+											this.state.authedUser && <Route component={DefaultContainer} />
+										) : (
+											<Redirect to="/signup" />
+										)}
+								/>
+								{/* {!this.state.authedUser && <Route component={SignUpContainer} />} */}
+								{/* {this.state.authedUser && <Route component={DefaultContainer} />} */}
+								<Route
+									render={() =>
+										this.state.authed ? (
+											this.state.authedUser && <Route component={DefaultContainer} />
+										) : (
+											<Redirect to="/signup" />
+										)}
+								/>
 							</Switch>
 						</Router>
 					</div>
