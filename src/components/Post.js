@@ -318,10 +318,12 @@ class Post extends Component {
 	async getData(postId) {
 		try {
 			const postData = await API.graphql(graphqlOperation(GetPost, { id: postId }));
-			if (Object.keys(postData).length === 0) {
-				this.props.cprops.authedUser.saved.filter((p) => p !== postId);
-				await API.graphql(graphqlOperation(updateUser, { input: this.props.cprops.authedUser }));
-				this.setState({ deleted: true });
+			// console.log(postData);
+			if (postData.data.getPost == null) {
+				const user = this.props.cprops.authedUser;
+				user.saved = user.saved.filter((p) => p !== postId);
+				await API.graphql(graphqlOperation(updateUser, { input: user }));
+				return this.setState({ deleted: true });
 			}
 			this.setState({ postData: postData.data.getPost });
 			this.fetchImage(postData.data.getPost.img);

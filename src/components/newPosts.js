@@ -11,37 +11,31 @@ import Post from './Post';
 // const { aws_user_files_s3_bucket_region: region, aws_user_files_s3_bucket: bucket } = config;
 
 function Poster(props) {
-	// console.log('called func');
+	console.log('called Poster');
 	const [ Posts, updatePosts ] = useState([]);
+	// const [ value, error, pending ] = usePromise(listPosts, [], []);
+
 	// const [ postImg, updatePostImg ] = useState([]);
+
 	useEffect(() => {
 		listPosts();
-
-		return () => {
-			// window.removeEventListener('mousemove', () => { })
-			console.log('unmounted');
-		};
 	}, []);
 
 	// Query the API and save them to the state
 	async function listPosts() {
-		// console.log('rendered');
+		let isSubscribed = true;
 		try {
 			const p = await API.graphql(graphqlOperation(ListPosts));
-			updatePosts(p.data.listPosts.items);
-			// executed = false;
+			console.log(isSubscribed);
+			if (isSubscribed) {
+				updatePosts(p.data.listPosts.items);
+			}
+			return () => (isSubscribed = false);
 		} catch (err) {
 			console.log(err);
 		}
 	}
-	// async function fetchImage(key) {
-	// 	try {
-	// 		const imageData = await Storage.get(key, { level: 'protected' });
-	// 		return imageData;
-	// 	} catch (err) {
-	// 		console.log('error: ', err);
-	// 	}
-	// }
+
 	const postList = (loading, error, posts) => {
 		// console.log('gotten');
 
@@ -49,7 +43,7 @@ function Poster(props) {
 		if (error) return <p>Error Fetching Posts...</p>;
 
 		return (
-			<div className="Posts" style={{ marginTop: 150 + 'px' }}>
+			<div className="Posts" style={{ marginTop: 90 + 'px' }}>
 				{/* {this.props.posts.map((post) => (
 					<Post
 						// nickname={post.user.nickname}

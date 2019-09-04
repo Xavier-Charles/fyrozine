@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
 import styled from 'styled-components';
 
-import { API, graphqlOperation, Auth } from 'aws-amplify';
+import { API, graphqlOperation, Auth, Hub } from 'aws-amplify';
 
 import { getUser } from './graphql/queries';
 
@@ -18,6 +18,8 @@ import Users from './components/users';
 import AppliedRoute from './components/appliedRoute';
 import Test from './components/test.js';
 import Collection from './components/Collection'; //PSk ProductList Skeleton
+import ls from 'local-storage';
+import Loadin from './scaffoldComponents/Loadin';
 
 var viewH = Math.max(document.documentElement.clientHeight, window.innerHeight || 0) - 5;
 var viewW = viewH / 1.4;
@@ -30,26 +32,78 @@ class App extends Component {
 			isAuthing: true,
 			userId: '',
 			offline: false,
-			authedUser: null
+			authedUser: null,
+			fed: false
 		};
 		this.changeAuth = this.changeAuth.bind(this);
 	}
-
-	async componentDidMount() {
+	async update() {
 		try {
 			const user = await Auth.currentAuthenticatedUser();
+			// console.log(
+			// 	user,
+			// 	`temp1.username = "Facebook_1695900507220440", temp1.pool.clientId = "65b6518j4vl418rok653gt8ehm"`
+			// );
 			// const s = await Auth.currentCredentials()
+			// console.log(user);
+			this.changeAuth(true);
+			this.setState({ userId: user.attributes.sub, isAuthing: false, authed: true });
+
+			const zuser = await API.graphql(graphqlOperation(getUser, { id: this.state.userId }));
+			this.setState({ authedUser: zuser.data.getUser, fed: false });
+		} catch (e) {
+			console.log(e);
+			// if (e === 'not authenticated') {
+			// 	// setTimeout(getUser, 1000);
+			// }
+			// console.log(navigator.onLine);
+			this.setState({ isAuthing: false });
+			if (!navigator.onLine && !this.state.authedUser) {
+				this.setState({ offline: true });
+			}
+		}
+	}
+	async componentDidMount() {
+		// let z = await Hub.listen('auth');
+		// console.log(z);
+		// ls.set('fed', false);
+		// console.log(ls.get('fed'));
+		if (ls.get('fed')) {
+			await Hub.listen('auth', ({ payload: { event, data } }) => {
+				// switch (event) {
+				// 	case "signIn":
+				// 		this.setState({ user: data });
+				// 		break;
+				// 	case "signOut":
+				// 		this.setState({ user: null });
+				// 		break;
+				// 	case "customOAuthState":
+				// 		this.setState({ customState: data });
+				// }
+				// console.log(data);
+				// console.log(event);
+				this.update();
+				// this.setState({ fed: true });
+				ls.set('fed', false);
+			});
+			return;
+		}
+		try {
+			const user = await Auth.currentAuthenticatedUser();
+			// console.log(
+			// 	user
+			// );
+			// const s = await Auth.currentCredentials()
+			// console.log(user);
 			this.changeAuth(true);
 			this.setState({ userId: user.attributes.sub, isAuthing: false, authed: true });
 
 			const zuser = await API.graphql(graphqlOperation(getUser, { id: this.state.userId }));
 			this.setState({ authedUser: zuser.data.getUser });
-			// console.log(s);
 		} catch (e) {
 			console.log(e);
 			// if (e === 'not authenticated') {
-			// 	// this.props.history.push('/signup');
-			// 	// console.log(this.props);
+			// 	// setTimeout(getUser, 1000);
 			// }
 			// console.log(navigator.onLine);
 			this.setState({ isAuthing: false });
@@ -61,6 +115,9 @@ class App extends Component {
 	}
 	changeAuth(boolean) {
 		this.setState({ authed: boolean });
+	}
+	changeFed(boolean) {
+		this.setState({ fed: boolean });
 	}
 
 	render() {
@@ -124,15 +181,14 @@ class App extends Component {
 					{console.log(' offline')}
 				</div>
 			); //** offline handler */
-		// if (!this.state.authed) {
-		// 	return (
-		// 		<Router>
-		// 			<Switch>
-		// 				<Redirect to="/signup" />
-		// 			</Switch>
-		// 		</Router>
-		// 	);
-		// }
+		if (this.state.isAuthing) {
+			return (
+				<div className="Posts" style={{ marginTop: '75%', textAlign: 'center', fontFamily: 'Julius Sans One' }}>
+					<h1 style={{ color: '#635f55' }}>Fyrozine</h1>
+					<Loadin color='#040404' />
+				</div>
+			);
+		}
 		return (
 			!this.state.isAuthing && (
 				<Styler>

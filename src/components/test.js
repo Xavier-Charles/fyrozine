@@ -2,6 +2,7 @@ import React, { useState, useReducer, useEffect } from 'react';
 
 // // import { Auth, Storage, API, graphqlOperation } from 'aws-amplify';
 import { Auth } from 'aws-amplify';
+import ls from 'local-storage';
 
 import styled from 'styled-components';
 import img from '../img/fyrozine_login_mobile.jpg';
@@ -241,8 +242,10 @@ export default function Form(props) {
 								className="button"
 								style={{ background: '#4267b2' }}
 								onClick={() => {
-									Auth.federatedSignIn({ provider: 'Facebook' });
+									Auth.federatedSignIn({ provider: 'Facebook', customState: 'fedFace' });
 									updateisLoading({ Facebook: true });
+									ls.set('fed', true);
+									// props.changeFed(true);
 								}}
 							>
 								{!isLoading.Facebook ? 'Sign In with  Facebook' : 'Signinig In'}
@@ -259,7 +262,8 @@ export default function Form(props) {
 								className="button"
 								style={{ background: 'rgba(201, 200, 204, 0.77)', color: '#000' }}
 								onClick={() => {
-									Auth.federatedSignIn({ provider: 'Google' });
+									Auth.federatedSignIn({ provider: 'Google', customState: 'fedGoog' });
+									ls.set('fed', true);
 									updateisLoading({ Google: true });
 								}}
 							>

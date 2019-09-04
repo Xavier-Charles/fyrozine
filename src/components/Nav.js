@@ -119,7 +119,7 @@ export default withRouter(Nav);
 
 const Navbar = styled.nav`
 	background-color: #fff;
-	border-bottom: 1px solid rgba(0, 0, 0, 0.0975);
+	/* border-bottom: 1px solid rgba(0, 0, 0, 0.0975); */
 	position: absolute;
 	left: 50%;
 	transform: translate(-50%, 0%);
@@ -182,7 +182,7 @@ const Navbar = styled.nav`
 		height: 2px;
 		margin-bottom: 5px;
 		position: relative;
-		background: #000000a6;
+		background: #00000069;
 		border-radius: 3px;
 		z-index: 1;
 		transform-origin: 5px 0px;
@@ -219,6 +219,7 @@ const Navbar = styled.nav`
 		box-shadow: 0 0 10px #85888c;
 		/* margin: -50px 0 0 -50px;  original*/
 		border-right: 5px solid #ecba70db;
+		border-radius: 0px 0px 0px 270px;
 		margin: -50px 0 0 360px;
 		padding: 50px;
 		padding-top: 125px;

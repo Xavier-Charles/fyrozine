@@ -10,7 +10,7 @@ function Collection(props) {
 			if (error) return <p>Error Fetching Posts...</p>;
 
 			return (
-				<div className="Posts" style={{ marginTop: 150 + 'px' }}>
+				<div className="Posts" style={{ marginTop: 90 + 'px' }}>
 					{props.authedUser.saved.map((postId, id) => {
 						// console.log('called again');
 						return <Post cprops={props} key={id} Pid={postId} />;
@@ -21,9 +21,10 @@ function Collection(props) {
 			console.log('no posts');
 
 			return (
-				<div className="Posts" style={{ marginTop: 150 + 'px', textAlign: 'center' }}>
-					<p>There's no recent post here for now...</p>
-					<p>Build a collection by saving posts you love</p>
+				<div className="Posts" style={{ marginTop: 210 + 'px', textAlign: 'center' }}>
+					{/* <p>There's no recent post here for now...</p> */}
+					<p>Build a collection by saving </p>
+					<p>posts you love</p>
 				</div>
 			);
 		}
