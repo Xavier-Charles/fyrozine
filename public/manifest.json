@@ -3,9 +3,14 @@
 	"name": "Fyrozine",
 	"icons": [
 		{
-			"src": "Frozlintel.jpg",
-			"sizes": "64x32 32x16 24x12 16x8",
-			"type": "image/jpg"
+			"src": "FYR_192x192.png",
+			"sizes": "192x192",
+			"type": "image/png"
+		},
+		{
+			"src": "FYR_512x512.png",
+			"sizes": "512x512",
+			"type": "image/png"
 		}
 	],
 	"start_url": ".",

@@ -1,21 +1,21 @@
 import React from 'react';
 import styled from 'styled-components';
 
-let obj = {};
 export default function Loadin(props) {
-	props.color ? (obj.color = props.color) : (obj.color = '#fff');
+	let color = props.color ? props.color : '#fff';
 	return (
 		<Styler>
 			<div className="lds-ellipsis">
-				<div />
-				<div />
-				<div />
-				<div />
+				<div style={{ background: color }} />
+				<div style={{ background: color }} />
+				<div style={{ background: color }} />
+				<div style={{ background: color }} />
 			</div>
 		</Styler>
 	);
 }
 const Styler = styled.div`
+	display: contents;
 	.lds-ellipsis {
 		display: inline-block;
 		position: relative;
@@ -28,7 +28,6 @@ const Styler = styled.div`
 		width: 5px;
 		height: 5px;
 		border-radius: 50%;
-		background: ${obj.color};
 		animation-timing-function: cubic-bezier(0, 1, 1, 0);
 	}
 	.lds-ellipsis div:nth-child(1) {

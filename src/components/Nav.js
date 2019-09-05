@@ -23,7 +23,7 @@ function signOut(props) {
 		.then((data) => {
 			// console.log(data);
 			props.changeAuth(false);
-			alert('Your logged out');
+			console.log('You logged out');
 			props.history.push('/signup');
 		})
 		.catch((err) => console.log(err));

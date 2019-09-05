@@ -6,6 +6,8 @@ import ls from 'local-storage';
 
 import styled from 'styled-components';
 import img from '../img/fyrozine_login_mobile.jpg';
+import Loadin from '../placeholderComponents/Loadin';
+
 const initialFormState = {
 	username: '',
 	password: '',
@@ -250,12 +252,9 @@ export default function Form(props) {
 							>
 								{!isLoading.Facebook ? 'Sign In with  Facebook' : 'Signinig In'}
 								{isLoading.Facebook && (
-									<div className="lds-ellipsis">
-										<div />
-										<div />
-										<div />
-										<div />
-									</div>
+									<span>
+										<Loadin color="#fff" />
+									</span>
 								)}
 							</button>
 							<button
@@ -281,12 +280,9 @@ export default function Form(props) {
 									'Signinig In'
 								)}
 								{isLoading.Google && (
-									<div className="lds-ellipsis">
-										<div />
-										<div />
-										<div />
-										<div />
-									</div>
+									<span>
+										<Loadin color="#000" />
+									</span>
 								)}
 							</button>
 						</div>
@@ -776,7 +772,7 @@ const Styler = styled.div`
 		height: 80%;
 		position: absolute;
 		z-index: 4;
-		border-radius: 118px 23px 450px 30px;
+		border-radius: 80px 23px 450px 30px;
 	}
 	//* --------------media query for iphoneX+----------- */
 	@media only screen and (min-device-width: 375px) and (min-device-height: 812px) {
@@ -812,11 +808,12 @@ const Styler = styled.div`
 	}
 
 	.left_hover {
-		filter: drop-shadow(1px -3px 3px #333);
+		filter: drop-shadow(1px 1px 2px #888);
 		z-index: 1;
 	}
 	.right_hover {
-		filter: drop-shadow(-1px -3px 3px #333);
+		/* filter: drop-shadow(-1px -3px 3px #333); */
+		filter: drop-shadow(-1px 1px 2px #888);
 		z-index: 1;
 	}
 	.s_one_class {
@@ -842,7 +839,7 @@ const Styler = styled.div`
 	}
 
 	.pink {
-		color: #fc74ac;
+		color: #333c48;
 	}
 	.mainhead {
 		color: white;

@@ -19,7 +19,7 @@ import AppliedRoute from './components/appliedRoute';
 import Test from './components/test.js';
 import Collection from './components/Collection'; //PSk ProductList Skeleton
 import ls from 'local-storage';
-import Loadin from './scaffoldComponents/Loadin';
+import Loadin from './placeholderComponents/Loadin';
 
 var viewH = Math.max(document.documentElement.clientHeight, window.innerHeight || 0) - 5;
 var viewW = viewH / 1.4;
@@ -64,42 +64,50 @@ class App extends Component {
 		}
 	}
 	async componentDidMount() {
+		// console.log('changed')
 		// let z = await Hub.listen('auth');
 		// console.log(z);
-		// ls.set('fed', false);
+		//* 2 important comments below for debugging
+		//ls.set('fed', false);
 		// console.log(ls.get('fed'));
-		if (ls.get('fed')) {
-			await Hub.listen('auth', ({ payload: { event, data } }) => {
-				// switch (event) {
-				// 	case "signIn":
-				// 		this.setState({ user: data });
-				// 		break;
-				// 	case "signOut":
-				// 		this.setState({ user: null });
-				// 		break;
-				// 	case "customOAuthState":
-				// 		this.setState({ customState: data });
-				// }
-				// console.log(data);
-				// console.log(event);
-				this.update();
-				// this.setState({ fed: true });
-				ls.set('fed', false);
-			});
-			return;
-		}
 		try {
-			const user = await Auth.currentAuthenticatedUser();
-			// console.log(
-			// 	user
-			// );
-			// const s = await Auth.currentCredentials()
-			// console.log(user);
-			this.changeAuth(true);
-			this.setState({ userId: user.attributes.sub, isAuthing: false, authed: true });
+			if (ls.get('fed')) {
+				// console.log('b');
+				await Hub.listen('auth', ({ payload: { event, data } }) => {
+					// switch (event) {
+					// 	case "signIn":
+					// 		this.setState({ user: data });
+					// 		break;
+					// 	case "signOut":
+					// 		this.setState({ user: null });
+					// 		break;
+					// 	case "customOAuthState":
+					// 		this.setState({ customState: data });
+					// }
+					// let z = true;
+					// console.log(data);
+					console.log(event);
+					this.update();
+					// this.setState({ fed: true });
+					ls.set('fed', false);
+				});
+				// console.log('sti');
+				setTimeout(() => ls.get('fed') && this.setState({ isAuthing: false }), 3500);
+				// console.log('finished');
+				return;
+			} else {
+				const user = await Auth.currentAuthenticatedUser();
+				console.log('red');
+				// 	user
+				// );
+				// const s = await Auth.currentCredentials()
+				// console.log(user);
+				this.changeAuth(true);
+				this.setState({ userId: user.attributes.sub, isAuthing: false, authed: true });
 
-			const zuser = await API.graphql(graphqlOperation(getUser, { id: this.state.userId }));
-			this.setState({ authedUser: zuser.data.getUser });
+				const zuser = await API.graphql(graphqlOperation(getUser, { id: this.state.userId }));
+				this.setState({ authedUser: zuser.data.getUser });
+			}
 		} catch (e) {
 			console.log(e);
 			// if (e === 'not authenticated') {
@@ -174,18 +182,25 @@ class App extends Component {
 				</div>
 			</div>
 		);
-		if (this.state.offline)
+		if (this.state.offline) {
 			return (
-				<div>
+				<div
+					className="Posts"
+					style={{ marginTop: '250px', textAlign: 'center', fontFamily: 'Julius Sans One' }}
+				>
 					<p> You're offline</p>
 					{console.log(' offline')}
 				</div>
-			); //** offline handler */
+			);
+		} //** offline handler */
 		if (this.state.isAuthing) {
 			return (
-				<div className="Posts" style={{ marginTop: '75%', textAlign: 'center', fontFamily: 'Julius Sans One' }}>
+				<div
+					className="Posts"
+					style={{ marginTop: '250px', textAlign: 'center', fontFamily: 'Julius Sans One' }}
+				>
 					<h1 style={{ color: '#635f55' }}>Fyrozine</h1>
-					<Loadin color='#040404' />
+					<Loadin color="#040404" />
 				</div>
 			);
 		}
@@ -207,7 +222,7 @@ class App extends Component {
 										)}
 								/> */}
 								<Route path="/signup" component={SignUpContainer} />
-								<Route
+								{/* <Route
 									path="/"
 									exact
 									render={() =>
@@ -216,7 +231,7 @@ class App extends Component {
 										) : (
 											<Redirect to="/signup" />
 										)}
-								/>
+								/> */}
 								{/* {!this.state.authedUser && <Route component={SignUpContainer} />} */}
 								{/* {this.state.authedUser && <Route component={DefaultContainer} />} */}
 								<Route

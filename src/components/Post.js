@@ -8,8 +8,8 @@ import { getPost as GetPost } from '../graphql/queries';
 import { updateUser, updatePost } from '../graphql/mutations';
 import scrape from '../scraper/scraper';
 import ProductLister from './newProducts';
-import Skeleton from '../scaffoldComponents/Pskeleton';
-import PostSkton from '../scaffoldComponents/Postsk';
+import Skeleton from '../placeholderComponents/Pskeleton';
+import PostSkton from '../placeholderComponents/Postsk';
 
 const PostStyle = styled.div`
 	border-radius: 3px;
