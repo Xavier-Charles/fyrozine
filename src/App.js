@@ -10,14 +10,16 @@ import { getUser } from './graphql/queries';
 import NewPosts from './components/newPosts';
 import AddPost from './components/AddPosts';
 import Nav from './components/Nav';
-import Images from './components/images';
-import Products from './components/products';
-import Users from './components/users';
+// import Images from './components/images';
+// import Products from './components/products';
+// import Users from './components/users';
 // import LoginForms from './components/loginForms';
 // import UnderConst from './components/underConst';
+import Personal from './components/personalised';
 import AppliedRoute from './components/appliedRoute';
 import Test from './components/test.js';
 import Collection from './components/Collection'; //PSk ProductList Skeleton
+import Closet from './components/AprlCollection';
 import ls from 'local-storage';
 import Loadin from './placeholderComponents/Loadin';
 
@@ -72,7 +74,7 @@ class App extends Component {
 		// console.log(ls.get('fed'));
 		try {
 			if (ls.get('fed')) {
-				// console.log('b');
+				console.log('b');
 				await Hub.listen('auth', ({ payload: { event, data } }) => {
 					// switch (event) {
 					// 	case "signIn":
@@ -85,14 +87,19 @@ class App extends Component {
 					// 		this.setState({ customState: data });
 					// }
 					// let z = true;
-					// console.log(data);
+					console.log(data);
+					ls.set('fed', false);
 					console.log(event);
 					this.update();
 					// this.setState({ fed: true });
-					ls.set('fed', false);
 				});
 				// console.log('sti');
-				setTimeout(() => ls.get('fed') && this.setState({ isAuthing: false }), 3500);
+				setTimeout(() => {
+					if (ls.get('fed')) {
+						ls.set('fed', false);
+						this.setState({ isAuthing: false });
+					}
+				}, 10000);
 				// console.log('finished');
 				return;
 			} else {
@@ -101,11 +108,12 @@ class App extends Component {
 				// 	user
 				// );
 				// const s = await Auth.currentCredentials()
-				// console.log(user);
+
 				this.changeAuth(true);
 				this.setState({ userId: user.attributes.sub, isAuthing: false, authed: true });
 
 				const zuser = await API.graphql(graphqlOperation(getUser, { id: this.state.userId }));
+				// console.log(zuser);
 				this.setState({ authedUser: zuser.data.getUser });
 			}
 		} catch (e) {
@@ -157,7 +165,44 @@ class App extends Component {
 								<Redirect to="/signup" />
 							)}
 					/>
-
+					<Route
+						path="/male"
+						exact
+						render={() =>
+							this.state.authed ? (
+								// <AppliedRoute path="/your/collection" exact component={Collection} props={childProps} />
+								<Personal sex={'MALE'} {...childProps} />
+							) : (
+								<Redirect to="/signup" />
+							)}
+					/>
+					<Route
+						path="/female"
+						exact
+						render={() =>
+							this.state.authed ? (
+								// <AppliedRoute path="/your/collection" exact component={Collection} props={childProps} />
+								<Personal sex={'WOMEN'} {...childProps} />
+							) : (
+								<Redirect to="/signup" />
+							)}
+					/>
+					<Route
+						path="/kids"
+						exact
+						render={() =>
+							this.state.authed ? (
+								// <AppliedRoute path="/your/collection" exact component={Collection} props={childProps} />
+								<Personal sex={'KIDS'} {...childProps} />
+							) : (
+								<Redirect to="/signup" />
+							)}
+					/>
+					<Route
+						path="/your/closet"
+						exact
+						render={() => (this.state.authed ? <Closet {...childProps} /> : <Redirect to="/signup" />)}
+					/>
 					{/* <Route
 						exact
 						path="/products"

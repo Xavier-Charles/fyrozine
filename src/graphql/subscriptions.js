@@ -6,8 +6,9 @@ export const onCreatePost = `subscription OnCreatePost {
     id
     caption
     tags
+    category
+    style
     img
-    loveCount
     postedBy
     createdDate
     hairNeck
@@ -23,8 +24,9 @@ export const onUpdatePost = `subscription OnUpdatePost {
     id
     caption
     tags
+    category
+    style
     img
-    loveCount
     postedBy
     createdDate
     hairNeck
@@ -40,8 +42,9 @@ export const onDeletePost = `subscription OnDeletePost {
     id
     caption
     tags
+    category
+    style
     img
-    loveCount
     postedBy
     createdDate
     hairNeck
@@ -61,7 +64,12 @@ export const onCreateUser = `subscription OnCreateUser {
     createdDate
     likedCategories
     saved
-    liked
+    savedProducts {
+      price
+      img
+      link
+      part
+    }
   }
 }
 `;
@@ -74,7 +82,12 @@ export const onUpdateUser = `subscription OnUpdateUser {
     createdDate
     likedCategories
     saved
-    liked
+    savedProducts {
+      price
+      img
+      link
+      part
+    }
   }
 }
 `;
@@ -87,7 +100,12 @@ export const onDeleteUser = `subscription OnDeleteUser {
     createdDate
     likedCategories
     saved
-    liked
+    savedProducts {
+      price
+      img
+      link
+      part
+    }
   }
 }
 `;

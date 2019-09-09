@@ -10,7 +10,7 @@ import styled from 'styled-components';
 
 // const { aws_user_files_s3_bucket_region: region, aws_user_files_s3_bucket: bucket } = config;
 
-function App() {
+function AddPost() {
 	const [ File, updateFile ] = useState(null);
 	const [ PostCaption, updatePostCaption ] = useState('');
 
@@ -20,13 +20,28 @@ function App() {
 	const [ thighAnkle, updatethighAnkle ] = useState('');
 	const [ ankleToe, updateankleToe ] = useState('');
 	const [ acessories, updateacessories ] = useState('');
-	const [ tags, updateTags ] = useState([]);
+	const [ Other1, updateOther1 ] = useState('');
+	const [ Other2, updateOther2 ] = useState('');
+	const [ Other3, updateOther3 ] = useState('');
+	const [ category, updateCategory ] = useState('');
+	const [ style, updateStyle ] = useState('');
+
+	// const [ tags, updateTags ] = useState([]);
+	const [ tags, updateTags ] = useState({
+		attr: [],
+		category: [],
+		style: []
+	});
 	const [ ApparelGroup, updateApparelGroup ] = useState({
 		hairNeck: [],
 		torsoWaist: [],
 		thighAnkle: [],
 		ankleToe: [],
-		acessories: []
+		acessories: [],
+		Other1: [],
+		Other2: [],
+		Other3: []
+		// category: []
 	});
 
 	//todo loading state to disable input when creating post
@@ -51,68 +66,132 @@ function App() {
 		console.log(fileForUpload);
 	}
 	function enterHandler(event, type) {
-		let i = ApparelGroup;
+		// let i = ApparelGroup;
+		let t = tags;
 		switch (type) {
 			case 'hairNeck':
-				if (i.hairNeck.length === 0) {
-					i.hairNeck.push(hairNeck);
-					updateApparelGroup((prevState) => {
-						return { ...prevState, hairNeck: i.hairNeck };
-					});
-					// updatehairNeck('');
-				} else console.log('Limit exceeded');
-
+				// if (i.hairNeck.length === 0) {
+				// 	i.hairNeck.push(hairNeck);
+				// 	updateApparelGroup((prevState) => {
+				// 		return { ...prevState, hairNeck: i.hairNeck };
+				// 	});
+				// 	// updatehairNeck('');
+				// } else console.log('Limit exceeded');
+				updateItem('hairNeck', hairNeck);
 				break;
 			case 'torsoWaist':
-				if (i.torsoWaist.length === 0) {
-					i.torsoWaist.push(torsoWaist);
-					updateApparelGroup((prevState) => {
-						return { ...prevState, torsoWaist: i.torsoWaist };
-					});
-					// updatetorsoWaist('');
-				} else console.log('Limit exceeded');
+				// if (i.torsoWaist.length === 0) {
+				// 	i.torsoWaist.push(torsoWaist);
+				// 	updateApparelGroup((prevState) => {
+				// 		return { ...prevState, torsoWaist: i.torsoWaist };
+				// 	});
+				// 	// updatetorsoWaist('');
+				// } else console.log('Limit exceeded');
+				updateItem('torsoWaist', torsoWaist);
 				break;
 			case 'thighAnkle':
-				if (i.thighAnkle.length === 0) {
-					i.thighAnkle.push(thighAnkle);
-					updateApparelGroup((prevState) => {
-						return { ...prevState, thighAnkle: i.thighAnkle };
-					});
-					// updatethighAnkle('');
-				} else console.log('Limit exceeded');
+				// if (i.thighAnkle.length === 0) {
+				// 	i.thighAnkle.push(thighAnkle);
+				// 	updateApparelGroup((prevState) => {
+				// 		return { ...prevState, thighAnkle: i.thighAnkle };
+				// 	});
+				// 	// updatethighAnkle('');
+				// } else console.log('Limit exceeded');
+				updateItem('thighAnkle', thighAnkle);
 				break;
 			case 'ankleToe':
-				if (i.ankleToe.length === 0) {
-					i.ankleToe.push(ankleToe);
-					updateApparelGroup((prevState) => {
-						return { ...prevState, ankleToe: i.ankleToe };
-					});
-					// updateankleToe('');
-				} else console.log('Limit exceeded');
-				break;
+				// if (i.ankleToe.length === 0) {
+				// 	i.ankleToe.push(ankleToe);
+				// 	updateApparelGroup((prevState) => {
+				// 		return { ...prevState, ankleToe: i.ankleToe };
+				// 	});
+				// 	// updateankleToe('');
+				// } else console.log('Limit exceeded');
+				// break;
+				updateItem('ankleToe', ankleToe);
 			case 'acessories':
-				if (i.acessories.length === 0) {
-					i.acessories.push(acessories);
-					updateApparelGroup((prevState) => {
-						return { ...prevState, acessories: i.acessories };
-					});
-					// updateacessories('');
-				} else console.log('Limit exceeded');
+				// if (i.acessories.length === 0) {
+				// 	i.acessories.push(acessories);
+				// 	updateApparelGroup((prevState) => {
+				// 		return { ...prevState, acessories: i.acessories };
+				// 	});
+				// 	// updateacessories('');
+				// } else console.log('Limit exceeded');
+				updateItem('acessories', acessories);
+				break;
+
+			case 'Other1':
+				updateItem('Other1', Other1);
+				break;
+			case 'Other2':
+				updateItem('Other2', Other2);
+				break;
+			case 'Other3':
+				updateItem('Other3', Other3);
+				break;
+			case 'tags_cat':
+				// t.category = [ category ];
+				// console.log([ category ]);
+				updateTags((prevState) => {
+					return { ...prevState, category: [ category ] };
+				});
+				// updatePostTags('');
+				// console.log(tags);
+				break;
+			case 'tags_style':
+				t.style.push(style);
+				updateTags((prevState) => {
+					return { ...prevState, style: t.style };
+				});
+				updateStyle('');
 				break;
 			case 'tags':
+				t.attr.push(PostTags);
 				updateTags((prevState) => {
-					return [ ...prevState, PostTags ];
+					return { ...prevState, attr: t.attr };
 				});
 				updatePostTags('');
 				break;
 			default:
 				console.log('error ', 'An undefined type was called in handle input');
 		}
+		// console.log(ApparelGroup);
+	}
+	function updateItem(group, val) {
+		let i = ApparelGroup;
+		if (i[group].length === 0) {
+			// i[group].push(val);
+			// console.log(val);
+			updateApparelGroup((prevState) => {
+				return { ...prevState, [group]: [ val ] };
+			});
+			// console.log(ApparelGroup);
+		} else console.log('error ', 'Limit exceeded');
 	}
 	function deleteItem(item, type) {
 		if (type === 'tags') {
-			let t = tags.filter((i) => i !== item);
-			updateTags(t);
+			let t = tags.attr.filter((i) => i !== item);
+			// console.log(t);
+			// updateTags(t);
+			updateTags((prevState) => {
+				return { ...prevState, attr: t };
+			});
+			return;
+		}
+		if (type === 'tags_cat') {
+			let t = tags.category.filter((i) => i !== item);
+			// updateTags(t);
+			updateTags((prevState) => {
+				return { ...prevState, category: t };
+			});
+			return;
+		}
+		if (type === 'tags_style') {
+			let t = tags.style.filter((i) => i !== item);
+			// updateTags(t);
+			updateTags((prevState) => {
+				return { ...prevState, style: t };
+			});
 			return;
 		}
 		let i = ApparelGroup;
@@ -135,9 +214,11 @@ function App() {
 			const inputData = {
 				img: key,
 				postedBy: user._identityId,
-				tags: tags,
+				tags: tags.attr,
+				category: tags.category,
+				style: tags.style,
 				caption: PostCaption,
-				loveCount: 0,
+				// loveCount: 0,
 				createdDate: date.toISOString(),
 				hairNeck: ApparelGroup.hairNeck,
 				torsoWaist: ApparelGroup.torsoWaist,
@@ -149,7 +230,7 @@ function App() {
 			};
 
 			try {
-				// console.log(inputData);
+				console.log(inputData);
 				await Storage.put(key, File, {
 					level: 'protected',
 					contentType: mimeType,
@@ -185,15 +266,15 @@ function App() {
 				<br />
 				<div>
 					<div>
-						<label>Post Tags</label>
-						{tags.map((item, id) => (
+						<label>Post Tags//lowercase //Enter from here//Singular </label>
+						{tags.attr.map((item, id) => (
 							<p key={id} className="listed">
 								{id + 1} : {item} <button onClick={() => deleteItem(item, 'tags')}>delete</button>
 							</p>
 						))}
 					</div>
 					<input
-						placeholder="Tags eg. moccasin, high heels,..."
+						placeholder="Tags eg. moccasin, high heels..."
 						value={PostTags}
 						onKeyPress={(e) => {
 							e.key === 'Enter' && enterHandler(e, 'tags');
@@ -201,13 +282,51 @@ function App() {
 						onChange={(e) => updatePostTags(e.target.value)}
 					/>
 				</div>
+
+				<div>
+					<div>
+						<br />
+						<label>Category n Style</label>
+						{tags.category.map((item, id) => (
+							<p key={id} className="listed">
+								{id + 1} : {item} <button onClick={() => deleteItem(item, 'tags_cat')}>delete</button>
+							</p>
+						))}
+
+						{tags.style.map((item, id) => (
+							<p key={id} className="listed">
+								{id + 1} : {item} <button onClick={() => deleteItem(item, 'tags_style')}>delete</button>
+							</p>
+						))}
+					</div>
+					<select
+						value={category}
+						onChange={(e) => updateCategory(e.target.value)}
+						onKeyPress={(e) => {
+							e.key === 'Enter' && enterHandler(e, 'tags_cat');
+						}}
+					>
+						<option value="MALE">Male</option>
+						<option value="FEMALE">Female</option>
+						<option value="KIDS">Kids</option>
+					</select>
+					<input
+						placeholder="E.g. 90's, Contemporary , highStreet..."
+						value={style}
+						onKeyPress={(e) => {
+							e.key === 'Enter' && enterHandler(e, 'tags_style');
+						}}
+						onChange={(e) => updateStyle(e.target.value)}
+					/>
+				</div>
+
 				<div>
 					<h3>Apparel Group</h3>
 					<p style={{ fontSize: '14px' }}>Press enter to add a new Tag</p>
 
 					<div>
 						<label className="label">
-							<strong>hairNeck</strong> ...Press Enter to confirm
+							<strong>hairNeck //hairextension eye wear...</strong> ...Press Enter to confirm
 						</label>
 						<div>
 							{ApparelGroup.hairNeck.map((item, id) => (
@@ -231,7 +350,7 @@ function App() {
 
 					<div>
 						<label className="label">
-							<strong>torsoWaist</strong> ...Press Enter to confirm
+							<strong>torsoWaist //dress shirt...</strong> ...Press Enter to confirm
 						</label>
 						<div>
 							{ApparelGroup.torsoWaist.map((item, id) => (
@@ -255,7 +374,7 @@ function App() {
 
 					<div>
 						<label className="label">
-							<strong>thighAnkle</strong> ...Press Enter to confirm
+							<strong>thighAnkle //trousers skirts...</strong> ...Press Enter to confirm
 						</label>
 						<div>
 							{ApparelGroup.thighAnkle.map((item, id) => (
@@ -279,7 +398,7 @@ function App() {
 
 					<div>
 						<label className="label">
-							<strong>ankleToe</strong> ...Press Enter to confirm
+							<strong>ankleToe // shoes sandals...</strong> ...Press Enter to confirm
 						</label>
 						<div>
 							{ApparelGroup.ankleToe.map((item, id) => (
@@ -303,7 +422,7 @@ function App() {
 
 					<div>
 						<label className="label">
-							<strong>acessories</strong> ...Press Enter to confirm
+							<strong>acessories //jewery nags ...</strong> ...Press Enter to confirm
 						</label>
 						<div>
 							{ApparelGroup.acessories.map((item, id) => (
@@ -324,9 +443,75 @@ function App() {
 							}}
 						/>
 					</div>
+					<div>
+						<label className="label">
+							<strong>Other1</strong> ...Press Enter to confirm
+						</label>
+						<div>
+							{ApparelGroup.Other1.map((item, id) => (
+								<p key={id} className="listed">
+									{id + 1} : {item} <button onClick={() => deleteItem(item, 'Other1')}>delete</button>
+								</p>
+							))}
+						</div>
+						<input
+							placeholder="Product link_ _ _"
+							value={Other1}
+							onKeyPress={(e) => {
+								e.key === 'Enter' && enterHandler(e, 'Other1');
+							}}
+							onChange={(e) => {
+								updateOther1(e.target.value);
+							}}
+						/>
+					</div>
+				</div>
+				<div>
+					<label className="label">
+						<strong>Other2</strong> ...Press Enter to confirm
+					</label>
+					<div>
+						{ApparelGroup.Other2.map((item, id) => (
+							<p key={id} className="listed">
+								{id + 1} : {item} <button onClick={() => deleteItem(item, 'Other2')}>delete</button>
+							</p>
+						))}
+					</div>
+					<input
+						placeholder="Product link_ _ _"
+						value={Other2}
+						onKeyPress={(e) => {
+							e.key === 'Enter' && enterHandler(e, 'Other2');
+						}}
+						onChange={(e) => {
+							updateOther2(e.target.value);
+						}}
+					/>
+				</div>
+				<div>
+					<label className="label">
+						<strong>Other3</strong> ...Press Enter to confirm
+					</label>
+					<div>
+						{ApparelGroup.Other3.map((item, id) => (
+							<p key={id} className="listed">
+								{id + 1} : {item} <button onClick={() => deleteItem(item, 'Other3')}>delete</button>
+							</p>
+						))}
+					</div>
+					<input
+						placeholder="Product link_ _ _"
+						value={Other3}
+						onKeyPress={(e) => {
+							e.key === 'Enter' && enterHandler(e, 'Other3');
+						}}
+						onChange={(e) => {
+							updateOther3(e.target.value);
+						}}
+					/>
 				</div>
 				<button className="button" onClick={createPost}>
-					Create Post
+					i've doule checked... Create Post
 				</button>
 			</div>
 		</Styler>
@@ -364,4 +549,4 @@ const Styler = styled.div`
 	}
 `;
 
-export default App;
+export default AddPost;

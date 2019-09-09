@@ -306,7 +306,7 @@ function Home(props) {
 		<div className="containerHome fadeIn">
 			<div className="c1">
 				<div className="c11">
-					<h1 className="mainhead">LET'S STYLE YOU !!</h1>
+					{/* <h1 className="mainhead">LET'S STYLE YOU !!</h1> */}
 					{/* <p className="mainp">Let's style you up!!!</p> */}
 				</div>
 				<div
@@ -592,7 +592,7 @@ const Styler = styled.div`
 		background: ${Eucalyptus};
 	}
 	.bottom:after {
-		transform: rotate(-166deg);
+		transform: rotate(-171deg);
 		background: ${Indigo};
 	}
 
@@ -600,8 +600,8 @@ const Styler = styled.div`
 	.curtain.top:after,
 	.curtain.bottom:before,
 	.curtain.bottom:after {
-		margin-left: 200px;
-		transform-origin: -200px 50%;
+		margin-left: 220px;
+		transform-origin: -220px 50%;
 		transition-delay: 0s;
 	}
 	/* .center {
@@ -772,7 +772,7 @@ const Styler = styled.div`
 		height: 80%;
 		position: absolute;
 		z-index: 4;
-		border-radius: 80px 23px 450px 30px;
+		border-radius: 0px 35px 450px 35px;
 	}
 	//* --------------media query for iphoneX+----------- */
 	@media only screen and (min-device-width: 375px) and (min-device-height: 812px) {
@@ -820,12 +820,13 @@ const Styler = styled.div`
 		color: #748194;
 		position: absolute;
 		top: ${viewh * 0.8 + 'px'};
-		margin-left: 35%;
+		margin-left: 40%;
 		text-align: center;
 	}
 	.s_one_class span,
 	.s_two_class span {
 		display: block;
+		font-weight: 500;
 	}
 	.su {
 		font-size: 20px;
@@ -834,7 +835,7 @@ const Styler = styled.div`
 		color: #748194;
 		position: absolute;
 		top: ${viewh * 0.798 + 'px'};
-		margin-left: 5%;
+		margin-left: 0%;
 		text-align: center;
 	}
 

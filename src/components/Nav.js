@@ -57,13 +57,16 @@ function Nav(props) {
 						<span />
 						<ul id="menu">
 							<li>
-								<a href="#">Gentlemen</a>
+								<Link to="/male">Gentlemen</Link>
 							</li>
 							<li>
-								<a href="#">Ladies</a>
+								<Link to="/female">Ladies</Link>
 							</li>
 							<li>
-								<a href="#">Kids</a>
+								<Link to="/kids">Kids</Link>
+							</li>
+							<li>
+								<Link to="/your/closet">Your Closet</Link>
 							</li>
 							<li>
 								<Link to="/your/collection">Your Collection</Link>

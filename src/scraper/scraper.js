@@ -26,3 +26,29 @@ export default async function Scrape(urls) {
 		});
 	});
 }
+
+export async function getPrice(url) {
+	let credentials = await Auth.currentCredentials();
+	const lambda = new Lambda({
+		credentials: Auth.essentialCredentials(credentials),
+		region: 'eu-central-1'
+	});
+
+	let pullParams = {
+		// FunctionName: 'testPython',
+		FunctionName: 'checkPrice',
+		InvocationType: 'RequestResponse',
+		// LogType: 'None',
+		Payload: JSON.stringify(url)
+	};
+
+	return new Promise((resolve) => {
+		lambda.invoke(pullParams, (err, data) => {
+			if (err) {
+				console.log(err);
+			} else {
+				resolve(JSON.parse(data.Payload));
+			}
+		});
+	});
+}

@@ -1,9 +1,10 @@
 type Post @model {
 	id: ID!
 	caption: String!
-	tags: [String!]
+	tags: String!
+	category: String!
+	style: String!
 	img: String!
-	loveCount: Int!
 	postedBy: String!
 	createdDate: String!
 	hairNeck: [String]
@@ -21,7 +22,7 @@ type User @model {
 	createdDate: String!
 	likedCategories: [String]
 	saved: [String]
-	liked: [String]
+	savedProducts: [Apparel]
 }
 
 type Product @model {
@@ -31,4 +32,11 @@ type Product @model {
 	tags: String!
 	Price: Int
 	createdDate: String!
+}
+
+type Apparel {
+	price: Int!
+	img: String!
+	link: String!
+	part: String!
 }

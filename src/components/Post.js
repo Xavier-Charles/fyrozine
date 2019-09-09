@@ -90,11 +90,11 @@ const PostStyle = styled.div`
 		padding: 6px 4px;
 		font-size: 16px;
 		cursor: pointer;
-		div {
+		/* div {
 			display: inline-block;
 			color: saddlebrown;
 			text-decoration: none;
-		}
+		} */
 
 		label.l {
 			margin-top: 6px;
@@ -363,7 +363,7 @@ class Post extends Component {
 								)}
 								{this.state.pD && <Skeleton />}
 								{Object.keys(this.state.productdata).length !== 0 && (
-									<ProductLister data={this.state.productdata} />
+									<ProductLister user={this.props.cprops.authedUser} data={this.state.productdata} />
 								)}
 							</div>
 						</div>
@@ -381,7 +381,7 @@ class Post extends Component {
 											paddingRight: '5px'
 										}}
 									/>
-									<div />
+									{/* <div /> */}
 									<label className="l">{`${this.state.saved ? 'Saved' : 'Save'}`}</label>
 								</div>
 								<button className=" btn-shine" onClick={() => this.getProducts('dara')}>

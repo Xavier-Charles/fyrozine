@@ -6,8 +6,9 @@ export const createPost = `mutation CreatePost($input: CreatePostInput!) {
     id
     caption
     tags
+    category
+    style
     img
-    loveCount
     postedBy
     createdDate
     hairNeck
@@ -23,8 +24,9 @@ export const updatePost = `mutation UpdatePost($input: UpdatePostInput!) {
     id
     caption
     tags
+    category
+    style
     img
-    loveCount
     postedBy
     createdDate
     hairNeck
@@ -40,8 +42,9 @@ export const deletePost = `mutation DeletePost($input: DeletePostInput!) {
     id
     caption
     tags
+    category
+    style
     img
-    loveCount
     postedBy
     createdDate
     hairNeck
@@ -61,7 +64,12 @@ export const createUser = `mutation CreateUser($input: CreateUserInput!) {
     createdDate
     likedCategories
     saved
-    liked
+    savedProducts {
+      price
+      img
+      link
+      part
+    }
   }
 }
 `;
@@ -74,7 +82,12 @@ export const updateUser = `mutation UpdateUser($input: UpdateUserInput!) {
     createdDate
     likedCategories
     saved
-    liked
+    savedProducts {
+      price
+      img
+      link
+      part
+    }
   }
 }
 `;
@@ -87,7 +100,12 @@ export const deleteUser = `mutation DeleteUser($input: DeleteUserInput!) {
     createdDate
     likedCategories
     saved
-    liked
+    savedProducts {
+      price
+      img
+      link
+      part
+    }
   }
 }
 `;

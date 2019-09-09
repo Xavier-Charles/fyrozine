@@ -6,8 +6,9 @@ export const getPost = `query GetPost($id: ID!) {
     id
     caption
     tags
+    category
+    style
     img
-    loveCount
     postedBy
     createdDate
     hairNeck
@@ -28,8 +29,9 @@ export const listPosts = `query ListPosts(
       id
       caption
       tags
+      category
+      style
       img
-      loveCount
       postedBy
       createdDate
       hairNeck
@@ -51,7 +53,12 @@ export const getUser = `query GetUser($id: ID!) {
     createdDate
     likedCategories
     saved
-    liked
+    savedProducts {
+      price
+      img
+      link
+      part
+    }
   }
 }
 `;
@@ -69,7 +76,12 @@ export const listUsers = `query ListUsers(
       createdDate
       likedCategories
       saved
-      liked
+      savedProducts {
+        price
+        img
+        link
+        part
+      }
     }
     nextToken
   }

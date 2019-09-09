@@ -98,6 +98,7 @@ dress links ={
 	boatShoe shoe : https://www.jumia.com.ng/womens-fashion/?color_family=White&q=boat+shoe
 	aviator sunglasses : https://www.jumia.com.ng/womens-fashion-accessories/?q=aviator%20sunglasses
 	satchel bag: https://www.jumia.com.ng/womens-fashion/?q=satchel&color_family=Red--Blue
+	hair extension : https://www.jumia.com.ng/hair-extensions-d/?gender=Female&q=braid&bcsq=1
 }
 
 white-Slipon-pump-shoe
@@ -131,7 +132,9 @@ bag
 
 
 
-
+male styles{
+	casual, sporty
+}
 
 {"Records": [{"eventID": "5b6a9c2387a9a18ebed1e958f54cc59a", "eventName": "INSERT", "eventVersion": "1.1", "eventSource": "aws:dynamodb", "awsRegion": "eu-central-1", "dynamodb": {"ApproximateCreationDateTime": 1566590012.0, "Keys": {"id": {"S": "4b3d0437-71cc-42fa-abf4-1273597b15fc"}}, "NewImage": {"img": {"S": "postImages/b004692d-4aee-485a-9b8c-39a3d0758c48melody-jacob-1400395-unsplash.jpg"}, "loveCount": {"N": "0"}, "ankleToe": {"L": [{"S": "https://www.jumia.com.ng/womens-fashion/?color_family=White&q=boat+shoe"}]}, "__typename": {"S": "Post"}, "caption": {"S": "melody_test_3"}, "torsoWaist": {"L": [{"S": " https://www.jumia.com.ng/womens-fashion/?q=fit%20flare&color_family=Red"}]}, "acessories": {"L": []}, "hairNeck": {"L": [{"S": "https://www.jumia.com.ng/womens-fashion-accessories/?q=aviator%20sunglasses"}]}, "tags": {"L": []}, "postedBy": {"S": "846eeccf-98b8-40ed-8786-a895ffbf955b"}, "thighAnkle": {"L": []}, "createdAt": {"S": "2019-08-23T19:53:31.978Z"}, "createdDate": {"S": "2019-08-23T19:53:17.186Z"}, "id": {"S": "4b3d0437-71cc-42fa-abf4-1273597b15fc"}, "updatedAt": {"S": "2019-08-23T19:53:31.978Z"}}, "SequenceNumber": "130450200000000009138208241", "SizeBytes": 637, "StreamViewType": "NEW_AND_OLD_IMAGES"},
  "eventSourceARN": "arn:aws:dynamodb:eu-central-1:659695750984:table/Post-lagslqdmhnf2pjqlcekdwagjk4-fyrozine/stream/2019-07-27T09:18:38.217"}]}
