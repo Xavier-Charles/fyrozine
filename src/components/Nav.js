@@ -22,7 +22,8 @@ function signOut(props) {
 	Auth.signOut()
 		.then((data) => {
 			// console.log(data);
-			props.changeAuth(false);
+			// props.changeAuth(false);
+			props.changeIsAuthing(true);
 			console.log('You logged out');
 			props.history.push('/signup');
 		})

@@ -39,6 +39,7 @@ class App extends Component {
 			fed: false
 		};
 		this.changeAuth = this.changeAuth.bind(this);
+		this.changeIsAuthing = this.changeIsAuthing.bind(this);
 	}
 	async update() {
 		try {
@@ -50,7 +51,7 @@ class App extends Component {
 			// const s = await Auth.currentCredentials()
 			// console.log(user);
 			const zuser = await API.graphql(graphqlOperation(getUser, { id: user.attributes.sub }));
-			this.changeAuth(true);
+			// this.changeAuth(true);
 			this.setState({
 				userId: user.attributes.sub,
 				isAuthing: false,
@@ -108,18 +109,24 @@ class App extends Component {
 				// console.log('finished');
 				return;
 			} else {
-				const user = await Auth.currentAuthenticatedUser();
-				// console.log('red');
-				// 	user
-				// );
-				// const s = await Auth.currentCredentials()
+				console.log(this.state.isAuthing);
+				await Hub.listen('auth', ({ payload: { event, data } }) => {
+					this.update();
+					// this.setState({ fed: true });
+				});
+				this.setState({ isAuthing: false });
+				// const user = await Auth.currentAuthenticatedUser();
+				// // console.log('red');
+				// // 	user
+				// // );
+				// // const s = await Auth.currentCredentials()
 
-				this.changeAuth(true);
-				this.setState({ userId: user.attributes.sub, isAuthing: false, authed: true });
+				// // this.changeAuth(true);
+				// this.setState({ userId: user.attributes.sub, isAuthing: false, authed: true });
 
-				const zuser = await API.graphql(graphqlOperation(getUser, { id: this.state.userId }));
-				// console.log(zuser);
-				this.setState({ authedUser: zuser.data.getUser });
+				// const zuser = await API.graphql(graphqlOperation(getUser, { id: this.state.userId }));
+				// // console.log(zuser);
+				// this.setState({ authedUser: zuser.data.getUser });
 			}
 		} catch (e) {
 			console.log(e);
@@ -137,6 +144,9 @@ class App extends Component {
 	changeAuth(boolean) {
 		this.setState({ authed: boolean });
 	}
+	changeIsAuthing(boolean) {
+		this.setState({ authed: boolean });
+	}
 	changeFed(boolean) {
 		this.setState({ fed: boolean });
 	}
@@ -146,7 +156,8 @@ class App extends Component {
 			authed: this.state.authed,
 			authedUser: this.state.authedUser,
 			changeAuth: this.changeAuth,
-			changeFed: this.changeFed
+			changeFed: this.changeFed,
+			changeIsAuthing: this.changeIsAuthing
 		};
 		const SignUpContainer = () => (
 			<div className="LoginContainer">
