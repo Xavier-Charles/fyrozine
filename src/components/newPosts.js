@@ -11,7 +11,7 @@ import Post from './Post';
 // const { aws_user_files_s3_bucket_region: region, aws_user_files_s3_bucket: bucket } = config;
 
 function Poster(props) {
-	console.log('called Poster');
+	// console.log('called Poster');
 	const [ Posts, updatePosts ] = useState([]);
 	// const [ value, error, pending ] = usePromise(listPosts, [], []);
 
@@ -26,7 +26,7 @@ function Poster(props) {
 		let isSubscribed = true;
 		try {
 			const p = await API.graphql(graphqlOperation(ListPosts));
-			console.log(isSubscribed);
+			// console.log(isSubscribed);
 			if (isSubscribed) {
 				updatePosts(p.data.listPosts.items);
 			}

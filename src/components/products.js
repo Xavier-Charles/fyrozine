@@ -8,6 +8,7 @@ function Products(props) {
 	const [ saved, updateSaved ] = useState(false);
 	const [ del, updateDel ] = useState(false);
 	const [ price, updatePrice ] = useState('');
+	const [ getting, updateGet ] = useState(false);
 
 	let save = props.save;
 	let val = props.val;
@@ -44,9 +45,11 @@ function Products(props) {
 	}
 	async function getPrice(link) {
 		let data = { url: link };
+		updateGet(true);
 		let val = await GetPrice(data);
-		console.log(val);
+		// console.log(val);
 		updatePrice(val);
+		updateGet(false);
 	}
 	return (
 		<Styler>
@@ -71,9 +74,6 @@ function Products(props) {
 
 								<label className="l">{!del ? 'Saved' : 'Deleted. Tap to save'}</label>
 							</div>
-							<p onClick={() => getPrice(val.link)}>
-								{price.length === 0 ? 'Get Latest Price!' : 'Updated'}
-							</p>
 						</div>
 					) : (
 						<div className="btnz" onClick={() => saveProduct(val)}>
@@ -107,10 +107,21 @@ function Products(props) {
 
 					<a href={trackLink(val.link)}>
 						<span>&#8358;</span>
-						{price.length === 0 ? val.price : price}
+						<span class={price.length === 0 ? '' : 'update'}>{price.length === 0 ? val.price : price}</span>
 						<span style={{ color: '#f68b1e' }}>{'  '}on Jumia</span>
 					</a>
 				</p>
+				{props.closet && (
+					<p
+						style={{
+							backgroundColor: getting ? 'rgba(0, 142, 109, 0.24)' : '#e8e8e8',
+							borderRadius: '11px'
+						}}
+						onClick={() => getPrice(val.link)}
+					>
+						{!price.length === 0 ? 'Update Price!' : getting ? 'Updating...' : 'Updated'}
+					</p>
+				)}
 			</div>
 		</Styler>
 	);
@@ -118,7 +129,10 @@ function Products(props) {
 
 const Styler = styled.div`
 	width: 66.7%;
-
+	.update {
+		background-color: rgba(0, 142, 109, 0.24);
+		margin-left: 2px;
+	}
 	a {
 		text-decoration: none;
 		color: black;
@@ -159,7 +173,7 @@ const Styler = styled.div`
 	} */
 	.card p {
 		margin: 0;
-		padding: 1rem;
+		padding: 8px;
 		font-size: 16px;
 		font-family: 'Julius Sans One', sans-serif;
 		align-self: flex-end;

@@ -250,12 +250,22 @@ export default function Form(props) {
 									// props.changeFed(true);
 								}}
 							>
-								{!isLoading.Facebook ? 'Sign In with  Facebook' : 'Signinig In'}
-								{isLoading.Facebook && (
+								{!isLoading.Facebook ? (
 									<span>
+										Sign In with <strong>Facebook</strong>
+									</span>
+								) : (
+									<span>
+										Signinig In
 										<Loadin color="#fff" />
 									</span>
 								)}
+								{/* {!isLoading.Facebook && } */}
+								{/* {isLoading.Facebook && (
+									<span>
+										<Loadin color="#fff" />
+									</span>
+								)} */}
 							</button>
 							<button
 								className="button"
@@ -269,21 +279,26 @@ export default function Form(props) {
 								{!isLoading.Google ? (
 									<span>
 										Sign In with{'  '}
-										<span style={{ color: '#5692f5', fontSize: '19px' }}>G</span>
-										<span style={{ color: '#ea4335', fontSize: '19px' }}>o</span>
-										<span style={{ color: '#fabb06', fontSize: '19px' }}>o</span>
-										<span style={{ color: '#5692f5', fontSize: '19px' }}>g</span>
-										<span style={{ color: '#34a853', fontSize: '19px' }}>l</span>
-										<span style={{ color: '#ea4335', fontSize: '19px' }}>e</span>
+										<strong>
+											<span style={{ color: '#5692f5', fontSize: '19px' }}>G</span>
+											<span style={{ color: '#ea4335', fontSize: '19px' }}>o</span>
+											<span style={{ color: '#fabb06', fontSize: '19px' }}>o</span>
+											<span style={{ color: '#5692f5', fontSize: '19px' }}>g</span>
+											<span style={{ color: '#34a853', fontSize: '19px' }}>l</span>
+											<span style={{ color: '#ea4335', fontSize: '19px' }}>e</span>
+										</strong>
 									</span>
 								) : (
-									'Signinig In'
-								)}
-								{isLoading.Google && (
 									<span>
+										Signinig In
 										<Loadin color="#000" />
 									</span>
 								)}
+								{/* {isLoading.Google && (
+									<span>
+										<Loadin color="#000" />
+									</span>
+								)} */}
 							</button>
 						</div>
 					)}
@@ -349,6 +364,7 @@ function SignUp(props) {
 	return (
 		<div className={`container`}>
 			<input
+				type="email"
 				name="username"
 				onChange={(e) => {
 					e.persist();
@@ -402,6 +418,7 @@ function SignIn(props) {
 	return (
 		<div className="container">
 			<input
+				type="email"
 				name="username"
 				onChange={(e) => {
 					e.persist();
@@ -572,10 +589,10 @@ const Styler = styled.div`
 		left: 50%;
 		margin-top: -100vmax;
 		transform-origin: 0 50%;
-		transition: all 0.5s cubic-bezier(0.445, 0.05, 0, 1);
+		transition: all 0.4s cubic-bezier(0.445, 0.05, 0, 1);
 		z-index: 10;
 		opacity: 0.65;
-		transition-delay: 0.2s;
+		transition-delay: 0.3s;
 	}
 
 	.top:before {
@@ -600,8 +617,8 @@ const Styler = styled.div`
 	.curtain.top:after,
 	.curtain.bottom:before,
 	.curtain.bottom:after {
-		margin-left: 220px;
-		transform-origin: -220px 50%;
+		margin-left: 300px;
+		transform-origin: -300px 50%;
 		transition-delay: 0s;
 	}
 	/* .center {
@@ -647,7 +664,7 @@ const Styler = styled.div`
 		-webkit-font-smoothing: antialiased;
 		-moz-osx-font-smoothing: grayscale;
 		margin-top: 15px;
-		font-weight: 600;
+		/* font-weight: 600; */
 		font-size: 17px;
 		letter-spacing: 0.05em;
 		outline-color: transparent;
@@ -772,7 +789,8 @@ const Styler = styled.div`
 		height: 80%;
 		position: absolute;
 		z-index: 4;
-		border-radius: 0px 35px 450px 35px;
+		border-radius: 0px 0px 450px 35px;
+		/* border-radius: 118px 23px 450px 30px; */
 	}
 	//* --------------media query for iphoneX+----------- */
 	@media only screen and (min-device-width: 375px) and (min-device-height: 812px) {
@@ -785,7 +803,7 @@ const Styler = styled.div`
 			height: 70%;
 			position: absolute;
 			z-index: 4;
-			border-radius: 118px 23px 450px 30px;
+			border-radius: 0px 0px 450px 35px;
 		}
 	}
 	#left,

@@ -53,10 +53,10 @@ const PostStyle = styled.div`
 		width: 66.6667%;
 	}
 	.Post-caption {
-		display: flex;
+		/* display: flex; */
 		padding: 2px 11px;
 		font-size: 13px;
-		align-items: flex-end;
+		/* align-items: flex-end; */
 	}
 
 	.vjs-fade-out {
@@ -72,7 +72,7 @@ const PostStyle = styled.div`
 		overflow: hidden;
 	}
 	.Post-card:hover .Post-details {
-		height: 91px;
+		height: 120px;
 	}
 	.Post-details hr {
 		border: 0;
@@ -130,7 +130,7 @@ const PostStyle = styled.div`
 		padding: 5px 12px;
 		height: 41px;
 		width: 140px;
-		bottom: 51px;
+		bottom: 80px;
 		right: 0px;
 		outline: none;
 		text-decoration: none;
@@ -207,7 +207,7 @@ class Post extends Component {
 		// console.log(datar
 	}
 	componentWillUnmount() {
-		console.log('unmounted');
+		// console.log('unmounted');
 	}
 	async fetchImage(key, owner) {
 		try {
@@ -390,9 +390,9 @@ class Post extends Component {
 							</div>
 							<hr />
 							<div className="Post-caption">
-								<img className="Post-user-avatar" src={avatar} alt={nickname} />
+								{/* <img className="Post-user-avatar" src={avatar} alt={nickname} /> */}
 								<span className="Post-user-nickname">{nickname} NICKNAME</span>
-								{caption}
+								<p style={{ marginLeft: '12px', marginBottom: '5px' }}>{caption}</p>
 							</div>
 						</div>
 					</div>

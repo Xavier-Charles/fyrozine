@@ -1,10 +1,12 @@
 /* @import url('https://fonts.googleapis.com/css?family=Julius+Sans+One|Montserrat&display=swap'); */
 @font-face {
 	font-family: 'Montserrart';
+	font-display: sans-serif;
 	src: local('MyFont'), url(./fonts/Montserrat-Regular.ttf) format('woff');
 }
 @font-face {
 	font-family: 'Julius Sans One';
+	font-display: sans-serif;
 	src: local('MyFont'), url(./fonts/JuliusSansOne-Regular.ttf) format('woff');
 }
 body {

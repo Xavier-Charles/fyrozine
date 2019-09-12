@@ -133,7 +133,8 @@ function AddPost() {
 				// t.category = [ category ];
 				// console.log([ category ]);
 				updateTags((prevState) => {
-					return { ...prevState, category: [ category ] };
+					console.log(category);
+					return { ...prevState, category: [ event.target.value ] };
 				});
 				// updatePostTags('');
 				// console.log(tags);
@@ -210,13 +211,24 @@ function AddPost() {
 			const { name: fileName, type: mimeType } = File;
 			const key = `postImages/${uuid()}${fileName}`;
 			let date = new Date();
+			// * stringify arrays
+			let ta = { cat: '', sty: '', attr: '' };
+			tags.attr.map((e, i) => {
+				ta.attr = ta.attr + e + ', ';
+			});
+			tags.style.map((e, i) => {
+				ta.sty = ta.sty + e + ', ';
+			});
+			tags.category.map((e, i) => {
+				ta.cat = ta.cat + e + ', ';
+			});
 
 			const inputData = {
 				img: key,
 				postedBy: user._identityId,
-				tags: tags.attr,
-				category: tags.category,
-				style: tags.style,
+				tags: ta.attr,
+				category: ta.cat,
+				style: ta.sty,
 				caption: PostCaption,
 				// loveCount: 0,
 				createdDate: date.toISOString(),
@@ -231,15 +243,15 @@ function AddPost() {
 
 			try {
 				console.log(inputData);
-				await Storage.put(key, File, {
-					level: 'protected',
-					contentType: mimeType,
-					progressCallback(progress) {
-						console.log(`Uploading... ${Math.floor(progress.loaded * 100 / progress.total)}%`);
-						//todo create upload bar for better uploading
-					}
-				});
-				await API.graphql(graphqlOperation(CreatePost, { input: inputData }));
+				// await Storage.put(key, File, {
+				// 	level: 'protected',
+				// 	contentType: mimeType,
+				// 	progressCallback(progress) {
+				// 		console.log(`Uploading... ${Math.floor(progress.loaded * 100 / progress.total)}%`);
+				// 		//todo create upload bar for better uploading
+				// 	}
+				// });
+				// await API.graphql(graphqlOperation(CreatePost, { input: inputData }));
 				console.log('Success');
 			} catch (err) {
 				console.log('error: ', err);
@@ -301,13 +313,19 @@ function AddPost() {
 					</div>
 					<select
 						value={category}
-						onChange={(e) => updateCategory(e.target.value)}
+						onChange={(e) => {
+							e.persist();
+							updateCategory(e.target.value);
+							enterHandler(e, 'tags_cat');
+						}}
 						onKeyPress={(e) => {
 							e.key === 'Enter' && enterHandler(e, 'tags_cat');
 						}}
+						required
 					>
+						<option value="null">SEX</option>
 						<option value="MALE">Male</option>
-						<option value="FEMALE">Female</option>
+						<option value="WOMEN">Female</option>
 						<option value="KIDS">Kids</option>
 					</select>
 					<input

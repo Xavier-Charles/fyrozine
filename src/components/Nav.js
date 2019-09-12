@@ -72,7 +72,10 @@ function Nav(props) {
 								<Link to="/your/collection">Your Collection</Link>
 							</li>
 							{/* <li>
-								<a href="#">Your Profile</a>
+								<a href="/your/profile">Your Profile</a>
+							</li> */}
+							{/* <li>
+								<a href="#">About Us</a>
 							</li> */}
 							{/* <li>
 								<a onClick={checkUser}>Check User</a>

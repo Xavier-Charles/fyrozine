@@ -21,6 +21,7 @@ import Test from './components/test.js';
 import Collection from './components/Collection'; //PSk ProductList Skeleton
 import Closet from './components/AprlCollection';
 import ls from 'local-storage';
+import Profiler from './components/profile';
 import Loadin from './placeholderComponents/Loadin';
 
 var viewH = Math.max(document.documentElement.clientHeight, window.innerHeight || 0) - 5;
@@ -48,11 +49,15 @@ class App extends Component {
 			// );
 			// const s = await Auth.currentCredentials()
 			// console.log(user);
+			const zuser = await API.graphql(graphqlOperation(getUser, { id: user.attributes.sub }));
 			this.changeAuth(true);
-			this.setState({ userId: user.attributes.sub, isAuthing: false, authed: true });
-
-			const zuser = await API.graphql(graphqlOperation(getUser, { id: this.state.userId }));
-			this.setState({ authedUser: zuser.data.getUser, fed: false });
+			this.setState({
+				userId: user.attributes.sub,
+				isAuthing: false,
+				authed: true,
+				authedUser: zuser.data.getUser,
+				fed: false
+			});
 		} catch (e) {
 			console.log(e);
 			// if (e === 'not authenticated') {
@@ -87,9 +92,9 @@ class App extends Component {
 					// 		this.setState({ customState: data });
 					// }
 					// let z = true;
-					console.log(data);
+					// console.log(data);
 					ls.set('fed', false);
-					console.log(event);
+					// console.log(event);
 					this.update();
 					// this.setState({ fed: true });
 				});
@@ -104,7 +109,7 @@ class App extends Component {
 				return;
 			} else {
 				const user = await Auth.currentAuthenticatedUser();
-				console.log('red');
+				// console.log('red');
 				// 	user
 				// );
 				// const s = await Auth.currentCredentials()
@@ -145,6 +150,7 @@ class App extends Component {
 		};
 		const SignUpContainer = () => (
 			<div className="LoginContainer">
+				{console.log('called')}
 				<AppliedRoute path="/signup" exact component={Test} props={childProps} />
 			</div>
 		);
@@ -187,7 +193,7 @@ class App extends Component {
 								<Redirect to="/signup" />
 							)}
 					/>
-					<Route
+					{/* <Route
 						path="/kids"
 						exact
 						render={() =>
@@ -197,11 +203,16 @@ class App extends Component {
 							) : (
 								<Redirect to="/signup" />
 							)}
-					/>
+					/> */}
 					<Route
 						path="/your/closet"
 						exact
 						render={() => (this.state.authed ? <Closet {...childProps} /> : <Redirect to="/signup" />)}
+					/>
+					<Route
+						path="/your/profile"
+						exact
+						render={() => (this.state.authed ? <Profiler {...childProps} /> : <Redirect to="/signup" />)}
 					/>
 					{/* <Route
 						exact
