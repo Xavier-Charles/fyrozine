@@ -39,7 +39,7 @@ const PostStyle = styled.div`
 	}
 	.Post-image-bg {
 		background-color: #efefef;
-		width: 150%;
+		width: 100%;
 		min-height: 250px;
 		.imagesk {
 			width: 100%;
@@ -50,7 +50,7 @@ const PostStyle = styled.div`
 	}
 	.Post-image img {
 		display: block;
-		width: 66.6667%;
+		width: 100%;
 	}
 	.Post-caption {
 		/* display: flex; */

@@ -98,7 +98,7 @@ function ProductLister(props) {
 }
 
 const Styler = styled.div`
-	width: 66.7%;
+	/* width: 66.7%; */
 
 	.item {
 		display: flex;

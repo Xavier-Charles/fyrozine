@@ -128,7 +128,7 @@ function Products(props) {
 }
 
 const Styler = styled.div`
-	width: 66.7%;
+	/* width: 66.7%; */
 	.update {
 		background-color: rgba(0, 142, 109, 0.24);
 		margin-left: 2px;

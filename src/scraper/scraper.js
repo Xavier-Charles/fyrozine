@@ -1,5 +1,6 @@
 import Auth from '@aws-amplify/auth';
-import Lambda from 'aws-sdk/clients/lambda'; // npm install aws-sdk
+// import Lambda from 'aws-sdk/clients/lambda'; // npm install aws-sdk
+import Lambda from '../../node_modules/aws-sdk/clients/lambda';
 
 export default async function Scrape(urls) {
 	let credentials = await Auth.currentCredentials();

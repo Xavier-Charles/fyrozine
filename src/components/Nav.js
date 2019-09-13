@@ -84,11 +84,11 @@ function Nav(props) {
 							<li>
 								<a onClick={() => signOut(props)}>Sign Out</a>
 							</li>
-							<li>
+							{/* <li>
 								<marquee>
 									<a href="#">Add to home screen</a>
 								</marquee>
-							</li>
+							</li> */}
 						</ul>
 					</div>
 				</div>

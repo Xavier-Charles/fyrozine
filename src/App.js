@@ -109,12 +109,14 @@ class App extends Component {
 				// console.log('finished');
 				return;
 			} else {
-				console.log(this.state.isAuthing);
+				// console.log(this.state.isAuthing);
 				await Hub.listen('auth', ({ payload: { event, data } }) => {
 					this.update();
 					// this.setState({ fed: true });
+					return;
 				});
-				this.setState({ isAuthing: false });
+				this.update();
+
 				// const user = await Auth.currentAuthenticatedUser();
 				// // console.log('red');
 				// // 	user
@@ -161,7 +163,7 @@ class App extends Component {
 		};
 		const SignUpContainer = () => (
 			<div className="LoginContainer">
-				{console.log('called')}
+				{/* {console.log('called')} */}
 				<AppliedRoute path="/signup" exact component={Test} props={childProps} />
 			</div>
 		);
