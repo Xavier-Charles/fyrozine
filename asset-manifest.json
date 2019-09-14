@@ -1,0 +1,17 @@
+{
+  "files": {
+    "main.css": "/fyrozine/static/css/main.8403c495.chunk.css",
+    "main.js": "/fyrozine/static/js/main.f2391df9.chunk.js",
+    "main.js.map": "/fyrozine/static/js/main.f2391df9.chunk.js.map",
+    "runtime~main.js": "/fyrozine/static/js/runtime~main.9acf398c.js",
+    "runtime~main.js.map": "/fyrozine/static/js/runtime~main.9acf398c.js.map",
+    "static/js/2.6901e241.chunk.js": "/fyrozine/static/js/2.6901e241.chunk.js",
+    "static/js/2.6901e241.chunk.js.map": "/fyrozine/static/js/2.6901e241.chunk.js.map",
+    "index.html": "/fyrozine/index.html",
+    "precache-manifest.6ded9147ed712c02e705e07dc2898de7.js": "/fyrozine/precache-manifest.6ded9147ed712c02e705e07dc2898de7.js",
+    "service-worker.js": "/fyrozine/service-worker.js",
+    "static/css/main.8403c495.chunk.css.map": "/fyrozine/static/css/main.8403c495.chunk.css.map",
+    "static/media/index.css": "/fyrozine/static/media/Montserrat-Regular.ee653992.ttf",
+    "static/media/fyrozine_login_mobile.jpg": "/fyrozine/static/media/fyrozine_login_mobile.2edf1f56.jpg"
+  }
+}
