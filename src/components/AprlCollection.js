@@ -88,6 +88,7 @@ function ProductLister(props) {
 			//         });
 			//     });
 			// console.log(data);
+			if (data) {
 			//* seperate the posts into groups of parts like torsowaist...
 			data.map((e, id) => {
 				if (w[e.part]) {
@@ -97,7 +98,7 @@ function ProductLister(props) {
 				}
 			});
 			//*-----------------------------------
-			if (data) {
+			
 				updatePosts((prevState) => {
 					return { ...prevState, ...w };
 				});

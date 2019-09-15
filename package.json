@@ -11,6 +11,7 @@
 		"aws-amplify-react": "^2.3.11",
 		"aws-appsync": "^1.8.1",
 		"aws-appsync-react": "^1.2.9",
+		"gh-pages": "^2.1.1",
 		"local-storage": "^2.0.0",
 		"react": "^16.8.6",
 		"react-apollo": "^2.5.8",
@@ -22,6 +23,8 @@
 	},
 	"scripts": {
 		"analyze": "source-map-explorer 'build/static/js/*.js'",
+		"predeploy": "npm run build",
+		"deploy": "gh-pages -d build",
 		"start": "react-scripts start",
 		"build": "react-scripts build",
 		"test": "react-scripts test",
@@ -31,15 +34,7 @@
 		"extends": "react-app"
 	},
 	"browserslist": {
-		"production": [
-			">0.2%",
-			"not dead",
-			"not op_mini all"
-		],
-		"development": [
-			"last 1 chrome version",
-			"last 1 firefox version",
-			"last 1 safari version"
-		]
+		"production": [ ">0.2%", "not dead", "not op_mini all" ],
+		"development": [ "last 1 chrome version", "last 1 firefox version", "last 1 safari version" ]
 	}
 }
