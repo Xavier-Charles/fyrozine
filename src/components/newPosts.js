@@ -25,7 +25,12 @@ function Poster(props) {
 	async function listPosts() {
 		let isSubscribed = true;
 		try {
-			const p = await API.graphql(graphqlOperation(ListPosts));
+			// const p = await API.graphql(graphqlOperation(ListPosts));
+			const p = await API.graphql(
+				graphqlOperation(ListPosts, {
+					limit: 1
+				})
+			);
 			// console.log(isSubscribed);
 			if (isSubscribed) {
 				updatePosts(p.data.listPosts.items);

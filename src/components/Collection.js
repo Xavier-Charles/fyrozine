@@ -18,7 +18,7 @@ function Collection(props) {
 				</div>
 			);
 		} else {
-			console.log('no posts');
+			// console.log('no posts');
 
 			return (
 				<div className="Posts" style={{ marginTop: 210 + 'px', textAlign: 'center' }}>

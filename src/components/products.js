@@ -107,7 +107,9 @@ function Products(props) {
 
 					<a href={trackLink(val.link)}>
 						<span>&#8358;</span>
-						<span class={price.length === 0 ? '' : 'update'}>{price.length === 0 ? val.price : price}</span>
+						<span className={price.length === 0 ? '' : 'update'}>
+							{price.length === 0 ? val.price : price}
+						</span>
 						<span style={{ color: '#f68b1e' }}>{'  '}on Jumia</span>
 					</a>
 				</p>

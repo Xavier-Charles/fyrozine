@@ -111,7 +111,7 @@ class App extends Component {
 			} else {
 				// console.log(this.state.isAuthing);
 				await Hub.listen('auth', ({ payload: { event, data } }) => {
-					this.update();
+					!event.includes('failure') && this.update();
 					// this.setState({ fed: true });
 					return;
 				});

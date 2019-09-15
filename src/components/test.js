@@ -213,13 +213,21 @@ export default function Form(props) {
 					<h2>&nbsp;</h2>
 				</div> */}
 				<div>
-					<div style={{ marginTop: formType === 'home' ? '0px' : '200px' }}>
+					<div style={{ marginTop: formType === 'home' ? '0px' : '21vh' }}>
 						{formType !== 'home' &&
 						errMsg && (
 							<div className="notification">
 								<div className="content">
 									<div className="identifier" />
-									<div className="text">{errMsg}</div>
+									<div className="text">
+										<span>{errMsg}</span>
+										<span
+											style={{ float: 'right', color: '#fff' }}
+											onClick={() => updateErrMsg('')}
+										>
+											X
+										</span>
+									</div>
 								</div>
 							</div>
 						)}
@@ -590,7 +598,7 @@ const Styler = styled.div`
 		left: 50%;
 		margin-top: -100vmax;
 		transform-origin: 0 50%;
-		transition: all 0.4s cubic-bezier(0.445, 0.05, 0, 1);
+		transition: all 0.8s cubic-bezier(0.445, 0.05, 0, 1);
 		z-index: 10;
 		opacity: 0.65;
 		transition-delay: 0.3s;
@@ -804,7 +812,7 @@ const Styler = styled.div`
 			height: 70%;
 			position: absolute;
 			z-index: 4;
-			border-radius: 0px 0px 450px 35px;
+			border-radius: 0px 0px 450px 150px;
 		}
 	}
 	#left,
@@ -818,11 +826,11 @@ const Styler = styled.div`
 		-webkit-tap-highlight-color: rgba(0, 0, 0, 0);
 	}
 	#right {
-		border-left: 60px solid transparent;
+		border-left: 40px solid transparent;
 		width: calc(50% - 1px);
 	}
 	#left {
-		border-right: 30px solid transparent;
+		border-right: 20px solid transparent;
 		width: calc(50% - 1px);
 	}
 
@@ -847,15 +855,16 @@ const Styler = styled.div`
 		display: block;
 		font-weight: 500;
 	}
-	.su {
-		font-size: 20px;
-	}
+
 	.s_two_class {
 		color: #748194;
 		position: absolute;
 		top: ${viewh * 0.798 + 'px'};
 		margin-left: 0%;
 		text-align: center;
+	}
+	.su {
+		font-size: 20px;
 	}
 
 	.pink {
