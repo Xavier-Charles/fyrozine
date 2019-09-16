@@ -335,8 +335,11 @@ const Styler = styled.div`
 	.AppContainer {
 		position: relative;
 		overflow-x: hidden;
+		overflow-y: hidden;
 		background: #ffffff;
 		height: 100vh;
+		/* display: flex; */
+		/* min-height: 0; */
 	}
 	.LoginContainer {
 		background: #ffffff;

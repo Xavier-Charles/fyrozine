@@ -13,6 +13,8 @@ import Post from './Post';
 function Poster(props) {
 	// console.log('called Poster');
 	const [ Posts, updatePosts ] = useState([]);
+	const [ nextToken, updateNextToken ] = useState(null);
+	const [ end, updateEnd ] = useState(false);
 	// const [ value, error, pending ] = usePromise(listPosts, [], []);
 
 	// const [ postImg, updatePostImg ] = useState([]);
@@ -22,15 +24,29 @@ function Poster(props) {
 	}, []);
 
 	// Query the API and save them to the state
+	const handleScroll = (e) => {
+		// console.log(et);
+		let et = e.target;
+		let scrolled = et.scrollTop / (et.scrollHeight - et.clientHeight);
+		console.log(scrolled);
+		// if (scrolled > 0.7) {
+		// 	// listPosts(props.data[`group_${iter}`]);
+		// 	getMore();
+		// 	// updateIter(iter + 1);
+		// }
+	};
 	async function listPosts() {
 		let isSubscribed = true;
 		try {
 			// const p = await API.graphql(graphqlOperation(ListPosts));
 			const p = await API.graphql(
 				graphqlOperation(ListPosts, {
-					limit: 1
+					limit: 2
+					// nextToken: 'next'
 				})
 			);
+			// console.log(p);
+			updateNextToken(p.data.listPosts.nextToken);
 			// console.log(isSubscribed);
 			if (isSubscribed) {
 				updatePosts(p.data.listPosts.items);
@@ -38,6 +54,36 @@ function Poster(props) {
 			return () => (isSubscribed = false);
 		} catch (err) {
 			console.log(err);
+		}
+	}
+	async function getMore() {
+		let isSubscribed = true;
+		// console.log('called');
+		// const newData = await API.graphql(graphqlOperation(listUser, { nextToken }));
+		if (!end) {
+			try {
+				// const p = await API.graphql(graphqlOperation(ListPosts));
+				const p = await API.graphql(
+					graphqlOperation(ListPosts, {
+						limit: 1,
+						nextToken: nextToken
+					})
+				);
+				console.log(p);
+				updateNextToken(p.data.listPosts.nextToken);
+
+				// console.log(isSubscribed);
+				if (p.data.listPosts.items.length === 0) return updateEnd(true);
+				if (isSubscribed) {
+					// updatePosts([]);
+					updatePosts((prevState) => {
+						return [ ...prevState, ...p.data.listPosts.items ];
+					});
+				}
+				return () => (isSubscribed = false);
+			} catch (err) {
+				console.log(err);
+			}
 		}
 	}
 
@@ -48,7 +94,19 @@ function Poster(props) {
 		if (error) return <p>Error Fetching Posts...</p>;
 
 		return (
-			<div className="Posts" style={{ marginTop: 90 + 'px' }}>
+			<div
+				className="Posts"
+				style={{
+					marginTop: 75 + 'px',
+					display: 'flex',
+					overflowY: 'scroll',
+					height: 'calc(100vh - 75px)'
+				}}
+				onScroll={(e) => {
+					e.persist();
+					handleScroll(e);
+				}}
+			>
 				{/* {this.props.posts.map((post) => (
 					<Post
 						// nickname={post.user.nickname}
@@ -67,11 +125,13 @@ function Poster(props) {
 							// avatar={post.user.avatar}
 							cprops={props}
 							postData={postData}
+							getMore={getMore}
 							// caption={postData.caption}
 							key={id}
 						/>
 					);
 				})}
+				{/* <button onClick={getMore}>Get more</button> */}
 			</div>
 		);
 	};

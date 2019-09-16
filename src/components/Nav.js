@@ -136,7 +136,7 @@ const Navbar = styled.nav`
 	z-index: 6;
 	-webkit-transition: height 0.2s ease-in-out;
 	transition: height 0.2s ease-in-out;
-	height: 77px;
+	height: 50px;
 	/* overflow: hidden; */
 
 	.nav-menus {
@@ -152,11 +152,11 @@ const Navbar = styled.nav`
 	}
 	.Nav-brand-logo {
 		display: block;
-		background-position: 40px 10px;
+		background-position: 30px 20px;
 		background-image: url(${logo});
-		background-size: 150px 70px;
+		background-size: 150px 32px;
 		background-repeat: no-repeat;
-		height: 70px;
+		height: 49px;
 		width: 200px;
 		text-indent: -1000%;
 	}
@@ -165,8 +165,8 @@ const Navbar = styled.nav`
 		display: flex;
 		flex-direction: column;
 		position: absolute;
-		top: 37px;
-		right: 25px;
+		top: 29px;
+		right: 30px;
 		z-index: 1;
 		-webkit-user-select: none;
 		user-select: none;
@@ -207,7 +207,7 @@ const Navbar = styled.nav`
 
 	#menuToggle input:checked ~ span {
 		opacity: 1;
-		transform: rotate(45deg) translate(9px, -1px);
+		transform: rotate(45deg) translate(10px, -1px);
 		background: #36383f;
 	}
 	#menuToggle input:checked ~ span:nth-last-child(3) {
@@ -216,7 +216,7 @@ const Navbar = styled.nav`
 	}
 
 	#menuToggle input:checked ~ span:nth-last-child(2) {
-		transform: rotate(-45deg) translate(0, 11px);
+		transform: rotate(-45deg) translate(3px, 9px);
 	}
 
 	#menu {

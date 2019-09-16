@@ -798,7 +798,7 @@ const Styler = styled.div`
 		height: 80%;
 		position: absolute;
 		z-index: 4;
-		border-radius: 0px 0px 450px 35px;
+		border-radius: 0px 0px 450px 45px;
 		/* border-radius: 118px 23px 450px 30px; */
 	}
 	//* --------------media query for iphoneX+----------- */
@@ -812,7 +812,7 @@ const Styler = styled.div`
 			height: 70%;
 			position: absolute;
 			z-index: 4;
-			border-radius: 0px 0px 450px 150px;
+			border-radius: 0px 0px 450px 45px;
 		}
 	}
 	#left,

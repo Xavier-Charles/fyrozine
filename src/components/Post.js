@@ -42,7 +42,7 @@ const PostStyle = styled.div`
 		width: 100%;
 		min-height: 250px;
 		.imagesk {
-			width: 100%;
+			width: 99vw;
 			min-height: 250px;
 			background-image: linear-gradient(90deg, #efefef 0px, rgba(225, 225, 225, 0.8) 40px, #efefef 80px);
 			animation: shine-avatar 1s infinite ease-out;
@@ -50,7 +50,7 @@ const PostStyle = styled.div`
 	}
 	.Post-image img {
 		display: block;
-		width: 100%;
+		width: 99vw;
 	}
 	.Post-caption {
 		/* display: flex; */
