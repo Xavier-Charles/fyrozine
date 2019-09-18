@@ -36,7 +36,8 @@ class App extends Component {
 			userId: '',
 			offline: false,
 			authedUser: null,
-			fed: false
+			fed: false,
+			Nerror: false
 		};
 		this.changeAuth = this.changeAuth.bind(this);
 		this.changeIsAuthing = this.changeIsAuthing.bind(this);
@@ -61,10 +62,10 @@ class App extends Component {
 			});
 		} catch (e) {
 			console.log(e);
-			// if (e === 'not authenticated') {
-			// 	// setTimeout(getUser, 1000);
-			// }
-			// console.log(navigator.onLine);
+			if (navigator.onLine && e.errors && e.errors[0].message === 'Network Error') {
+				this.setState({ Nerror: true, offline: true });
+			}
+			// console.log(navigator.onLine, e.errors[0].message);
 			this.setState({ isAuthing: false });
 			if (!navigator.onLine && !this.state.authedUser) {
 				this.setState({ offline: true });
@@ -72,6 +73,7 @@ class App extends Component {
 		}
 	}
 	async componentDidMount() {
+		// console.log(navigator.onLine);
 		// console.log('changed')
 		// let z = await Hub.listen('auth');
 		// console.log(z);
@@ -135,7 +137,7 @@ class App extends Component {
 			// if (e === 'not authenticated') {
 			// 	// setTimeout(getUser, 1000);
 			// }
-			// console.log(navigator.onLine);
+
 			this.setState({ isAuthing: false });
 			if (!navigator.onLine && !this.state.authedUser) {
 				this.setState({ offline: true });
@@ -190,7 +192,7 @@ class App extends Component {
 						render={() =>
 							this.state.authed ? (
 								// <AppliedRoute path="/your/collection" exact component={Collection} props={childProps} />
-								<Personal sex={'MALE'} {...childProps} />
+								<NewPosts sex={'MALE'} {...childProps} />
 							) : (
 								<Redirect to="/signup" />
 							)}
@@ -201,7 +203,7 @@ class App extends Component {
 						render={() =>
 							this.state.authed ? (
 								// <AppliedRoute path="/your/collection" exact component={Collection} props={childProps} />
-								<Personal sex={'WOMEN'} {...childProps} />
+								<NewPosts sex={'WOMEN'} {...childProps} />
 							) : (
 								<Redirect to="/signup" />
 							)}
@@ -257,8 +259,8 @@ class App extends Component {
 					className="Posts"
 					style={{ marginTop: '250px', textAlign: 'center', fontFamily: 'Julius Sans One' }}
 				>
-					<p> You're offline</p>
-					{console.log(' offline')}
+					<p> {this.state.Nerror ? 'Having trouble connecting' : "You're currently offline"}</p>
+					{/* {console.log(this.state.offline, this.state.Nerror)} */}
 				</div>
 			);
 		} //** offline handler */

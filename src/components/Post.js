@@ -50,7 +50,7 @@ const PostStyle = styled.div`
 	}
 	.Post-image img {
 		display: block;
-		width: 99vw;
+		width: 100%;
 	}
 	.Post-caption {
 		/* display: flex; */
@@ -66,20 +66,21 @@ const PostStyle = styled.div`
 	}
 	.Post-details {
 		position: relative;
-		height: 40px;
+		/* height: 120px; */
 		box-sizing: border-box;
 		transition: 0.5s;
 		overflow: hidden;
 	}
 	.Post-card:hover .Post-details {
-		height: 120px;
+		height: auto;
 	}
 	.Post-details hr {
 		border: 0;
-		width: 95%;
+		margin: 0;
+		width: 73%;
 		color: #efefef;
 		height: 1px;
-		background: linear-gradient(to left, #efefef, #a5a4a4e6, #efefef);
+		background: linear-gradient(to left, #efefef, #a5a4a4e6, #fff);
 	}
 	.btn {
 		display: inline-block;
@@ -125,13 +126,14 @@ const PostStyle = styled.div`
 		transition: all 550ms cubic-bezier(0.19, 1, 0.22, 1);
 	}
 	.btn-shine {
-		position: absolute;
+		/* position: absolute; */
+		float: right;
 		margin: 0;
 		padding: 5px 12px;
-		height: 41px;
-		width: 140px;
-		bottom: 80px;
-		right: 0px;
+		height: 35px;
+		width: 180px;
+		/* bottom: 80px;
+		right: 0px; */
 		outline: none;
 		text-decoration: none;
 		align-items: center;
@@ -149,10 +151,11 @@ const PostStyle = styled.div`
 		-webkit-tap-highlight-color: transparent;
 	}
 	.btn-shine span {
-		color: #164ca7;
+		color: #3d4c67ed;
 		font-size: 15px;
-		font-weight: 500;
-		letter-spacing: 0.7px;
+		font-weight: 600;
+		font-family: 'Julius Sans One', sans-serif;
+		/* letter-spacing: 0.7px; */
 		z-index: 20;
 	}
 	.hideImg img {
@@ -326,7 +329,7 @@ class Post extends Component {
 				return this.setState({ deleted: true });
 			}
 			this.setState({ postData: postData.data.getPost });
-			this.fetchImage(postData.data.getPost.img);
+			this.fetchImage(postData.data.getPost.img, postData.data.getPost.postedBy);
 			this.props.cprops.authedUser.saved.includes(postData.data.getPost.id) && this.setState({ saved: true });
 			// console.log(this.state.postData);
 		} catch (err) {
@@ -368,6 +371,7 @@ class Post extends Component {
 							</div>
 						</div>
 						<div className="Post-details">
+							<hr />
 							<div>
 								{/* //* Icons set Up from
 						//* https://scotch.io/tutorials/using-font-awesome-5-with-react */}
@@ -385,14 +389,14 @@ class Post extends Component {
 									<label className="l">{`${this.state.saved ? 'Saved' : 'Save'}`}</label>
 								</div>
 								<button className=" btn-shine" onClick={() => this.getProducts('dara')}>
-									<span>Let's See</span>
+									<span>See collection</span>
 								</button>
 							</div>
 							<hr />
 							<div className="Post-caption">
 								{/* <img className="Post-user-avatar" src={avatar} alt={nickname} /> */}
-								<span className="Post-user-nickname">{nickname} NICKNAME</span>
-								<p style={{ marginLeft: '12px', marginBottom: '5px' }}>{caption}</p>
+								{/* <span className="Post-user-nickname">{nickname} NICKNAME</span> */}
+								<p style={{ margin: '5px 12px' }}>{caption}</p>
 							</div>
 						</div>
 					</div>

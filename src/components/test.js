@@ -743,7 +743,7 @@ const Styler = styled.div`
 	.footer {
 		margin-top: 20px;
 		font-weight: 600;
-		padding: 0px 25px;
+		padding: 0px 0px;
 		text-align: center;
 		color: rgba(0, 0, 0, 0.6);
 	}

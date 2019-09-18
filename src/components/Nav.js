@@ -70,7 +70,7 @@ function Nav(props) {
 								<Link to="/your/closet">Your Closet</Link>
 							</li>
 							<li>
-								<Link to="/your/collection">Your Collection</Link>
+								<Link to="/your/collection">Your Collections</Link>
 							</li>
 							{/* <li>
 								<a href="/your/profile">Your Profile</a>
@@ -221,13 +221,13 @@ const Navbar = styled.nav`
 
 	#menu {
 		position: absolute;
-		width: 160px;
+		width: 165px;
 		height: 100vh;
 		box-shadow: 0 0 10px #85888c;
 		/* margin: -50px 0 0 -50px;  original*/
 		border-right: 5px solid #ecba70db;
 		border-radius: 0px 0px 0px 270px;
-		margin: -50px 0 0 360px;
+		margin: -50px 0 0 371px;
 		padding: 50px;
 		padding-top: 125px;
 		background-color: #f5f6fa;

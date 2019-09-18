@@ -4,6 +4,7 @@ import { API, graphqlOperation } from 'aws-amplify';
 
 import { listPosts as ListPosts } from '../graphql/queries';
 import Post from './Post';
+import Loadin from '../placeholderComponents/Loadin';
 // import config from '../aws-exports';
 
 // import styled from 'styled-components';
@@ -15,6 +16,7 @@ function Poster(props) {
 	const [ Posts, updatePosts ] = useState([]);
 	const [ nextToken, updateNextToken ] = useState(null);
 	const [ end, updateEnd ] = useState(false);
+	const [ getting, updateGetting ] = useState(false);
 	// const [ value, error, pending ] = usePromise(listPosts, [], []);
 
 	// const [ postImg, updatePostImg ] = useState([]);
@@ -28,29 +30,67 @@ function Poster(props) {
 		// console.log(et);
 		let et = e.target;
 		let scrolled = et.scrollTop / (et.scrollHeight - et.clientHeight);
-		console.log(scrolled);
-		// if (scrolled > 0.7) {
-		// 	// listPosts(props.data[`group_${iter}`]);
-		// 	getMore();
-		// 	// updateIter(iter + 1);
-		// }
+		// console.log(scrolled);
+		if (scrolled > 0.7 && !getting && !end) {
+			// listPosts(props.data[`group_${iter}`]);
+			// console.log('get');
+			getMore();
+			// updateIter(iter + 1);
+		}
 	};
-	async function listPosts() {
+	async function GlistPosts() {
 		let isSubscribed = true;
 		try {
-			// const p = await API.graphql(graphqlOperation(ListPosts));
 			const p = await API.graphql(
 				graphqlOperation(ListPosts, {
-					limit: 2
-					// nextToken: 'next'
+					filter: {
+						category: {
+							contains: props.sex
+						}
+					}
 				})
 			);
-			// console.log(p);
-			updateNextToken(p.data.listPosts.nextToken);
+
 			// console.log(isSubscribed);
+			// console.log(p);
 			if (isSubscribed) {
 				updatePosts(p.data.listPosts.items);
 			}
+			return () => (isSubscribed = false);
+		} catch (err) {
+			console.log(err);
+		}
+	}
+	async function listPosts() {
+		let isSubscribed = true;
+		try {
+			let post = {};
+			props.sex
+				? (post.p = await API.graphql(
+						graphqlOperation(ListPosts, {
+							limit: 7,
+							filter: {
+								category: {
+									contains: props.sex
+								}
+							}
+						})
+					))
+				: (post.p = await API.graphql(
+						graphqlOperation(ListPosts, {
+							limit: 7
+							// nextToken: 'next'
+						})
+					));
+			// console.log(post.p);
+			if (post.p.data.listPosts.nextToken === null) updateEnd(true);
+			updateNextToken(post.p.data.listPosts.nextToken);
+
+			// console.log(isSubscribed);
+			if (isSubscribed) {
+				updatePosts(post.p.data.listPosts.items);
+			}
+
 			return () => (isSubscribed = false);
 		} catch (err) {
 			console.log(err);
@@ -62,24 +102,40 @@ function Poster(props) {
 		// const newData = await API.graphql(graphqlOperation(listUser, { nextToken }));
 		if (!end) {
 			try {
-				// const p = await API.graphql(graphqlOperation(ListPosts));
-				const p = await API.graphql(
-					graphqlOperation(ListPosts, {
-						limit: 1,
-						nextToken: nextToken
-					})
-				);
-				console.log(p);
-				updateNextToken(p.data.listPosts.nextToken);
+				let post = {};
+				updateGetting(true);
+				props.sex
+					? (post.p = await API.graphql(
+							graphqlOperation(ListPosts, {
+								filter: {
+									category: {
+										contains: props.sex
+									}
+								},
+								limit: 7,
+								nextToken: nextToken
+							})
+						))
+					: (post.p = await API.graphql(
+							graphqlOperation(ListPosts, {
+								limit: 7,
+								nextToken: nextToken
+							})
+						));
+				// console.log(post.p);
+				updateNextToken(post.p.data.listPosts.nextToken);
 
 				// console.log(isSubscribed);
-				if (p.data.listPosts.items.length === 0) return updateEnd(true);
+				if (post.p.data.listPosts.nextToken === null) return updateEnd(true);
+				//* */ leaving getting as true at this point
+				//* */ allows it to be cancel all calls even if we scroll again
 				if (isSubscribed) {
 					// updatePosts([]);
 					updatePosts((prevState) => {
-						return [ ...prevState, ...p.data.listPosts.items ];
+						return [ ...prevState, ...post.p.data.listPosts.items ];
 					});
 				}
+				updateGetting(false);
 				return () => (isSubscribed = false);
 			} catch (err) {
 				console.log(err);
@@ -98,13 +154,13 @@ function Poster(props) {
 				className="Posts"
 				style={{
 					marginTop: 75 + 'px',
-					display: 'flex',
+					// display: 'flex',
 					overflowY: 'scroll',
 					height: 'calc(100vh - 75px)'
 				}}
 				onScroll={(e) => {
 					e.persist();
-					handleScroll(e);
+					!end && handleScroll(e);
 				}}
 			>
 				{/* {this.props.posts.map((post) => (
@@ -132,6 +188,18 @@ function Poster(props) {
 					);
 				})}
 				{/* <button onClick={getMore}>Get more</button> */}
+				{!end && (
+					<div
+						style={{
+							margin: '10px 0',
+							display: 'flex',
+							justifyContent: 'center',
+							marginTop: Posts.length === 0 ? '40vh' : 0
+						}}
+					>
+						<Loadin color="#040404" />
+					</div>
+				)}
 			</div>
 		);
 	};
