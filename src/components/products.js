@@ -117,11 +117,12 @@ function Products(props) {
 					<p
 						style={{
 							backgroundColor: getting ? 'rgba(0, 142, 109, 0.24)' : '#e8e8e8',
-							borderRadius: '11px'
+							borderRadius: '11px',
+							cursor: 'pointer'
 						}}
 						onClick={() => getPrice(val.link)}
 					>
-						{!price.length === 0 ? 'Update Price!' : getting ? 'Updating...' : 'Updated'}
+						{getting ? 'Updating...' : price.length === 0 ? 'Update Price!' : 'Updated'}
 					</p>
 				)}
 			</div>

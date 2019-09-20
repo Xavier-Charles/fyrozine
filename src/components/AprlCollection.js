@@ -89,16 +89,16 @@ function ProductLister(props) {
 			//     });
 			// console.log(data);
 			if (data) {
-			//* seperate the posts into groups of parts like torsowaist...
-			data.map((e, id) => {
-				if (w[e.part]) {
-					w[e.part].push(e);
-				} else {
-					w[e.part] = [ e ];
-				}
-			});
-			//*-----------------------------------
-			
+				//* seperate the posts into groups of parts like torsowaist...
+				data.map((e, id) => {
+					if (w[e.part]) {
+						w[e.part].push(e);
+					} else {
+						w[e.part] = [ e ];
+					}
+				});
+				//*-----------------------------------
+
 				updatePosts((prevState) => {
 					return { ...prevState, ...w };
 				});
@@ -116,14 +116,25 @@ function ProductLister(props) {
 		if (props.authedUser.savedProducts && props.authedUser.savedProducts.length !== 0) {
 			return (
 				<Styler>
-					<div style={{ marginTop: 100 + 'px', textAlign: 'center' }}>
+					<div
+						style={{
+							marginTop: '75px',
+							textAlign: 'center',
+							overflowY: 'scroll',
+							height: 'calc(100vh - 75px)'
+						}}
+					>
 						{/* {console.log(Posts)} */}
 
 						{Object.values(Posts).map((e, id) => {
 							return (
 								<div
 									className="Products"
-									style={{ marginTop: 15 + 'px', textAlign: 'center' }}
+									// style={{
+									// 	textAlign: 'center',
+									// 	overflowY: 'scroll',
+									// 	height:
+									// }}
 									key={id}
 								>
 									<div className="item">
@@ -179,8 +190,6 @@ function ProductLister(props) {
 }
 
 const Styler = styled.div`
-	/* width: 66.7%; */
-
 	.item {
 		display: flex;
 		align-items: center;

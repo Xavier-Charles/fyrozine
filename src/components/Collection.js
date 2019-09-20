@@ -10,7 +10,7 @@ function Collection(props) {
 			if (error) return <p>Error Fetching Posts...</p>;
 
 			return (
-				<div className="Posts" style={{ marginTop: 90 + 'px' }}>
+				<div className="Posts" style={{ marginTop: 75 + 'px' }}>
 					{props.authedUser.saved.map((postId, id) => {
 						// console.log('called again');
 						return <Post cprops={props} key={id} Pid={postId} />;

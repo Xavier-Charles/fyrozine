@@ -4,6 +4,8 @@ import { Auth } from 'aws-amplify';
 
 import styled from 'styled-components';
 import logo from '../img/FrozIintel.jpg';
+import '../lib/fontAw';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 //! remove soonest
 // import scrape from '../scraper/scraper';
@@ -89,6 +91,22 @@ function Nav(props) {
 									<a href="#">Add to home screen</a>
 								</marquee>
 							</li> */}
+							<li style={{ marginTop: '10vh' }}>
+								<a href="#" style={{ paddingRight: '10px' }}>
+									<FontAwesomeIcon icon={[ 'fab', 'twitter' ]} transform="grow-5 down-5" size="1x" />
+								</a>
+								<a href="https://fb.me/fyrozine" style={{ paddingRight: '10px' }}>
+									<FontAwesomeIcon icon={[ 'fab', 'facebook' ]} transform="grow-5 down-5" size="1x" />
+								</a>
+								<a href="https://www.instagram.com/fyrozine/" style={{ paddingRight: '10px' }}>
+									<FontAwesomeIcon
+										icon={[ 'fab', 'instagram' ]}
+										transform="grow-5 down-5"
+										size="1x"
+									/>
+								</a>
+								<p style={{ fontSize: '12px' }}>fyrozine@gmail.com</p>
+							</li>
 						</ul>
 					</div>
 				</div>
@@ -159,6 +177,7 @@ const Navbar = styled.nav`
 		height: 49px;
 		width: 200px;
 		text-indent: -1000%;
+		-webkit-tap-highlight-color: transparent;
 	}
 
 	#menuToggle {
@@ -216,7 +235,7 @@ const Navbar = styled.nav`
 	}
 
 	#menuToggle input:checked ~ span:nth-last-child(2) {
-		transform: rotate(-45deg) translate(3px, 9px);
+		transform: rotate(-45deg) translate(3.5px, 9px);
 	}
 
 	#menu {

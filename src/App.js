@@ -15,7 +15,7 @@ import Nav from './components/Nav';
 // import Users from './components/users';
 // import LoginForms from './components/loginForms';
 // import UnderConst from './components/underConst';
-import Personal from './components/personalised';
+// import Personal from './components/personalised';
 import AppliedRoute from './components/appliedRoute';
 import Test from './components/test.js';
 import Collection from './components/Collection'; //PSk ProductList Skeleton

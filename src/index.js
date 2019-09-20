@@ -32,7 +32,7 @@ const WithProvider = () => (
 				) : (
 					<div
 						className="Posts"
-						style={{ marginTop: '25vh', textAlign: 'center', fontFamily: 'Julius Sans One' }}
+							style={{ marginTop: '250px', textAlign: 'center', fontFamily: 'Julius Sans One' }}
 					>
 						<h1 style={{ color: '#635f55' }}>Fyrozine</h1>
 						<Loadin color="#040404" />
