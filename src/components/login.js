@@ -212,29 +212,25 @@ export default function Form(props) {
 					<input type="password" placeholder="password" />
 					<h2>&nbsp;</h2>
 				</div> */}
-				<div>
-					<div style={{ marginTop: formType === 'home' ? '0px' : '21vh' }}>
-						{formType !== 'home' &&
-						errMsg && (
-							<div className="notification">
-								<div className="content">
-									<div className="identifier" />
-									<div className="text">
-										<span>{errMsg}</span>
-										<span
-											style={{ float: 'right', color: '#fff' }}
-											onClick={() => updateErrMsg('')}
-										>
-											X
-										</span>
-									</div>
+				<div style={{ marginTop: formType === 'home' ? '0px' : '21vh' }}>
+					{formType !== 'home' &&
+					errMsg && (
+						<div className="notification">
+							<div className="content">
+								<div className="identifier" />
+								<div className="text">
+									<span>{errMsg}</span>
+									<span style={{ float: 'right', color: '#fff' }} onClick={() => updateErrMsg('')}>
+										X
+									</span>
 								</div>
 							</div>
-						)}
-						{renderForm(formState)}
-					</div>
+						</div>
+					)}
+					{renderForm(formState)}
+				</div>
 
-					{formType === 'signUp' && (
+				{/* {formType === 'signUp' && (
 						<p className="footer">
 							Already have an account?{' '}
 							<span className="anchor" onClick={() => updateFormType('signIn')}>
@@ -242,76 +238,84 @@ export default function Form(props) {
 							</span>
 							<br />
 						</p>
-					)}
-					{formType === 'signIn' && (
-						<div className="footer">
-							Need an account?{' '}
-							<span className="anchor" onClick={() => updateFormType('signUp')}>
-								Sign Up
+					)} */}
+				{/* {formType === 'signIn' && ( */}
+				<div className="footer">
+					{formType === 'signUp' && 'Already have an account? '}
+					{formType === 'signIn' && 'Need an account? '}
+					<span className="anchor" onClick={() => updateFormType('signUp')}>
+						Sign{formType === 'signUp' && ' in'}
+						{formType === 'signIn' && ' up'}
+					</span>
+					<button
+						className="button"
+						style={{ background: '#4267b2' }}
+						onClick={() => {
+							Auth.federatedSignIn({ provider: 'Facebook', customState: 'fedFace' });
+							updateisLoading({ Facebook: true });
+							ls.set('fed', true);
+							// props.changeFed(true);
+						}}
+					>
+						{!isLoading.Facebook ? (
+							<span>
+								Sign{formType === 'signIn' && ' in '}
+								{formType === 'signUp' && ' up '}
+								with <strong>Facebook</strong>
 							</span>
-							<button
-								className="button"
-								style={{ background: '#4267b2' }}
-								onClick={() => {
-									Auth.federatedSignIn({ provider: 'Facebook', customState: 'fedFace' });
-									updateisLoading({ Facebook: true });
-									ls.set('fed', true);
-									// props.changeFed(true);
-								}}
-							>
-								{!isLoading.Facebook ? (
-									<span>
-										Sign In with <strong>Facebook</strong>
-									</span>
-								) : (
-									<span>
-										Signinig In
-										<Loadin color="#fff" />
-									</span>
-								)}
-								{/* {!isLoading.Facebook && } */}
-								{/* {isLoading.Facebook && (
+						) : (
+							<span>
+								Signinig {formType === 'signIn' && ' in'}
+								{formType === 'signUp' && ' up'}
+								<Loadin color="#fff" />
+							</span>
+						)}
+						{/* {!isLoading.Facebook && } */}
+						{/* {isLoading.Facebook && (
 									<span>
 										<Loadin color="#fff" />
 									</span>
 								)} */}
-							</button>
-							<button
-								className="button"
-								style={{ background: 'rgba(201, 200, 204, 0.77)', color: '#000' }}
-								onClick={() => {
-									Auth.federatedSignIn({ provider: 'Google', customState: 'fedGoog' });
-									ls.set('fed', true);
-									updateisLoading({ Google: true });
-								}}
-							>
-								{!isLoading.Google ? (
-									<span>
-										Sign In with{'  '}
-										<strong>
-											<span style={{ color: '#5692f5', fontSize: '19px' }}>G</span>
-											<span style={{ color: '#ea4335', fontSize: '19px' }}>o</span>
-											<span style={{ color: '#fabb06', fontSize: '19px' }}>o</span>
-											<span style={{ color: '#5692f5', fontSize: '19px' }}>g</span>
-											<span style={{ color: '#34a853', fontSize: '19px' }}>l</span>
-											<span style={{ color: '#ea4335', fontSize: '19px' }}>e</span>
-										</strong>
-									</span>
-								) : (
-									<span>
-										Signinig In
-										<Loadin color="#000" />
-									</span>
-								)}
-								{/* {isLoading.Google && (
+					</button>
+					<button
+						className="button"
+						style={{ background: 'rgba(201, 200, 204, 0.77)', color: '#000' }}
+						onClick={() => {
+							Auth.federatedSignIn({ provider: 'Google', customState: 'fedGoog' });
+							ls.set('fed', true);
+							updateisLoading({ Google: true });
+						}}
+					>
+						{!isLoading.Google ? (
+							<span>
+								Sign{formType === 'signIn' && ' in'}
+								{formType === 'signUp' && ' up'}
+								with{'  '}
+								<strong>
+									<span style={{ color: '#5692f5', fontSize: '19px' }}>G</span>
+									<span style={{ color: '#ea4335', fontSize: '19px' }}>o</span>
+									<span style={{ color: '#fabb06', fontSize: '19px' }}>o</span>
+									<span style={{ color: '#5692f5', fontSize: '19px' }}>g</span>
+									<span style={{ color: '#34a853', fontSize: '19px' }}>l</span>
+									<span style={{ color: '#ea4335', fontSize: '19px' }}>e</span>
+								</strong>
+							</span>
+						) : (
+							<span>
+								Signinig {formType === 'signIn' && ' in'}
+								{formType === 'signUp' && ' up'}
+								<Loadin color="#000" />
+							</span>
+						)}
+						{/* {isLoading.Google && (
 									<span>
 										<Loadin color="#000" />
 									</span>
 								)} */}
-							</button>
-						</div>
-					)}
-					{/* <button
+					</button>
+				</div>
+				{/* )} */}
+				{/* <button
 					className="button"
 					onClick={() => {
 						test ? updatetest(false) : updatetest(true);
@@ -319,7 +323,6 @@ export default function Form(props) {
 				>
 					ChangeTest
 				</button> */}
-				</div>
 			</div>
 		</Styler>
 	);

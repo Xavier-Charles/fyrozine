@@ -17,7 +17,7 @@ import Nav from './components/Nav';
 // import UnderConst from './components/underConst';
 // import Personal from './components/personalised';
 import AppliedRoute from './components/appliedRoute';
-import Test from './components/test.js';
+import Login from './components/login';
 import Collection from './components/Collection'; //PSk ProductList Skeleton
 import Closet from './components/AprlCollection';
 import ls from 'local-storage';
@@ -166,7 +166,7 @@ class App extends Component {
 		const SignUpContainer = () => (
 			<div className="LoginContainer">
 				{/* {console.log('called')} */}
-				<AppliedRoute path="/signup" exact component={Test} props={childProps} />
+				<AppliedRoute path="/signup" exact component={Login} props={childProps} />
 			</div>
 		);
 		const DefaultContainer = () => (
@@ -174,7 +174,7 @@ class App extends Component {
 				<div className="AppContainer">
 					<Nav {...childProps} />
 					{/* {console.log('called')} */}
-					{/* <Route path="/test" component={Test} /> */}
+					{/* <Route path="/test" component={Login} /> */}
 					<Route
 						path="/your/collection"
 						exact
