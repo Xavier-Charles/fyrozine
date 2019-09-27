@@ -153,7 +153,7 @@ export default function Form(props) {
 			});
 		}
 		if (hand === 'off') {
-			updateCurtain('curtain');
+			setTimeout(() => updateCurtain('curtain'), 500);
 		}
 	}
 	function renderForm() {
@@ -243,7 +243,10 @@ export default function Form(props) {
 				<div className="footer">
 					{formType === 'signUp' && 'Already have an account? '}
 					{formType === 'signIn' && 'Need an account? '}
-					<span className="anchor" onClick={() => updateFormType('signUp')}>
+					<span
+						className="anchor"
+						onClick={() => (formType === 'signUp' ? updateFormType('signIn') : updateFormType('signUp'))}
+					>
 						Sign{formType === 'signUp' && ' in'}
 						{formType === 'signIn' && ' up'}
 					</span>
