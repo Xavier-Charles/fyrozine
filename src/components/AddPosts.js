@@ -67,6 +67,7 @@ function AddPost() {
 	}
 	function enterHandler(event, type) {
 		// let i = ApparelGroup;
+		// console.log(event, type);
 		let t = tags;
 		switch (type) {
 			case 'hairNeck':
@@ -109,7 +110,9 @@ function AddPost() {
 				// } else console.log('Limit exceeded');
 				// break;
 				updateItem('ankleToe', ankleToe);
+				break;
 			case 'acessories':
+				// console.log(event, type);
 				// if (i.acessories.length === 0) {
 				// 	i.acessories.push(acessories);
 				// 	updateApparelGroup((prevState) => {
@@ -133,7 +136,7 @@ function AddPost() {
 				// t.category = [ category ];
 				// console.log([ category ]);
 				updateTags((prevState) => {
-					console.log(category);
+					// console.log(category);
 					return { ...prevState, category: [ event.target.value ] };
 				});
 				// updatePostTags('');
@@ -159,6 +162,7 @@ function AddPost() {
 		// console.log(ApparelGroup);
 	}
 	function updateItem(group, val) {
+		// console.log(group, val);
 		let i = ApparelGroup;
 		if (i[group].length === 0) {
 			// i[group].push(val);
@@ -243,15 +247,15 @@ function AddPost() {
 
 			try {
 				console.log(inputData);
-				// await Storage.put(key, File, {
-				// 	level: 'protected',
-				// 	contentType: mimeType,
-				// 	progressCallback(progress) {
-				// 		console.log(`Uploading... ${Math.floor(progress.loaded * 100 / progress.total)}%`);
-				// 		//todo create upload bar for better uploading
-				// 	}
-				// });
-				// await API.graphql(graphqlOperation(CreatePost, { input: inputData }));
+				await Storage.put(key, File, {
+					level: 'protected',
+					contentType: mimeType,
+					progressCallback(progress) {
+						console.log(`Uploading... ${Math.floor(progress.loaded * 100 / progress.total)}%`);
+						//todo create upload bar for better uploading
+					}
+				});
+				await API.graphql(graphqlOperation(CreatePost, { input: inputData }));
 				console.log('Success');
 			} catch (err) {
 				console.log('error: ', err);
@@ -264,7 +268,15 @@ function AddPost() {
 
 	return (
 		<Styler>
-			<div className="container">
+			<div
+				className="container"
+				style={{
+					marginTop: 75 + 'px',
+					// display: 'flex',
+					overflowY: 'scroll',
+					height: 'calc(100vh - 75px)'
+				}}
+			>
 				<input type="file" onChange={handleFile} className="fileInput" />
 				{/* <input placeholder="Image Name" value={ProductName} onChange={(e) => updateProductName(e.target.value)} /> */}
 				<div>
@@ -440,7 +452,7 @@ function AddPost() {
 
 					<div>
 						<label className="label">
-							<strong>acessories //jewery nags ...</strong> ...Press Enter to confirm
+							<strong>acessories //jewelry ...</strong> ...Press Enter to confirm
 						</label>
 						<div>
 							{ApparelGroup.acessories.map((item, id) => (
@@ -538,8 +550,9 @@ function AddPost() {
 
 const Styler = styled.div`
 	.container {
-		width: 400px;
-		margin: 90px auto;
+		width: 100%;
+		box-sizing: border-box;
+		padding: 0px 14px;
 	}
 	.fileInput {
 		margin: 10px 0px;

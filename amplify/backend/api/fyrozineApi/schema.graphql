@@ -5,7 +5,6 @@ type Post @model {
 	category: String!
 	style: String!
 	img: String!
-	profile: String!
 	postedBy: String!
 	createdDate: String!
 	hairNeck: [String]

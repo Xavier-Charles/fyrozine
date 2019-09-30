@@ -9,7 +9,6 @@ export const getPost = `query GetPost($id: ID!) {
     category
     style
     img
-    profile
     postedBy
     createdDate
     hairNeck
@@ -33,7 +32,6 @@ export const listPosts = `query ListPosts(
       category
       style
       img
-      profile
       postedBy
       createdDate
       hairNeck

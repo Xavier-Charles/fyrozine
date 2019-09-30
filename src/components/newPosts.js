@@ -172,7 +172,7 @@ function Poster(props) {
 						key={post.id}
 					/>
 				))} */}
-				{Posts.map((postData, id) => {
+				{Posts.reverse().map((postData, id) => {
 					// console.log('called again');
 					// fetchImage(postData.img)
 					return (

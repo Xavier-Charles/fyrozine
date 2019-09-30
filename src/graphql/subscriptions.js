@@ -9,7 +9,6 @@ export const onCreatePost = `subscription OnCreatePost {
     category
     style
     img
-    profile
     postedBy
     createdDate
     hairNeck
@@ -28,7 +27,6 @@ export const onUpdatePost = `subscription OnUpdatePost {
     category
     style
     img
-    profile
     postedBy
     createdDate
     hairNeck
@@ -47,7 +45,6 @@ export const onDeletePost = `subscription OnDeletePost {
     category
     style
     img
-    profile
     postedBy
     createdDate
     hairNeck

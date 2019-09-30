@@ -291,8 +291,8 @@ export default function Form(props) {
 					>
 						{!isLoading.Google ? (
 							<span>
-								Sign{formType === 'signIn' && ' in'}
-								{formType === 'signUp' && ' up'}
+								Sign{formType === 'signIn' && ' in '}
+								{formType === 'signUp' && ' up '}
 								with{'  '}
 								<strong>
 									<span style={{ color: '#5692f5', fontSize: '19px' }}>G</span>

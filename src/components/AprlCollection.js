@@ -177,7 +177,7 @@ function ProductLister(props) {
 			);
 		} else {
 			return (
-				<div className="Posts" style={{ marginTop: 210 + 'px', textAlign: 'center' }}>
+				<div className="Posts" style={{ marginTop: 210 + 'px', textAlign: 'center' }} >
 					{/* <p>There's no recent post here for now...</p> */}
 					<p>Build a closet by saving </p>
 					<p>posts you love</p>

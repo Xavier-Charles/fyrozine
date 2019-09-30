@@ -9,7 +9,6 @@ export const createPost = `mutation CreatePost($input: CreatePostInput!) {
     category
     style
     img
-    profile
     postedBy
     createdDate
     hairNeck
@@ -28,7 +27,6 @@ export const updatePost = `mutation UpdatePost($input: UpdatePostInput!) {
     category
     style
     img
-    profile
     postedBy
     createdDate
     hairNeck
@@ -47,7 +45,6 @@ export const deletePost = `mutation DeletePost($input: DeletePostInput!) {
     category
     style
     img
-    profile
     postedBy
     createdDate
     hairNeck
