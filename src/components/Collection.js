@@ -18,7 +18,7 @@ function Collection(props) {
 						height: 'calc(100vh - 75px)'
 					}}
 				>
-					{props.authedUser.saved.reverse().map((postId, id) => {
+					{props.authedUser.saved.map((postId, id) => {
 						// console.log('called again');
 						return <Post cprops={props} key={id} Pid={postId} />;
 					})}

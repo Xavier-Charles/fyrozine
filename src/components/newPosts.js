@@ -82,7 +82,7 @@ function Poster(props) {
 							// nextToken: 'next'
 						})
 					));
-			// console.log(post.p);
+			// console.log(post.p.data.listPosts.nextToken);
 			if (post.p.data.listPosts.nextToken === null) updateEnd(true);
 			updateNextToken(post.p.data.listPosts.nextToken);
 
@@ -98,7 +98,6 @@ function Poster(props) {
 	}
 	async function getMore() {
 		let isSubscribed = true;
-		// console.log('called');
 		// const newData = await API.graphql(graphqlOperation(listUser, { nextToken }));
 		if (!end) {
 			try {
@@ -126,15 +125,15 @@ function Poster(props) {
 				updateNextToken(post.p.data.listPosts.nextToken);
 
 				// console.log(isSubscribed);
-				if (post.p.data.listPosts.nextToken === null) return updateEnd(true);
 				//* */ leaving getting as true at this point
-				//* */ allows it to be cancel all calls even if we scroll again
+				//* */ allows it to cancel all calls even if we scroll again
 				if (isSubscribed) {
 					// updatePosts([]);
 					updatePosts((prevState) => {
 						return [ ...prevState, ...post.p.data.listPosts.items ];
 					});
 				}
+				if (post.p.data.listPosts.nextToken === null) return updateEnd(true);
 				updateGetting(false);
 				return () => (isSubscribed = false);
 			} catch (err) {
@@ -172,7 +171,7 @@ function Poster(props) {
 						key={post.id}
 					/>
 				))} */}
-				{Posts.reverse().map((postData, id) => {
+				{Posts.map((postData, id) => {
 					// console.log('called again');
 					// fetchImage(postData.img)
 					return (

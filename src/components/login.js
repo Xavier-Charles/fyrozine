@@ -181,7 +181,7 @@ export default function Form(props) {
 						<ConfirmSignUp
 							confirmSignUp={() => confirmSignUp(formState, updateFormType, updateErrMsg)}
 							isLoading={isLoading.norm}
-							// updateErrMsg={updateErrMsg}
+							updateisLoading={updateisLoading}
 							updateFormState={(e) => updateFormState({ type: 'updateFormState', e })}
 						/>
 					</div>
@@ -220,7 +220,10 @@ export default function Form(props) {
 								<div className="identifier" />
 								<div className="text">
 									<span>{errMsg}</span>
-									<span style={{ float: 'right', color: '#fff' }} onClick={() => updateErrMsg('')}>
+									<span
+										style={{ float: 'right', color: '#fff', cursor: 'pointer' }}
+										onClick={() => updateErrMsg('')}
+									>
 										X
 									</span>
 								</div>
@@ -247,75 +250,79 @@ export default function Form(props) {
 						className="anchor"
 						onClick={() => (formType === 'signUp' ? updateFormType('signIn') : updateFormType('signUp'))}
 					>
-						Sign{formType === 'signUp' && ' in'}
-						{formType === 'signIn' && ' up'}
+						{formType === 'signUp' && 'Sign in'}
+						{formType === 'signIn' && 'Sign up'}
 					</span>
-					<button
-						className="button"
-						style={{ background: '#4267b2' }}
-						onClick={() => {
-							Auth.federatedSignIn({ provider: 'Facebook', customState: 'fedFace' });
-							updateisLoading({ Facebook: true });
-							ls.set('fed', true);
-							// props.changeFed(true);
-						}}
-					>
-						{!isLoading.Facebook ? (
-							<span>
-								Sign{formType === 'signIn' && ' in '}
-								{formType === 'signUp' && ' up '}
-								with <strong>Facebook</strong>
-							</span>
-						) : (
-							<span>
-								Signinig {formType === 'signIn' && ' in'}
-								{formType === 'signUp' && ' up'}
-								<Loadin color="#fff" />
-							</span>
-						)}
-						{/* {!isLoading.Facebook && } */}
-						{/* {isLoading.Facebook && (
+					{formType !== 'confirmSignUp' && (
+						<div>
+							<button
+								className="button"
+								style={{ background: '#4267b2' }}
+								onClick={() => {
+									Auth.federatedSignIn({ provider: 'Facebook', customState: 'fedFace' });
+									updateisLoading({ Facebook: true });
+									ls.set('fed', true);
+									// props.changeFed(true);
+								}}
+							>
+								{!isLoading.Facebook ? (
+									<span>
+										Sign{formType === 'signIn' && ' in '}
+										{formType === 'signUp' && ' up '}
+										with <strong>Facebook</strong>
+									</span>
+								) : (
+									<span>
+										Signinig {formType === 'signIn' && ' in'}
+										{formType === 'signUp' && ' up'}
+										<Loadin color="#fff" />
+									</span>
+								)}
+								{/* {!isLoading.Facebook && } */}
+								{/* {isLoading.Facebook && (
 									<span>
 										<Loadin color="#fff" />
 									</span>
 								)} */}
-					</button>
-					<button
-						className="button"
-						style={{ background: 'rgba(201, 200, 204, 0.77)', color: '#000' }}
-						onClick={() => {
-							Auth.federatedSignIn({ provider: 'Google', customState: 'fedGoog' });
-							ls.set('fed', true);
-							updateisLoading({ Google: true });
-						}}
-					>
-						{!isLoading.Google ? (
-							<span>
-								Sign{formType === 'signIn' && ' in '}
-								{formType === 'signUp' && ' up '}
-								with{'  '}
-								<strong>
-									<span style={{ color: '#5692f5', fontSize: '19px' }}>G</span>
-									<span style={{ color: '#ea4335', fontSize: '19px' }}>o</span>
-									<span style={{ color: '#fabb06', fontSize: '19px' }}>o</span>
-									<span style={{ color: '#5692f5', fontSize: '19px' }}>g</span>
-									<span style={{ color: '#34a853', fontSize: '19px' }}>l</span>
-									<span style={{ color: '#ea4335', fontSize: '19px' }}>e</span>
-								</strong>
-							</span>
-						) : (
-							<span>
-								Signinig {formType === 'signIn' && ' in'}
-								{formType === 'signUp' && ' up'}
-								<Loadin color="#000" />
-							</span>
-						)}
-						{/* {isLoading.Google && (
+							</button>
+							<button
+								className="button"
+								style={{ background: 'rgba(201, 200, 204, 0.77)', color: '#000' }}
+								onClick={() => {
+									Auth.federatedSignIn({ provider: 'Google', customState: 'fedGoog' });
+									ls.set('fed', true);
+									updateisLoading({ Google: true });
+								}}
+							>
+								{!isLoading.Google ? (
+									<span>
+										Sign{formType === 'signIn' && ' in '}
+										{formType === 'signUp' && ' up '}
+										with{'  '}
+										<strong>
+											<span style={{ color: '#5692f5', fontSize: '19px' }}>G</span>
+											<span style={{ color: '#ea4335', fontSize: '19px' }}>o</span>
+											<span style={{ color: '#fabb06', fontSize: '19px' }}>o</span>
+											<span style={{ color: '#5692f5', fontSize: '19px' }}>g</span>
+											<span style={{ color: '#34a853', fontSize: '19px' }}>l</span>
+											<span style={{ color: '#ea4335', fontSize: '19px' }}>e</span>
+										</strong>
+									</span>
+								) : (
+									<span>
+										Signinig {formType === 'signIn' && ' in'}
+										{formType === 'signUp' && ' up'}
+										<Loadin color="#000" />
+									</span>
+								)}
+								{/* {isLoading.Google && (
 									<span>
 										<Loadin color="#000" />
 									</span>
 								)} */}
-					</button>
+							</button>
+						</div>
+					)}
 				</div>
 				{/* )} */}
 				{/* <button
@@ -495,6 +502,7 @@ function ConfirmSignUp(props) {
 				onClick={() => {
 					initialFormState.updateLoader(true);
 					props.confirmSignUp();
+					props.updateisLoading(false);
 				}}
 			>
 				{!props.isLoading ? 'Confirm Sign Up' : 'Confirming'}

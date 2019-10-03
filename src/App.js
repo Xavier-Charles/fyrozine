@@ -82,7 +82,7 @@ class App extends Component {
 		// console.log(ls.get('fed'));
 		try {
 			if (ls.get('fed')) {
-				console.log('b');
+				// console.log('b');
 				await Hub.listen('auth', ({ payload: { event, data } }) => {
 					// switch (event) {
 					// 	case "signIn":
@@ -113,6 +113,9 @@ class App extends Component {
 			} else {
 				// console.log(this.state.isAuthing);
 				await Hub.listen('auth', ({ payload: { event, data } }) => {
+					console.log(event);
+					// console.log(data);
+					if (event === 'signUp') return;
 					!event.includes('failure') && this.update();
 					// this.setState({ fed: true });
 					return;
