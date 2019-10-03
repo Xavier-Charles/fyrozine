@@ -253,7 +253,8 @@ export default function Form(props) {
 						{formType === 'signUp' && 'Sign in'}
 						{formType === 'signIn' && 'Sign up'}
 					</span>
-					{formType !== 'confirmSignUp' && (
+					{formType !== 'confirmSignUp' &&
+					formType !== 'signIn' && (
 						<div>
 							<button
 								className="button"
