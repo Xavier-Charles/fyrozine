@@ -10,6 +10,10 @@ import scrape from '../scraper/scraper';
 import ProductLister from './newProducts';
 import Skeleton from '../placeholderComponents/Pskeleton';
 import PostSkton from '../placeholderComponents/Postsk';
+import InstagramEmbed from 'react-instagram-embed';
+
+var viewH = Math.max(document.documentElement.clientHeight, window.innerHeight || 0) - 5;
+var viewW = viewH / 1.4;
 
 const PostStyle = styled.div`
 	border-radius: 3px;
@@ -35,7 +39,8 @@ const PostStyle = styled.div`
 		font-weight: 600;
 	}
 	.Post-image {
-		overflow-x: hidden;
+		overflow: hidden;
+		min-height: 250px;
 	}
 	.Post-image-bg {
 		background-color: #efefef;
@@ -177,6 +182,7 @@ class Post extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
+			loadedInst: false,
 			loading: true,
 			imageData: null,
 			liked: false,
@@ -199,13 +205,14 @@ class Post extends Component {
 			// });
 		} else {
 			// console.log(this.state.postData);
-			this.setState({ postData: this.props.postData });
-			this.fetchImage(this.props.postData.img, this.props.postData.postedBy);
+			let poD = this.props.postData;
+			this.setState({ postData: poD });
+			!poD.postType && this.fetchImage(poD.img, poD.postedBy);
 			// console.log(this.props);
 			this.props.cprops.authedUser.saved &&
-				this.props.cprops.authedUser.saved.includes(this.props.postData.id) &&
+				this.props.cprops.authedUser.saved.includes(poD.id) &&
 				this.setState({ saved: true });
-			// console.log(this.props.cprops.authedUser.saved.includes(this.props.postData.id));
+			// console.log(this.props.cprops.authedUser.saved.includes(poD.id));
 		}
 		// console.log(datar
 	}
@@ -322,15 +329,16 @@ class Post extends Component {
 		try {
 			const postData = await API.graphql(graphqlOperation(GetPost, { id: postId }));
 			// console.log(postData);
-			if (postData.data.getPost == null) {
+			let poD = postData.data;
+			if (poD.getPost == null) {
 				const user = this.props.cprops.authedUser;
 				user.saved = user.saved.filter((p) => p !== postId);
 				await API.graphql(graphqlOperation(updateUser, { input: user }));
 				return this.setState({ deleted: true });
 			}
-			this.setState({ postData: postData.data.getPost });
-			this.fetchImage(postData.data.getPost.img, postData.data.getPost.postedBy);
-			this.props.cprops.authedUser.saved.includes(postData.data.getPost.id) && this.setState({ saved: true });
+			this.setState({ postData: poD.getPost });
+			!poD.getPost.postType && this.fetchImage(poD.getPost.img, poD.getPost.postedBy);
+			this.props.cprops.authedUser.saved.includes(poD.getPost.id) && this.setState({ saved: true });
 			// console.log(this.state.postData);
 		} catch (err) {
 			console.log(err);
@@ -355,7 +363,33 @@ class Post extends Component {
 					<div className="Post-card">
 						<div className="Post-image">
 							<div className="Post-image-bg">
-								{this.state.loading ? (
+								{this.state.postData.postType === 'instagram' ? (
+									<div
+										style={{
+											margin: !this.state.loadedInst ? 0 : '-1px -1px -121px -1px'
+										}}
+										onClick={(e) => e.preventDefault()}
+									>
+										<InstagramEmbed
+											url={this.state.postData.img}
+											maxWidth={parseInt(viewW)}
+											hideCaption={true}
+											containerTagName="div"
+											protocol=""
+											injectScript
+											onLoading={() => {
+												return <div className="imagesk" />;
+											}}
+											onSuccess={() => {}}
+											onAfterRender={() => {
+												this.setState({ loadedInst: true });
+											}}
+											onFailure={() => {
+												return <div className="imagesk" />;
+											}}
+										/>
+									</div>
+								) : this.state.loading ? (
 									<div className="imagesk" />
 								) : (
 									<img
@@ -364,6 +398,7 @@ class Post extends Component {
 										src={this.state.imageData}
 									/>
 								)}
+
 								{this.state.pD && <Skeleton />}
 								{Object.keys(this.state.productdata).length !== 0 && (
 									<ProductLister user={this.props.cprops.authedUser} data={this.state.productdata} />

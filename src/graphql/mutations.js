@@ -4,6 +4,7 @@
 export const createPost = `mutation CreatePost($input: CreatePostInput!) {
   createPost(input: $input) {
     id
+    postType
     caption
     tags
     category
@@ -22,6 +23,7 @@ export const createPost = `mutation CreatePost($input: CreatePostInput!) {
 export const updatePost = `mutation UpdatePost($input: UpdatePostInput!) {
   updatePost(input: $input) {
     id
+    postType
     caption
     tags
     category
@@ -40,6 +42,7 @@ export const updatePost = `mutation UpdatePost($input: UpdatePostInput!) {
 export const deletePost = `mutation DeletePost($input: DeletePostInput!) {
   deletePost(input: $input) {
     id
+    postType
     caption
     tags
     category

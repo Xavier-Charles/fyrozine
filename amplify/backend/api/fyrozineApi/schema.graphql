@@ -1,5 +1,6 @@
 type Post @model {
 	id: ID!
+	postType: String
 	caption: String!
 	tags: String!
 	category: String!

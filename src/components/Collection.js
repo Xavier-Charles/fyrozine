@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react';
+import InstagramEmbed from 'react-instagram-embed';
 
 import Post from './Post';
 
+var viewH = Math.max(document.documentElement.clientHeight, window.innerHeight || 0) - 5;
+var viewW = viewH / 1.4;
 function Collection(props) {
 	const postList = (loading, error, posts) => {
 		// console.log('gotten');
@@ -30,6 +33,7 @@ function Collection(props) {
 			return (
 				<div className="Posts" style={{ marginTop: 210 + 'px', textAlign: 'center' }}>
 					{/* <p>There's no recent post here for now...</p> */}
+
 					<p>Build a collection by saving </p>
 					<p>posts you love</p>
 				</div>

@@ -4,6 +4,7 @@
 export const getPost = `query GetPost($id: ID!) {
   getPost(id: $id) {
     id
+    postType
     caption
     tags
     category
@@ -27,6 +28,7 @@ export const listPosts = `query ListPosts(
   listPosts(filter: $filter, limit: $limit, nextToken: $nextToken) {
     items {
       id
+      postType
       caption
       tags
       category

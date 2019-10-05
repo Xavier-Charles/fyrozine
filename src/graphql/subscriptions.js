@@ -4,6 +4,7 @@
 export const onCreatePost = `subscription OnCreatePost {
   onCreatePost {
     id
+    postType
     caption
     tags
     category
@@ -22,6 +23,7 @@ export const onCreatePost = `subscription OnCreatePost {
 export const onUpdatePost = `subscription OnUpdatePost {
   onUpdatePost {
     id
+    postType
     caption
     tags
     category
@@ -40,6 +42,7 @@ export const onUpdatePost = `subscription OnUpdatePost {
 export const onDeletePost = `subscription OnDeletePost {
   onDeletePost {
     id
+    postType
     caption
     tags
     category

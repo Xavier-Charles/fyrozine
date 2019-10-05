@@ -13,7 +13,7 @@ import styled from 'styled-components';
 function AddPost() {
 	const [ File, updateFile ] = useState(null);
 	const [ PostCaption, updatePostCaption ] = useState('');
-
+	const [ link, updateLink ] = useState('');
 	const [ PostTags, updatePostTags ] = useState('');
 	const [ hairNeck, updatehairNeck ] = useState('');
 	const [ torsoWaist, updatetorsoWaist ] = useState('');
@@ -209,11 +209,11 @@ function AddPost() {
 
 	// upload the image to S3 and then save it in the GraphQL API
 	async function createPost() {
-		if (File) {
+		if (link) {
 			const user = await Auth.currentCredentials(); //? Can we do this better
 			// console.log(user);
-			const { name: fileName, type: mimeType } = File;
-			const key = `postImages/${uuid()}${fileName}`;
+			// const { name: fileName, type: mimeType } = File;
+			// const key = `postImages/${uuid()}${fileName}`;
 			let date = new Date();
 			// * stringify arrays
 			let ta = { cat: '', sty: '', attr: '' };
@@ -228,7 +228,9 @@ function AddPost() {
 			});
 
 			const inputData = {
-				img: key,
+				// img: key,
+				img: link,
+				postType: 'instagram',
 				postedBy: user._identityId,
 				tags: ta.attr,
 				category: ta.cat,
@@ -247,14 +249,14 @@ function AddPost() {
 
 			try {
 				console.log(inputData);
-				await Storage.put(key, File, {
-					level: 'protected',
-					contentType: mimeType,
-					progressCallback(progress) {
-						console.log(`Uploading... ${Math.floor(progress.loaded * 100 / progress.total)}%`);
-						//todo create upload bar for better uploading
-					}
-				});
+				// await Storage.put(key, File, {
+				// 	level: 'protected',
+				// 	contentType: mimeType,
+				// 	progressCallback(progress) {
+				// 		console.log(`Uploading... ${Math.floor(progress.loaded * 100 / progress.total)}%`);
+				// 		//todo create upload bar for better uploading
+				// 	}
+				// });
 				await API.graphql(graphqlOperation(CreatePost, { input: inputData }));
 				console.log('Success');
 			} catch (err) {
@@ -277,8 +279,12 @@ function AddPost() {
 					height: 'calc(100vh - 75px)'
 				}}
 			>
-				<input type="file" onChange={handleFile} className="fileInput" />
+				{/* <input type="file" onChange={handleFile} className="fileInput" /> */}
 				{/* <input placeholder="Image Name" value={ProductName} onChange={(e) => updateProductName(e.target.value)} /> */}
+				<div>
+					<label>Img//link</label>
+					<input placeholder="link" value={link} onChange={(e) => updateLink(e.target.value)} />
+				</div>
 				<div>
 					<label>Caption{'  '}</label>
 					<input
