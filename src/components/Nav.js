@@ -86,11 +86,13 @@ function Nav(props) {
 							<li>
 								<a onClick={() => signOut(props)}>Sign Out</a>
 							</li>
-							{/* <li>
-								<marquee>
-									<a href="#">Add to home screen</a>
-								</marquee>
-							</li> */}
+							{props.deferredPrompt && (
+								<li>
+									<marquee>
+										<a onClick={() => props.deferredPrompt.prompt()}>Add to home screen</a>
+									</marquee>
+								</li>
+							)}
 							<li style={{ marginTop: '10vh' }}>
 								<a href="#" style={{ paddingRight: '10px' }}>
 									<FontAwesomeIcon icon={[ 'fab', 'twitter' ]} transform="grow-5 down-5" size="1x" />

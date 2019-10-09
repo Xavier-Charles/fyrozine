@@ -13,6 +13,19 @@ import Amplify from 'aws-amplify';
 // import awsmobile from './appsync';
 import config from './aws-exports';
 
+//*catch before install prompt */
+var deferredPrompt;
+
+window.addEventListener('beforeinstallprompt', function(e) {
+	// Prevent Chrome 67 and earlier from automatically showing the prompt
+	// e.preventDefault();
+	// Stash the event so it can be triggered later.
+	deferredPrompt = e;
+
+	// showAddToHomeScreen();
+	console.log(e);
+});
+
 //* for multiple Url's (fyrozine n localhost) cognito*/
 var urlsIn = config.oauth.redirectSignIn.split(',');
 var urlsOut = config.oauth.redirectSignOut.split(',');
@@ -69,7 +82,7 @@ const WithProvider = () => (
 		<Rehydrated
 			render={({ rehydrated }) =>
 				rehydrated ? (
-					<App />
+					<App deferredPrompt={deferredPrompt} />
 				) : (
 					<div
 						className="Posts"
@@ -88,4 +101,11 @@ ReactDOM.render(<WithProvider />, document.getElementById('root'));
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.register();
+
+//* new version available prompt
+async function register() {
+	let p = await serviceWorker.register();
+	console.log(p);
+}
+
+register();

@@ -175,7 +175,7 @@ class App extends Component {
 		const DefaultContainer = () => (
 			<div>
 				<div className="AppContainer">
-					<Nav {...childProps} />
+					<Nav {...childProps} deferredPrompt={this.props.deferredPrompt} />
 					{/* {console.log('called')} */}
 					{/* <Route path="/test" component={Login} /> */}
 					<Route

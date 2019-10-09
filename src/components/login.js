@@ -53,6 +53,8 @@ async function signUp({ username, password }, updateFormType, updateErrMsg) {
 		console.log('sign up success!');
 		// initialFormState.updateMessObj('success-msg', 'sign up success!');
 		updateFormType('confirmSignUp');
+		ls.set('confirm signUp', true);
+		ls.set('username', username);
 	} catch (err) {
 		console.log('error signing up..', err);
 		initialFormState.updateLoader(false);
@@ -63,8 +65,10 @@ async function signUp({ username, password }, updateFormType, updateErrMsg) {
 
 async function confirmSignUp({ username, confirmationCode }, updateFormType, updateErrMsg) {
 	try {
-		await Auth.confirmSignUp(username, confirmationCode);
+		await Auth.confirmSignUp(ls.get('username'), confirmationCode);
 		console.log('confirm sign up success!');
+		ls.set('confirm signUp', false);
+		ls.set('username', null);
 		updateFormType('signIn');
 	} catch (err) {
 		console.log('error signing up..', err);
@@ -82,7 +86,7 @@ async function signIn({ username, password }, props, updateErrMsg) {
 		// props.changeAuth(true);
 		props.changeIsAuthing(true);
 		initialFormState.updateLoader(false);
-		props.history.push('/'); //! Something's broke here
+		props.history.push('/');
 	} catch (err) {
 		console.log('error signing up..', err);
 		initialFormState.updateLoader(false);
@@ -124,6 +128,9 @@ export default function Form(props) {
 
 	useEffect(() => {
 		updateCurtain('curtain');
+		if (ls.get('confirm signUp')) {
+			updateFormType('confirmSignUp');
+		}
 		// console.log('loaded');
 		// hoisting up to global object to make the function acessible .... there is a better way 118
 		initialFormState.updateLoader = (boolean) => {
@@ -182,6 +189,7 @@ export default function Form(props) {
 							confirmSignUp={() => confirmSignUp(formState, updateFormType, updateErrMsg)}
 							isLoading={isLoading.norm}
 							updateisLoading={updateisLoading}
+							updateFormType={updateFormType}
 							updateFormState={(e) => updateFormState({ type: 'updateFormState', e })}
 						/>
 					</div>
@@ -516,6 +524,19 @@ function ConfirmSignUp(props) {
 					</div>
 				)}
 			</button>
+			<p className="">
+				Wrong mail? Re-enter{' '}
+				<span
+					onClick={() => {
+						ls.set('confirm signUp', false);
+						ls.set('username', null);
+						props.updateFormType('signUp');
+					}}
+					className="anchor"
+				>
+					Here
+				</span>
+			</p>
 		</div>
 	);
 }
