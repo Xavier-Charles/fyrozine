@@ -524,7 +524,7 @@ function ConfirmSignUp(props) {
 					</div>
 				)}
 			</button>
-			<p className="">
+			<p className="footer">
 				Wrong mail? Re-enter{' '}
 				<span
 					onClick={() => {
