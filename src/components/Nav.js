@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { Auth } from 'aws-amplify';
 
@@ -44,7 +44,29 @@ async function checkUser() {
 	const user = await Auth.currentAuthenticatedUser();
 	console.log(user);
 }
+
+function useComponentVisible(initialIsVisible) {
+	const [ isComponentVisible, setIsComponentVisible ] = useState(initialIsVisible);
+	const ref = useRef(null);
+
+	const handleClickOutside = (event) => {
+		if (ref.current && !ref.current.contains(event.target)) {
+			setIsComponentVisible(false);
+		}
+	};
+
+	useEffect(() => {
+		document.addEventListener('click', handleClickOutside, true);
+		return () => {
+			document.removeEventListener('click', handleClickOutside, true);
+		};
+	});
+
+	return { ref, isComponentVisible, setIsComponentVisible };
+}
+
 function Nav(props) {
+	const { ref, isComponentVisible, setIsComponentVisible } = useComponentVisible(false);
 	// console.log(props);
 	return (
 		<Navbar>
@@ -53,12 +75,15 @@ function Nav(props) {
 					<Link className="Nav-brand-logo" to="/">
 						Fyrozine
 					</Link>
-					<div id="menuToggle">
-						<input type="checkbox" />
+					<div id="menuToggle" className={isComponentVisible ? 'navOpen' : ''} ref={ref}>
+						<input onClick={() => setIsComponentVisible(!isComponentVisible)} type="checkbox" />
 						<span />
 						<span style={{ width: '25px' }} />
 						<span />
 						<ul id="menu">
+							<li>
+								<Link to="/">Home</Link>
+							</li>
 							<li>
 								<Link to="/male">Gentlemen</Link>
 							</li>
@@ -226,17 +251,17 @@ const Navbar = styled.nav`
 		transform-origin: 0% 100%;
 	}
 
-	#menuToggle input:checked ~ span {
+	#menuToggle.navOpen span {
 		opacity: 1;
 		transform: rotate(45deg) translate(10px, -1px);
 		background: #36383f;
 	}
-	#menuToggle input:checked ~ span:nth-last-child(3) {
+	#menuToggle.navOpen span:nth-last-child(3) {
 		opacity: 0;
 		transform: rotate(0deg) scale(0.2, 0.2);
 	}
 
-	#menuToggle input:checked ~ span:nth-last-child(2) {
+	#menuToggle.navOpen span:nth-last-child(2) {
 		transform: rotate(-45deg) translate(3.5px, 9px);
 	}
 
@@ -250,7 +275,7 @@ const Navbar = styled.nav`
 		border-radius: 0px 0px 0px 270px;
 		margin: -50px 0 0 371px;
 		padding: 50px;
-		padding-top: 125px;
+		padding-top: 85px;
 		background-color: #f5f6fa;
 		-webkit-font-smoothing: antialiased;
 		transform-origin: 0% 0%;
@@ -263,7 +288,7 @@ const Navbar = styled.nav`
 		transition-delay: 2s;
 	}
 
-	#menuToggle input:checked ~ ul {
+	#menuToggle.navOpen ul {
 		transform: translate(-215%, 0);
 	}
 	a {
