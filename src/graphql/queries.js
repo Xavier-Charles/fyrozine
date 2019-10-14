@@ -54,7 +54,11 @@ export const getUser = `query GetUser($id: ID!) {
     avatar
     createdDate
     likedCategories
-    saved
+    saved {
+      id
+      createdDate
+      group
+    }
     savedProducts {
       price
       img
@@ -77,7 +81,11 @@ export const listUsers = `query ListUsers(
       avatar
       createdDate
       likedCategories
-      saved
+      saved {
+        id
+        createdDate
+        group
+      }
       savedProducts {
         price
         img
@@ -118,8 +126,8 @@ export const listProducts = `query ListProducts(
   }
 }
 `;
-export const getNPost = `query GetNPost($id: ID!, $createdDate: String!) {
-  getNPost(id: $id, createdDate: $createdDate) {
+export const getNewPost = `query GetNewPost($id: String!, $createdDate: String!) {
+  getNewPost(id: $id, createdDate: $createdDate) {
     id
     postType
     caption
@@ -137,21 +145,19 @@ export const getNPost = `query GetNPost($id: ID!, $createdDate: String!) {
   }
 }
 `;
-export const listNPosts = `query ListNPosts(
-  $id: ID
+export const listNewPosts = `query ListNewPosts(
+  $id: String
   $createdDate: ModelStringKeyConditionInput
-  $filter: ModelNPostFilterInput
+  $filter: ModelNewPostFilterInput
   $limit: Int
   $nextToken: String
-  
 ) {
-  listNPosts(
+  listNewPosts(
     id: $id
     createdDate: $createdDate
     filter: $filter
     limit: $limit
     nextToken: $nextToken
-    sortDirection: DESC
   ) {
     items {
       id

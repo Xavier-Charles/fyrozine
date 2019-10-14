@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 // import { Storage, API, graphqlOperation, Auth } from 'aws-amplify';
 import { API, graphqlOperation } from 'aws-amplify';
 
-import { listNPosts as ListPosts } from '../graphql/queries';
+import { listNewPosts as ListPosts } from '../graphql/queries';
 import Post from './Post';
 import Loadin from '../placeholderComponents/Loadin';
 // import config from '../aws-exports';
@@ -87,12 +87,12 @@ function Poster(props) {
 						})
 					));
 			// console.log(post.p.data.listPosts.nextToken);
-			if (post.p.data.listNPosts.nextToken === null) updateEnd(true);
-			updateNextToken(post.p.data.listNPosts.nextToken);
+			if (post.p.data.listNewPosts.nextToken === null) updateEnd(true);
+			updateNextToken(post.p.data.listNewPosts.nextToken);
 
 			// console.log(isSubscribed);
 			if (isSubscribed) {
-				updatePosts(post.p.data.listNPosts.items);
+				updatePosts(post.p.data.listNewPosts.items);
 			}
 
 			return () => (isSubscribed = false);
@@ -126,7 +126,7 @@ function Poster(props) {
 							})
 						));
 				// console.log(post.p);
-				updateNextToken(post.p.data.listNPosts.nextToken);
+				updateNextToken(post.p.data.listNewPosts.nextToken);
 
 				// console.log(isSubscribed);
 				//* */ leaving getting as true at this point
@@ -134,10 +134,10 @@ function Poster(props) {
 				if (isSubscribed) {
 					// updatePosts([]);
 					updatePosts((prevState) => {
-						return [ ...prevState, ...post.p.data.listNPosts.items ];
+						return [ ...prevState, ...post.p.data.listNewPosts.items ];
 					});
 				}
-				if (post.p.data.listNPosts.nextToken === null) return updateEnd(true);
+				if (post.p.data.listNewPosts.nextToken === null) return updateEnd(true);
 				updateGetting(false);
 				return () => (isSubscribed = false);
 			} catch (err) {

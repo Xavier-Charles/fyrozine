@@ -66,7 +66,11 @@ export const createUser = `mutation CreateUser($input: CreateUserInput!) {
     avatar
     createdDate
     likedCategories
-    saved
+    saved {
+      id
+      createdDate
+      group
+    }
     savedProducts {
       price
       img
@@ -84,7 +88,11 @@ export const updateUser = `mutation UpdateUser($input: UpdateUserInput!) {
     avatar
     createdDate
     likedCategories
-    saved
+    saved {
+      id
+      createdDate
+      group
+    }
     savedProducts {
       price
       img
@@ -102,7 +110,11 @@ export const deleteUser = `mutation DeleteUser($input: DeleteUserInput!) {
     avatar
     createdDate
     likedCategories
-    saved
+    saved {
+      id
+      createdDate
+      group
+    }
     savedProducts {
       price
       img
@@ -145,8 +157,8 @@ export const deleteProduct = `mutation DeleteProduct($input: DeleteProductInput!
   }
 }
 `;
-export const createNPost = `mutation CreateNPost($input: CreateNPostInput!) {
-  createNPost(input: $input) {
+export const createNewPost = `mutation CreateNewPost($input: CreateNewPostInput!) {
+  createNewPost(input: $input) {
     id
     postType
     caption
@@ -164,8 +176,8 @@ export const createNPost = `mutation CreateNPost($input: CreateNPostInput!) {
   }
 }
 `;
-export const updateNPost = `mutation UpdateNPost($input: UpdateNPostInput!) {
-  updateNPost(input: $input) {
+export const updateNewPost = `mutation UpdateNewPost($input: UpdateNewPostInput!) {
+  updateNewPost(input: $input) {
     id
     postType
     caption
@@ -183,8 +195,8 @@ export const updateNPost = `mutation UpdateNPost($input: UpdateNPostInput!) {
   }
 }
 `;
-export const deleteNPost = `mutation DeleteNPost($input: DeleteNPostInput!) {
-  deleteNPost(input: $input) {
+export const deleteNewPost = `mutation DeleteNewPost($input: DeleteNewPostInput!) {
+  deleteNewPost(input: $input) {
     id
     postType
     caption

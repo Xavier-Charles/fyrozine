@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import '../lib/fontAw';
 import { Storage, API, graphqlOperation } from 'aws-amplify';
 
-import { getPost as GetPost } from '../graphql/queries';
+import { getNewPost as GetPost } from '../graphql/queries';
 import { updateUser, updatePost } from '../graphql/mutations';
 import scrape from '../scraper/scraper';
 import ProductLister from './newProducts';
@@ -279,7 +279,7 @@ class Post extends Component {
 				if (this.state.saved) {
 					try {
 						this.setState({ saved: false });
-						user.saved = user.saved.filter((p) => p !== this.state.postData.id);
+						user.saved = user.saved.filter((p) => p.createdDate !== this.state.postData.createdDate);
 						await API.graphql(graphqlOperation(updateUser, { input: user }));
 					} catch (err) {
 						console.log(err);
@@ -287,9 +287,16 @@ class Post extends Component {
 				} else {
 					try {
 						if (user.saved == null) {
-							user.saved = [ this.state.postData.id ];
+							// user.saved = [ { createdDate: this.state.postData.createdDate } ];
+							user.saved = [
+								{ id: this.state.postData.id, createdDate: this.state.postData.createdDate }
+							];
 						} else {
-							user.saved.push(this.state.postData.id);
+							// user.saved.push({ createdDate: this.state.postData.createdDate });
+							user.saved.push({
+								id: this.state.postData.id,
+								createdDate: this.state.postData.createdDate
+							});
 						}
 						this.setState({ saved: true });
 						await API.graphql(graphqlOperation(updateUser, { input: user }));
@@ -330,18 +337,21 @@ class Post extends Component {
 	// }
 	async getData(postId) {
 		try {
-			const postData = await API.graphql(graphqlOperation(GetPost, { id: postId }));
+			const postData = await API.graphql(
+				graphqlOperation(GetPost, { id: postId.id, createdDate: postId.createdDate })
+			);
 			// console.log(postData);
-			let poD = postData.data;
-			if (poD.getPost == null) {
+			let poD = postData.data.getNewPost;
+			if (poD == null) {
 				const user = this.props.cprops.authedUser;
-				user.saved = user.saved.filter((p) => p !== postId);
+				user.saved = user.saved.filter((p) => p.createdDate !== postId.createdDate);
 				await API.graphql(graphqlOperation(updateUser, { input: user }));
 				return this.setState({ deleted: true });
 			}
-			this.setState({ postData: poD.getPost });
-			!poD.getPost.postType && this.fetchImage(poD.getPost.img, poD.getPost.postedBy);
-			this.props.cprops.authedUser.saved.includes(poD.getPost.id) && this.setState({ saved: true });
+			this.setState({ postData: poD, saved: true });
+			!poD.postType && this.fetchImage(poD.img, poD.postedBy);
+			// console.log(this.props.cprops.authedUser.saved);
+			// this.props.cprops.authedUser.saved.values(poD.id) && this.setState({ saved: true });
 			// console.log(this.state.postData);
 		} catch (err) {
 			console.log(err);

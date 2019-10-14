@@ -66,7 +66,11 @@ export const onCreateUser = `subscription OnCreateUser {
     avatar
     createdDate
     likedCategories
-    saved
+    saved {
+      id
+      createdDate
+      group
+    }
     savedProducts {
       price
       img
@@ -84,7 +88,11 @@ export const onUpdateUser = `subscription OnUpdateUser {
     avatar
     createdDate
     likedCategories
-    saved
+    saved {
+      id
+      createdDate
+      group
+    }
     savedProducts {
       price
       img
@@ -102,7 +110,11 @@ export const onDeleteUser = `subscription OnDeleteUser {
     avatar
     createdDate
     likedCategories
-    saved
+    saved {
+      id
+      createdDate
+      group
+    }
     savedProducts {
       price
       img
@@ -145,8 +157,8 @@ export const onDeleteProduct = `subscription OnDeleteProduct {
   }
 }
 `;
-export const onCreateNPost = `subscription OnCreateNPost {
-  onCreateNPost {
+export const onCreateNewPost = `subscription OnCreateNewPost {
+  onCreateNewPost {
     id
     postType
     caption
@@ -164,8 +176,8 @@ export const onCreateNPost = `subscription OnCreateNPost {
   }
 }
 `;
-export const onUpdateNPost = `subscription OnUpdateNPost {
-  onUpdateNPost {
+export const onUpdateNewPost = `subscription OnUpdateNewPost {
+  onUpdateNewPost {
     id
     postType
     caption
@@ -183,8 +195,8 @@ export const onUpdateNPost = `subscription OnUpdateNPost {
   }
 }
 `;
-export const onDeleteNPost = `subscription OnDeleteNPost {
-  onDeleteNPost {
+export const onDeleteNewPost = `subscription OnDeleteNewPost {
+  onDeleteNewPost {
     id
     postType
     caption

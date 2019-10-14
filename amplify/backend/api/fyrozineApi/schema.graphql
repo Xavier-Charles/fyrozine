@@ -22,8 +22,14 @@ type User @model {
 	avatar: String
 	createdDate: String!
 	likedCategories: [String]
-	saved: [String]
+	saved: [SavePost]
 	savedProducts: [Apparel]
+}
+
+type SavePost {
+	id: String
+	createdDate: String
+	group: Int
 }
 
 type Product @model {
@@ -43,7 +49,7 @@ type Apparel {
 }
 
 type NewPost @model @key(fields: ["id", "createdDate"]) {
-	id: Int
+	id: String!
 	postType: String
 	caption: String!
 	tags: String!
