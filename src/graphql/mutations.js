@@ -145,3 +145,60 @@ export const deleteProduct = `mutation DeleteProduct($input: DeleteProductInput!
   }
 }
 `;
+export const createNPost = `mutation CreateNPost($input: CreateNPostInput!) {
+  createNPost(input: $input) {
+    id
+    postType
+    caption
+    tags
+    category
+    style
+    img
+    postedBy
+    createdDate
+    hairNeck
+    torsoWaist
+    thighAnkle
+    ankleToe
+    acessories
+  }
+}
+`;
+export const updateNPost = `mutation UpdateNPost($input: UpdateNPostInput!) {
+  updateNPost(input: $input) {
+    id
+    postType
+    caption
+    tags
+    category
+    style
+    img
+    postedBy
+    createdDate
+    hairNeck
+    torsoWaist
+    thighAnkle
+    ankleToe
+    acessories
+  }
+}
+`;
+export const deleteNPost = `mutation DeleteNPost($input: DeleteNPostInput!) {
+  deleteNPost(input: $input) {
+    id
+    postType
+    caption
+    tags
+    category
+    style
+    img
+    postedBy
+    createdDate
+    hairNeck
+    torsoWaist
+    thighAnkle
+    ankleToe
+    acessories
+  }
+}
+`;

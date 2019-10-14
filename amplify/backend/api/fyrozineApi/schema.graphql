@@ -41,3 +41,20 @@ type Apparel {
 	link: String!
 	part: String!
 }
+
+type NewPost @model @key(fields: ["id", "createdDate"]) {
+	id: Int
+	postType: String
+	caption: String!
+	tags: String!
+	category: String!
+	style: String!
+	img: String!
+	postedBy: String!
+	createdDate: String!
+	hairNeck: [String]
+	torsoWaist: [String]
+	thighAnkle: [String]
+	ankleToe: [String]
+	acessories: [String]
+}

@@ -118,3 +118,58 @@ export const listProducts = `query ListProducts(
   }
 }
 `;
+export const getNPost = `query GetNPost($id: ID!, $createdDate: String!) {
+  getNPost(id: $id, createdDate: $createdDate) {
+    id
+    postType
+    caption
+    tags
+    category
+    style
+    img
+    postedBy
+    createdDate
+    hairNeck
+    torsoWaist
+    thighAnkle
+    ankleToe
+    acessories
+  }
+}
+`;
+export const listNPosts = `query ListNPosts(
+  $id: ID
+  $createdDate: ModelStringKeyConditionInput
+  $filter: ModelNPostFilterInput
+  $limit: Int
+  $nextToken: String
+  
+) {
+  listNPosts(
+    id: $id
+    createdDate: $createdDate
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+    sortDirection: DESC
+  ) {
+    items {
+      id
+      postType
+      caption
+      tags
+      category
+      style
+      img
+      postedBy
+      createdDate
+      hairNeck
+      torsoWaist
+      thighAnkle
+      ankleToe
+      acessories
+    }
+    nextToken
+  }
+}
+`;

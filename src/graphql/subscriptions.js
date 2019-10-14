@@ -145,3 +145,60 @@ export const onDeleteProduct = `subscription OnDeleteProduct {
   }
 }
 `;
+export const onCreateNPost = `subscription OnCreateNPost {
+  onCreateNPost {
+    id
+    postType
+    caption
+    tags
+    category
+    style
+    img
+    postedBy
+    createdDate
+    hairNeck
+    torsoWaist
+    thighAnkle
+    ankleToe
+    acessories
+  }
+}
+`;
+export const onUpdateNPost = `subscription OnUpdateNPost {
+  onUpdateNPost {
+    id
+    postType
+    caption
+    tags
+    category
+    style
+    img
+    postedBy
+    createdDate
+    hairNeck
+    torsoWaist
+    thighAnkle
+    ankleToe
+    acessories
+  }
+}
+`;
+export const onDeleteNPost = `subscription OnDeleteNPost {
+  onDeleteNPost {
+    id
+    postType
+    caption
+    tags
+    category
+    style
+    img
+    postedBy
+    createdDate
+    hairNeck
+    torsoWaist
+    thighAnkle
+    ankleToe
+    acessories
+  }
+}
+`;

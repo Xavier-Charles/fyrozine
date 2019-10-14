@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 // import { Storage, API, graphqlOperation, Auth } from 'aws-amplify';
 import { API, graphqlOperation } from 'aws-amplify';
 
-import { listPosts as ListPosts } from '../graphql/queries';
+import { listNPosts as ListPosts } from '../graphql/queries';
 import Post from './Post';
 import Loadin from '../placeholderComponents/Loadin';
 // import config from '../aws-exports';
@@ -38,29 +38,29 @@ function Poster(props) {
 			// updateIter(iter + 1);
 		}
 	};
-	async function GlistPosts() {
-		let isSubscribed = true;
-		try {
-			const p = await API.graphql(
-				graphqlOperation(ListPosts, {
-					filter: {
-						category: {
-							contains: props.sex
-						}
-					}
-				})
-			);
+	// async function GlistPosts() {
+	// 	let isSubscribed = true;
+	// 	try {
+	// 		const p = await API.graphql(
+	// 			graphqlOperation(ListPosts, {
+	// 				filter: {
+	// 					category: {
+	// 						contains: props.sex
+	// 					}
+	// 				}
+	// 			})
+	// 		);
 
-			// console.log(isSubscribed);
-			// console.log(p);
-			if (isSubscribed) {
-				updatePosts(p.data.listPosts.items);
-			}
-			return () => (isSubscribed = false);
-		} catch (err) {
-			console.log(err);
-		}
-	}
+	// 		// console.log(isSubscribed);
+	// 		// console.log(p);
+	// 		if (isSubscribed) {
+	// 			updatePosts(p.data.listPosts.items);
+	// 		}
+	// 		return () => (isSubscribed = false);
+	// 	} catch (err) {
+	// 		console.log(err);
+	// 	}
+	// }
 	async function listPosts() {
 		let isSubscribed = true;
 		try {
@@ -78,17 +78,21 @@ function Poster(props) {
 					))
 				: (post.p = await API.graphql(
 						graphqlOperation(ListPosts, {
+							id: 'A',
+							createdDate: {
+								gt: '2000-10-08T19:35:26.075Z'
+							},
 							limit: 7
 							// nextToken: 'next'
 						})
 					));
 			// console.log(post.p.data.listPosts.nextToken);
-			if (post.p.data.listPosts.nextToken === null) updateEnd(true);
-			updateNextToken(post.p.data.listPosts.nextToken);
+			if (post.p.data.listNPosts.nextToken === null) updateEnd(true);
+			updateNextToken(post.p.data.listNPosts.nextToken);
 
 			// console.log(isSubscribed);
 			if (isSubscribed) {
-				updatePosts(post.p.data.listPosts.items);
+				updatePosts(post.p.data.listNPosts.items);
 			}
 
 			return () => (isSubscribed = false);
@@ -122,7 +126,7 @@ function Poster(props) {
 							})
 						));
 				// console.log(post.p);
-				updateNextToken(post.p.data.listPosts.nextToken);
+				updateNextToken(post.p.data.listNPosts.nextToken);
 
 				// console.log(isSubscribed);
 				//* */ leaving getting as true at this point
@@ -130,10 +134,10 @@ function Poster(props) {
 				if (isSubscribed) {
 					// updatePosts([]);
 					updatePosts((prevState) => {
-						return [ ...prevState, ...post.p.data.listPosts.items ];
+						return [ ...prevState, ...post.p.data.listNPosts.items ];
 					});
 				}
-				if (post.p.data.listPosts.nextToken === null) return updateEnd(true);
+				if (post.p.data.listNPosts.nextToken === null) return updateEnd(true);
 				updateGetting(false);
 				return () => (isSubscribed = false);
 			} catch (err) {

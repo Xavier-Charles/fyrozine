@@ -76,6 +76,9 @@ const PostStyle = styled.div`
 		transition: 0.5s;
 		overflow: hidden;
 	}
+	.Post-card {
+		position: relative;
+	}
 	.Post-card:hover .Post-details {
 		height: auto;
 	}
@@ -405,33 +408,35 @@ class Post extends Component {
 								)}
 							</div>
 						</div>
-						<div className="Post-details">
-							{/* <hr /> */}
-							<div>
-								{/* //* Icons set Up from
+						<div>
+							<div className="Post-details">
+								{/* <hr /> */}
+								<div>
+									{/* //* Icons set Up from
 						//* https://scotch.io/tutorials/using-font-awesome-5-with-react */}
-								<div className="btn" onClick={() => this.handleClick('SAVE')}>
-									<FontAwesomeIcon
-										icon={[ 'fas', 'bookmark' ]}
-										transform="grow-5 down-5"
-										size="1x"
-										style={{
-											color: `${this.state.saved ? 'rgba(0, 142, 109, 0.84)' : '#c5c4c4f0'}`,
-											paddingRight: '5px'
-										}}
-									/>
-									{/* <div /> */}
-									<label className="l">{`${this.state.saved ? 'Saved' : 'Save'}`}</label>
+									<div className="btn" onClick={() => this.handleClick('SAVE')}>
+										<FontAwesomeIcon
+											icon={[ 'fas', 'bookmark' ]}
+											transform="grow-5 down-5"
+											size="1x"
+											style={{
+												color: `${this.state.saved ? 'rgba(0, 142, 109, 0.84)' : '#c5c4c4f0'}`,
+												paddingRight: '5px'
+											}}
+										/>
+										{/* <div /> */}
+										<label className="l">{`${this.state.saved ? 'Saved' : 'Save'}`}</label>
+									</div>
+									<button className=" btn-shine" onClick={() => this.getProducts('dara')}>
+										<span>See collection</span>
+									</button>
 								</div>
-								<button className=" btn-shine" onClick={() => this.getProducts('dara')}>
-									<span>See collection</span>
-								</button>
-							</div>
-							<hr />
-							<div className="Post-caption">
-								{/* <img className="Post-user-avatar" src={avatar} alt={nickname} /> */}
-								{/* <span className="Post-user-nickname">{nickname} NICKNAME</span> */}
-								<p style={{ margin: '5px 12px' }}>{caption}</p>
+								<hr />
+								<div className="Post-caption">
+									{/* <img className="Post-user-avatar" src={avatar} alt={nickname} /> */}
+									{/* <span className="Post-user-nickname">{nickname} NICKNAME</span> */}
+									<p style={{ margin: '5px 12px' }}>{caption}</p>
+								</div>
 							</div>
 						</div>
 					</div>
