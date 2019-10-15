@@ -90,6 +90,26 @@ const PostStyle = styled.div`
 		height: 1px;
 		background: linear-gradient(to left, #efefef, #a5a4a4e6, #fff);
 	}
+	.CB {
+		position: absolute;
+		background: transparent;
+	}
+	.Zero {
+		width: 80%;
+		margin-left: 10%;
+		height: 40%;
+		top: 55px;
+	}
+	.One {
+		width: 100%;
+		bottom: 0px;
+		height: 55%;
+	}
+	.Two {
+		width: 100%;
+		top: 55px;
+		height: 32%;
+	}
 	.btn {
 		display: inline-block;
 		background-color: inherit;
@@ -379,10 +399,14 @@ class Post extends Component {
 								{this.state.postData.postType === 'instagram' ? (
 									<div
 										style={{
-											margin: !this.state.loadedInst ? 0 : '-1px -1px -121px -1px'
+											margin: !this.state.loadedInst ? 0 : '-1px -1px -121px -1px',
+											position: 'relative'
 										}}
 										onClick={(e) => e.preventDefault()}
 									>
+										<div className={this.state.postData.postType === 'instagram' && 'CB Zero'} />
+										<div className={this.state.postData.postType === 'instagram' && 'CB One'} />
+										<div className={this.state.postData.postType === 'instagram' && 'CB Two'} />
 										<InstagramEmbed
 											url={this.state.postData.img}
 											maxWidth={parseInt(viewW)}

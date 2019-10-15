@@ -68,7 +68,11 @@ function Poster(props) {
 			props.sex
 				? (post.p = await API.graphql(
 						graphqlOperation(ListPosts, {
+							id: 'A',
 							limit: 7,
+							createdDate: {
+								gt: '2000-10-08T19:35:26.075Z'
+							},
 							filter: {
 								category: {
 									contains: props.sex

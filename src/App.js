@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { API, graphqlOperation, Auth, Hub } from 'aws-amplify';
 
 import { getUser } from './graphql/queries';
+import ls from 'local-storage';
 
 import NewPosts from './components/newPosts';
 import AddPost from './components/AddPosts';
@@ -17,12 +18,23 @@ import Nav from './components/Nav';
 // import UnderConst from './components/underConst';
 // import Personal from './components/personalised';
 import AppliedRoute from './components/appliedRoute';
-import Login from './components/login';
+// import Login from './components/login';
 import Collection from './components/Collection'; //PSk ProductList Skeleton
 import Closet from './components/AprlCollection';
-import ls from 'local-storage';
 import Profiler from './components/profile';
+
 import Loadin from './placeholderComponents/Loadin';
+import Fullloader from './placeholderComponents/Fullloader';
+
+const LazyLogin = React.lazy(() => import('./components/login'));
+const LazyNewPosts = React.lazy(() => import('./components/newPosts'));
+const LazyAddPost = React.lazy(() => import('./components/AddPosts'));
+const LazyNav = React.lazy(() => import('./components/Nav'));
+const LazyAppliedRoute = React.lazy(() => import('./components/appliedRoute'));
+const LazyCollection = React.lazy(() => import('./components/Collection'));
+const LazyCloset = React.lazy(() => import('./components/AprlCollection'));
+const LazyProfiler = React.lazy(() => import('./components/login'));
+const LazyLoadin = React.lazy(() => import('./placeholderComponents/Loadin'));
 
 var viewH = Math.max(document.documentElement.clientHeight, window.innerHeight || 0) - 5;
 var viewW = viewH / 1.4;
@@ -169,49 +181,52 @@ class App extends Component {
 		const SignUpContainer = () => (
 			<div className="LoginContainer">
 				{/* {console.log('called')} */}
-				<AppliedRoute path="/signup" exact component={Login} props={childProps} />
+				<React.Suspense fallback={<Fullloader />}>
+					<LazyAppliedRoute path="/signup" exact component={LazyLogin} props={childProps} />
+				</React.Suspense>
 			</div>
 		);
 		const DefaultContainer = () => (
 			<div>
 				<div className="AppContainer">
-					<Nav {...childProps} deferredPrompt={this.props.deferredPrompt} />
-					{/* {console.log('called')} */}
-					{/* <Route path="/test" component={Login} /> */}
-					<Route
-						path="/your/collection"
-						exact
-						render={() =>
-							this.state.authed ? (
-								// <AppliedRoute path="/your/collection" exact component={Collection} props={childProps} />
-								<Collection {...childProps} />
-							) : (
-								<Redirect to="/signup" />
-							)}
-					/>
-					<Route
-						path="/male"
-						exact
-						render={() =>
-							this.state.authed ? (
-								// <AppliedRoute path="/your/collection" exact component={Collection} props={childProps} />
-								<NewPosts sex={'MALE'} {...childProps} />
-							) : (
-								<Redirect to="/signup" />
-							)}
-					/>
-					<Route
-						path="/female"
-						exact
-						render={() =>
-							this.state.authed ? (
-								// <AppliedRoute path="/your/collection" exact component={Collection} props={childProps} />
-								<NewPosts sex={'WOMEN'} {...childProps} />
-							) : (
-								<Redirect to="/signup" />
-							)}
-					/>
-					{/* <Route
+					<React.Suspense fallback={<Fullloader />}>
+						<LazyNav {...childProps} deferredPrompt={this.props.deferredPrompt} />
+						{/* {console.log('called')} */}
+						{/* <Route path="/test" component={Login} /> */}
+						<Route
+							path="/your/collection"
+							exact
+							render={() =>
+								this.state.authed ? (
+									// <AppliedRoute path="/your/collection" exact component={Collection} props={childProps} />
+									<LazyCollection {...childProps} />
+								) : (
+									<Redirect to="/signup" />
+								)}
+						/>
+						<Route
+							path="/male"
+							exact
+							render={() =>
+								this.state.authed ? (
+									// <AppliedRoute path="/your/collection" exact component={Collection} props={childProps} />
+									<LazyNewPosts sex={'MALE'} {...childProps} />
+								) : (
+									<Redirect to="/signup" />
+								)}
+						/>
+						<Route
+							path="/female"
+							exact
+							render={() =>
+								this.state.authed ? (
+									// <AppliedRoute path="/your/collection" exact component={Collection} props={childProps} />
+									<LazyNewPosts sex={'WOMEN'} {...childProps} />
+								) : (
+									<Redirect to="/signup" />
+								)}
+						/>
+						{/* <Route
 						path="/kids"
 						exact
 						render={() =>
@@ -222,37 +237,42 @@ class App extends Component {
 								<Redirect to="/signup" />
 							)}
 					/> */}
-					<Route
-						path="/your/closet"
-						exact
-						render={() => (this.state.authed ? <Closet {...childProps} /> : <Redirect to="/signup" />)}
-					/>
-					<Route
-						path="/your/profile"
-						exact
-						render={() => (this.state.authed ? <Profiler {...childProps} /> : <Redirect to="/signup" />)}
-					/>
-					{/* <Route
+						<Route
+							path="/your/closet"
+							exact
+							render={() =>
+								this.state.authed ? <LazyCloset {...childProps} /> : <Redirect to="/signup" />}
+						/>
+						<Route
+							path="/your/profile"
+							exact
+							render={() =>
+								this.state.authed ? <LazyProfiler {...childProps} /> : <Redirect to="/signup" />}
+						/>
+						{/* <Route
 						exact
 						path="/products"
 						render={() => (this.state.authed ? <Products /> : <Redirect to="/signup" />)}
 					/> */}
-					<Route
-						path="/"
-						exact
-						render={() => (this.state.authed ? <NewPosts {...childProps} /> : <Redirect to="/signup" />)}
-					/>
-					{/* <AppliedRoute path="/" exact component={NewPosts} props={childProps} /> */}
+						<Route
+							path="/"
+							exact
+							render={() =>
+								this.state.authed ? <LazyNewPosts {...childProps} /> : <Redirect to="/signup" />}
+						/>
+						{/* <AppliedRoute path="/" exact component={NewPosts} props={childProps} /> */}
 
-					<Route
-						path="/123456098yfguifladdpost"
-						render={() => (this.state.authed ? <AddPost {...childProps} /> : <Redirect to="/signup" />)}
-					/>
-					{/* <Route path="/images" render={() => (this.state.authed ? <Images /> : <Redirect to="/signup" />)} />
+						<Route
+							path="/123456098yfguifladdpost"
+							render={() =>
+								this.state.authed ? <LazyAddPost {...childProps} /> : <Redirect to="/signup" />}
+						/>
+						{/* <Route path="/images" render={() => (this.state.authed ? <Images /> : <Redirect to="/signup" />)} />
 					<Route
 						path="/users"
 						render={(props) => (this.state.authed ? <Users /> : <Redirect to="/signup" />)}
 					/> */}
+					</React.Suspense>
 				</div>
 			</div>
 		);
@@ -269,13 +289,14 @@ class App extends Component {
 		} //** offline handler */
 		if (this.state.isAuthing) {
 			return (
-				<div
-					className="Posts"
-					style={{ marginTop: '250px', textAlign: 'center', fontFamily: 'Julius Sans One' }}
-				>
-					<h1 style={{ color: '#635f55' }}>Fyrozine</h1>
-					<Loadin color="#040404" />
-				</div>
+				// <div
+				// 	className="Posts"
+				// 	style={{ marginTop: '250px', textAlign: 'center', fontFamily: 'Julius Sans One' }}
+				// >
+				// 	<h1 style={{ color: '#635f55' }}>Fyrozine</h1>
+				// 	<Loadin color="#040404" />
+				// </div>
+				<Fullloader />
 			);
 		}
 		return (
