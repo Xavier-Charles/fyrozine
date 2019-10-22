@@ -299,7 +299,7 @@ class Post extends Component {
 				if (this.state.saved) {
 					try {
 						this.setState({ saved: false });
-						user.saved = user.saved.filter((p) => p.createdDate !== this.state.postData.createdDate);
+						user.saved = user.saved.filter((p) => p.sN !== this.state.postData.sN);
 						await API.graphql(graphqlOperation(updateUser, { input: user }));
 					} catch (err) {
 						console.log(err);
@@ -307,15 +307,13 @@ class Post extends Component {
 				} else {
 					try {
 						if (user.saved == null) {
-							// user.saved = [ { createdDate: this.state.postData.createdDate } ];
-							user.saved = [
-								{ id: this.state.postData.id, createdDate: this.state.postData.createdDate }
-							];
+							// user.saved = [ { sN: this.state.postData.sN } ];
+							user.saved = [ { group: this.state.postData.group, sN: this.state.postData.sN } ];
 						} else {
-							// user.saved.push({ createdDate: this.state.postData.createdDate });
+							// user.saved.push({ sN: this.state.postData.sN });
 							user.saved.push({
-								id: this.state.postData.id,
-								createdDate: this.state.postData.createdDate
+								group: this.state.postData.group,
+								sN: this.state.postData.sN
 							});
 						}
 						this.setState({ saved: true });
@@ -357,14 +355,12 @@ class Post extends Component {
 	// }
 	async getData(postId) {
 		try {
-			const postData = await API.graphql(
-				graphqlOperation(GetPost, { id: postId.id, createdDate: postId.createdDate })
-			);
+			const postData = await API.graphql(graphqlOperation(GetPost, { group: postId.group, sN: postId.sN }));
 			// console.log(postData);
 			let poD = postData.data.getNewPost;
 			if (poD == null) {
 				const user = this.props.cprops.authedUser;
-				user.saved = user.saved.filter((p) => p.createdDate !== postId.createdDate);
+				user.saved = user.saved.filter((p) => p.sN !== postId.sN);
 				await API.graphql(graphqlOperation(updateUser, { input: user }));
 				return this.setState({ deleted: true });
 			}
@@ -409,7 +405,7 @@ class Post extends Component {
 										<div className={this.state.postData.postType === 'instagram' && 'CB Two'} />
 										<InstagramEmbed
 											url={this.state.postData.img}
-											maxWidth={parseInt(viewW)}
+											maxWidth={parseInt(viewW - 10)}
 											hideCaption={true}
 											containerTagName="div"
 											protocol=""

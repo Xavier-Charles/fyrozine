@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Storage, API, graphqlOperation, Auth } from 'aws-amplify';
 import uuid from 'uuid/v4';
 
-import { createPost as CreatePost } from '../graphql/mutations';
-// import { listPosts as ListPosts } from '../graphql/queries';
+import { createNewPost as CreatePost } from '../graphql/mutations';
+import { listNewPosts as ListPosts } from '../graphql/queries';
 // import config from '../aws-exports';
 
 import styled from 'styled-components';
@@ -25,6 +25,8 @@ function AddPost() {
 	const [ Other3, updateOther3 ] = useState('');
 	const [ category, updateCategory ] = useState('');
 	const [ style, updateStyle ] = useState('');
+
+	const [ success, updateSuccess ] = useState(false);
 
 	// const [ tags, updateTags ] = useState([]);
 	const [ tags, updateTags ] = useState({
@@ -208,9 +210,29 @@ function AddPost() {
 	// todo function updateTags() for better tagging
 
 	// upload the image to S3 and then save it in the GraphQL API
+
+	async function getID() {
+		try {
+			let p = await API.graphql(
+				graphqlOperation(ListPosts, {
+					// group: 'A',
+					limit: 1
+				})
+			);
+
+			//? update to get matrix of ABC's
+			let sN = `${parseInt(p.data.listNewPosts.items[0].sN) - 1}`;
+			let group = p.data.listNewPosts.items[0].group;
+			// console.log([ sN, group ]);
+			return [ sN, group ];
+		} catch (err) {
+			console.log(err);
+		}
+	}
 	async function createPost() {
 		if (link) {
 			const user = await Auth.currentCredentials(); //? Can we do this better
+			let [ sN, group ] = await getID();
 			// console.log(user);
 			// const { name: fileName, type: mimeType } = File;
 			// const key = `postImages/${uuid()}${fileName}`;
@@ -229,6 +251,8 @@ function AddPost() {
 
 			const inputData = {
 				// img: key,
+				group,
+				sN,
 				img: link,
 				postType: 'instagram',
 				postedBy: user._identityId,
@@ -258,7 +282,8 @@ function AddPost() {
 				// 	}
 				// });
 				await API.graphql(graphqlOperation(CreatePost, { input: inputData }));
-				console.log('Success');
+				// console.log('Success');
+				updateSuccess(true);
 			} catch (err) {
 				console.log('error: ', err);
 			}
@@ -392,7 +417,7 @@ function AddPost() {
 							{ApparelGroup.torsoWaist.map((item, id) => (
 								<p key={id} className="listed">
 									{id + 1} : {item}{' '}
-									<button onClick={() => deleteItem(item, 'torsowaist')}>delete</button>
+									<button onClick={() => deleteItem(item, 'torsoWaist')}>delete</button>
 								</p>
 							))}
 						</div>
@@ -421,7 +446,7 @@ function AddPost() {
 							))}
 						</div>
 						<input
-							placeholder="Product link_ _ _"
+							placeholder="Product link..."
 							value={thighAnkle}
 							onKeyPress={(e) => {
 								e.key === 'Enter' && enterHandler(e, 'thighAnkle');
@@ -546,8 +571,10 @@ function AddPost() {
 						}}
 					/>
 				</div>
-				<button className="button" onClick={createPost}>
-					i've doule checked... Create Post
+
+				<p style={{ marginTop: '40px', textAlign: 'center' }}>Ensure there is a link or img</p>
+				<button className="button" style={{ width: '100%' }} onClick={createPost}>
+					{success ? '... Success ...' : "I've doule checked... Create Post"}
 				</button>
 			</div>
 		</Styler>

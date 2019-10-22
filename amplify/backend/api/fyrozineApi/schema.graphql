@@ -27,9 +27,8 @@ type User @model {
 }
 
 type SavePost {
-	id: String
-	createdDate: String
-	group: Int
+	group: String!
+	sN: String!
 }
 
 type Product @model {
@@ -48,8 +47,9 @@ type Apparel {
 	part: String!
 }
 
-type NewPost @model @key(fields: ["id", "createdDate"]) {
-	id: String!
+type NewPost @model @key(fields: ["group", "sN"]) {
+	group: String!
+	sN: String!
 	postType: String
 	caption: String!
 	tags: String!

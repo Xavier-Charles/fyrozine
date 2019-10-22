@@ -111,10 +111,11 @@ function Nav(props) {
 							<li>
 								<a onClick={() => signOut(props)}>Sign Out</a>
 							</li>
-							{props.deferredPrompt && (
+							{props.deferredPrompt.add && (
 								<li>
+									{/* {console.log(props.deferredPrompt)} */}
 									<marquee>
-										<a onClick={() => props.deferredPrompt.prompt()}>Add to home screen</a>
+										<a onClick={() => props.deferredPrompt.add.prompt()}>Add to home screen</a>
 									</marquee>
 								</li>
 							)}

@@ -67,9 +67,8 @@ export const onCreateUser = `subscription OnCreateUser {
     createdDate
     likedCategories
     saved {
-      id
-      createdDate
       group
+      sN
     }
     savedProducts {
       price
@@ -89,9 +88,8 @@ export const onUpdateUser = `subscription OnUpdateUser {
     createdDate
     likedCategories
     saved {
-      id
-      createdDate
       group
+      sN
     }
     savedProducts {
       price
@@ -111,9 +109,8 @@ export const onDeleteUser = `subscription OnDeleteUser {
     createdDate
     likedCategories
     saved {
-      id
-      createdDate
       group
+      sN
     }
     savedProducts {
       price
@@ -159,7 +156,8 @@ export const onDeleteProduct = `subscription OnDeleteProduct {
 `;
 export const onCreateNewPost = `subscription OnCreateNewPost {
   onCreateNewPost {
-    id
+    group
+    sN
     postType
     caption
     tags
@@ -178,7 +176,8 @@ export const onCreateNewPost = `subscription OnCreateNewPost {
 `;
 export const onUpdateNewPost = `subscription OnUpdateNewPost {
   onUpdateNewPost {
-    id
+    group
+    sN
     postType
     caption
     tags
@@ -197,7 +196,8 @@ export const onUpdateNewPost = `subscription OnUpdateNewPost {
 `;
 export const onDeleteNewPost = `subscription OnDeleteNewPost {
   onDeleteNewPost {
-    id
+    group
+    sN
     postType
     caption
     tags

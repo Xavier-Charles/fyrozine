@@ -55,9 +55,8 @@ export const getUser = `query GetUser($id: ID!) {
     createdDate
     likedCategories
     saved {
-      id
-      createdDate
       group
+      sN
     }
     savedProducts {
       price
@@ -82,9 +81,8 @@ export const listUsers = `query ListUsers(
       createdDate
       likedCategories
       saved {
-        id
-        createdDate
         group
+        sN
       }
       savedProducts {
         price
@@ -126,9 +124,10 @@ export const listProducts = `query ListProducts(
   }
 }
 `;
-export const getNewPost = `query GetNewPost($id: String!, $createdDate: String!) {
-  getNewPost(id: $id, createdDate: $createdDate) {
-    id
+export const getNewPost = `query GetNewPost($group: String!, $sN: String!) {
+  getNewPost(group: $group, sN: $sN) {
+    group
+    sN
     postType
     caption
     tags
@@ -146,21 +145,22 @@ export const getNewPost = `query GetNewPost($id: String!, $createdDate: String!)
 }
 `;
 export const listNewPosts = `query ListNewPosts(
-  $id: String
-  $createdDate: ModelStringKeyConditionInput
+  $group: String
+  $sN: ModelStringKeyConditionInput
   $filter: ModelNewPostFilterInput
   $limit: Int
   $nextToken: String
 ) {
   listNewPosts(
-    id: $id
-    createdDate: $createdDate
+    group: $group
+    sN: $sN
     filter: $filter
     limit: $limit
     nextToken: $nextToken
   ) {
     items {
-      id
+      group
+      sN
       postType
       caption
       tags
