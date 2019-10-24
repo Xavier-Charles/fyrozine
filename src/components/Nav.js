@@ -75,11 +75,13 @@ function Nav(props) {
 					<Link className="Nav-brand-logo" to="/">
 						Fyrozine
 					</Link>
+
 					<div id="menuToggle" className={isComponentVisible ? 'navOpen' : ''} ref={ref}>
 						<input onClick={() => setIsComponentVisible(!isComponentVisible)} type="checkbox" />
 						<span />
 						<span style={{ width: '25px' }} />
 						<span />
+						{/* <div id="menu" style={{ width: '50px', height: '50px', backgroundColor: 'red' }} /> */}
 						<ul id="menu">
 							<li>
 								<Link to="/">Home</Link>

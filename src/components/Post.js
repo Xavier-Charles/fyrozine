@@ -110,6 +110,14 @@ const PostStyle = styled.div`
 		top: 55px;
 		height: 32%;
 	}
+	@media screen and (max-device-width: 350px) {
+		.One {
+			height: 56%;
+		}
+		.Two {
+			height: 28%;
+		}
+	}
 	.btn {
 		display: inline-block;
 		background-color: inherit;
